@@ -1,0 +1,114 @@
+#include "hypergraphmatrix.h"
+
+#include<fstream>
+#include<string>
+
+HyperGraphMatrix::HyperGraphMatrix(int numberOfVertexes)
+{
+    for(int i=0;i<numberOfVertexes;i++)
+    {
+        matrix.push_back(std::vector<int>());
+    }
+}
+void HyperGraphMatrix::createVertexes(int numberOfVertexes)
+{
+    for(int i=0;i<numberOfVertexes;i++)
+    {
+        matrix.push_back(std::vector<int>());
+    }
+}
+void HyperGraphMatrix::removeVertex(int position)
+{
+   matrix.erase(matrix.begin()+position);
+}
+void HyperGraphMatrix::createHyperEdges(int numberOfHyperEdges)
+{
+    for(auto& vertex:matrix)
+    {
+        for(int i=0;i<numberOfHyperEdges;i++)
+        {
+            vertex.push_back(0);
+        }
+    }
+}
+//void HyperGraphMatrix::addHyperEdge(const std::vector<int>& hyperedge)
+//{
+//    for(auto& vertex:matrix)
+//    {
+//        vertex.push_back(hyperedge);
+//    }
+//}
+void HyperGraphMatrix::removeHyperEdge(int position)
+{
+    for(auto& vertex:matrix)
+    {
+        vertex.erase(vertex.begin()+position);
+    }
+}
+void HyperGraphMatrix::setConnection (int positionOfVertex,int positionOfHyperEdge,int value)
+{
+    if(positionOfVertex<matrix.size()&&positionOfVertex>=0)
+    {
+        if(positionOfHyperEdge<matrix[positionOfVertex].size()&&positionOfHyperEdge>=0)
+        {
+            matrix[positionOfVertex][positionOfHyperEdge]=value;
+        }
+    }
+}
+int HyperGraphMatrix::getConnection (int positionOfVertex,int positionOfHyperEdge)
+{
+    if(positionOfVertex<matrix.size()&&positionOfVertex>=0)
+    {
+        if(positionOfHyperEdge<matrix[positionOfVertex].size()&&positionOfHyperEdge>=0)
+        {
+           return matrix[positionOfVertex][positionOfHyperEdge];
+        }
+    }
+    return 0;
+}
+void HyperGraphMatrix::tofile(std::string& nameWithPath)
+{
+    std::ofstream file(nameWithPath);
+    file<<matrix.size()<<'\n';
+    for(auto& vertex : matrix)
+    {
+        for(int i=0;i<vertex.size();i++)
+        {
+            if(vertex[i]!=0)
+            file<<i;
+        }
+        file<<'\n';
+    }
+    file.flush();
+    file.close();
+}
+void HyperGraphMatrix::print()
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

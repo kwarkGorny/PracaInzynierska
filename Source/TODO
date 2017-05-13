@@ -1,0 +1,14 @@
+Glowne:
+-Wyliczanie sredniego k i p
+-Zrobic proste Losowanie Hipergrafu
+-Generowanie HG o zadanych parametrze k
+-Generowanie HG o zadanej liczbie wezlow
+-Wprowadzic funkcje celu
+-Wykresy P(k) od P(k') i reszta
+-Wymyslenie i Policzenie Energii
+-Metoda monte-carlo do  minimalizacji energi (metoda metropolisa)
+
+Dodatkowe:
+-Zrobic Testy dla wszytkich klas
+-Podzial kodu na segmenty
+-Optymalizacja
