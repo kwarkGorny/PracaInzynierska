@@ -5,10 +5,10 @@ Glowne:
 -Generowanie HG o zadanej liczbie wezlow
 -Wprowadzic funkcje celu
 -Wykresy P(k) od P(k') i reszta
--Wymyslenie i Policzenie Energii
+- Policzenie Energii
 -Metoda monte-carlo do  minimalizacji energi (metoda metropolisa)
 
 Dodatkowe:
 -Zrobic Testy dla wszytkich klas
 -Podzial kodu na segmenty
--Optymalizacja
+-Optymalizacja valgrind

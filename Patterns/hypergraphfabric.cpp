@@ -2,11 +2,11 @@
 #include<random>
 HyperGraphFabric::HyperGraphFabric()
 {
-
 }
-HyperGraph* HyperGraphFabric::createTestHyperGraph(int numberOfVertexes)
+HyperGraph* HyperGraphFabric::createTestHyperGraph(const int numberOfVertexes)
 {
     HyperGraph* graph= new HyperGraph(numberOfVertexes);
+
     graph->createHyperEdge(5);
 
     for(auto& hyperedge:graph->getHyperEdges())
@@ -19,13 +19,14 @@ HyperGraph* HyperGraphFabric::createTestHyperGraph(int numberOfVertexes)
 
     return  graph;
 }
-IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(int numberOfVertexes)
+IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(const int numberOfVertexes,const int numberOfHyperEdges)
 {
+    IncidencyMatrix* matrix =new IncidencyMatrix(numberOfVertexes);
+
     std::default_random_engine e((std::random_device())());
     std::uniform_int_distribution<int> d(0,1);
-    IncidencyMatrix* matrix =new IncidencyMatrix(numberOfVertexes);
-    matrix->createHyperEdges(5);
-    matrix->setK(0);
+
+    matrix->createHyperEdges(numberOfHyperEdges);
     for(auto&hyperedge:matrix->getIncidencyMatrix())
     {
         for(auto &vertex:hyperedge)
@@ -34,6 +35,6 @@ IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(int numberOfVertexe
             matrix->setK(matrix->getK()+vertex);
         }
     }
-    matrix->setK(matrix->getK()/5);
+    matrix->setK(matrix->getK()/numberOfHyperEdges);
     return matrix;
 }

@@ -7,10 +7,12 @@
 #include <QGraphicsScene>
 #include<string>
 #include<vector>
+#include<memory>
 
 #include"Matrix/incidencymatrix.h"
 
-namespace Ui {
+namespace Ui
+{
     class MainWindow;
 }
 
@@ -21,13 +23,24 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void drawHyperGraph( IncidencyMatrix* hyperGraph);
     void saveGuiTofile(const std::string& nameOfFile);
 
 protected:
+private slots:
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
+    void drawHyperGraph();
+    void clearScene();
+
+
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
+
+    std::unique_ptr<IncidencyMatrix> hyperGraph;
 
     std::vector<QGraphicsEllipseItem*> vertexes;
     std::vector<QGraphicsRectItem*> hyperEdges;

@@ -19,7 +19,7 @@ class HyperGraph
         *  @remark create Hypergraph with fix number of vertexes
         *  @param numberOfVertexes initial number for vertexes in hypergraph
         */
-        HyperGraph(int numberOfVertexes=0);
+        HyperGraph(const int numberOfVertexes=0);
 
         /**
         * @brief Destructor of HyperGraph
@@ -30,13 +30,13 @@ class HyperGraph
         * @brief Create new vertexes and add them to hypergraph
         * @param numberOfVertexes number for vertexes which we want add to hypergraph
         */
-        void createVertex(int numberOfVertexes=1);
+        void createVertex(const int numberOfVertexes=1);
 
         /**
         * @brief remove vertex from hypergraph
         * @param vertexId id of vertex which we want to remove from hypergraph
         */
-        void removeVertex(int vertexId);
+        void removeVertex(const int vertexId);
 
         /**
         * @brief check if vertex with this id exists in hypergraph
@@ -44,25 +44,25 @@ class HyperGraph
         * @return true if Containing
         * @return false if not Containing
         */
-        bool isContainingVertex(int vertexId);
+        bool isContainingVertex(const int vertexId)const;
 
         /**
         * @brief Create new HyperEdge and add them to hypergraph
         * @param numberOfHyperEdges number for HyperEdge which we want add to hypergraph
         */
-        void createHyperEdge(int numberOfHyperEdges=1);
+        void createHyperEdge(const int numberOfHyperEdges=1);
 
         /**
         * @brief add HyperEdge  to hypergraph
         * @param listOfVertexes list of vertexes we want to add
         */
-        void addHyperEdge( std::vector<Vertex*>& listOfVertexes);
+        void addHyperEdge(const std::vector<Vertex*>& listOfVertexes);
 
         /**
         * @brief remove HyperEdge from hypergraph
         * @param hyperedgeID list of hyperedge which we want to remove from hypergraph
         */
-        void removeHyperEdge(int hyperedgeID);
+        void removeHyperEdge(const int hyperedgeID);
 
         /**
         * @brief check if HyperEdge with this id exists in hypergraph
@@ -70,7 +70,7 @@ class HyperGraph
         * @return true if Containing
         * @return false if not Containing
         */
-        bool isContainingHyperEdge(int hyperedgeID);
+        bool isContainingHyperEdge(const int hyperedgeID)const;
 
         /**
         * @brief add vertex to HyperEdge  in hypergraph
@@ -84,26 +84,26 @@ class HyperGraph
         * @param position from which we want get vertex
         * @return pointer to selected Vertex
         */
-        inline Vertex* getVertex(int position){return &Vertexes[position];}
+        inline Vertex* getVertex(const int position){return &Vertexes[position];}
 
         /**
         * @brief return HyperEdge from vector from inputed position
         * @param position from which we want get HyperEdge
         * @return pointer to selected hyperedge
         */
-        inline HyperEdge* getHyperEdge(int position){return &HyperEdges[position];}
+        inline HyperEdge* getHyperEdge(const int position){return &HyperEdges[position];}
 
         /**
         * @brief To get vector of all vertexes in hypergraph
         * @return vector of vertexes
         */
-        inline std::vector<Vertex>& getVertexes() {return Vertexes;}
+        inline  std::vector<Vertex>& getVertexes() {return Vertexes;}
 
         /**
         * @brief To get vector of all HyperEdges in hypergraph
         * @return vector of HyperEdges
         */
-        inline std::vector<HyperEdge>& getHyperEdges() {return HyperEdges;}
+        inline  std::vector<HyperEdge>& getHyperEdges() {return HyperEdges;}
 
         void print();
     protected:

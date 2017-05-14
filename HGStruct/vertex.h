@@ -13,7 +13,7 @@ class Vertex
          *  @remark Set degree of vertex as 0
          *  @param vertexID id initial value for vertex
          */
-        Vertex(int vertexID);
+        Vertex(const int vertexID);
 
         /** @brief Destructor of the Vertex class */
         virtual ~Vertex(){}
@@ -49,7 +49,7 @@ class Vertex
          * @brief Use to set degree of vertex
          *  @param degree new value of degree
          */
-        inline void setDegree(int degree){this->degree=degree;}
+        inline void setDegree(const int degree){this->degree=degree;}
 
         /**
          * @brief print vertex to console

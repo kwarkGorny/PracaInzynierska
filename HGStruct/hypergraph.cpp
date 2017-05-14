@@ -1,6 +1,6 @@
 #include "hypergraph.h"
 #include<algorithm>
-HyperGraph::HyperGraph(int numberOfVertexes)
+HyperGraph::HyperGraph(const int numberOfVertexes)
 {
     for(int i=0;i<numberOfVertexes;i++)
     {
@@ -9,7 +9,7 @@ HyperGraph::HyperGraph(int numberOfVertexes)
     }
 }
 
-void HyperGraph::createVertex(int numberOfVertexes)
+void HyperGraph::createVertex(const int numberOfVertexes)
 {
   for(int i=0;i<numberOfVertexes;i++)
   {
@@ -17,40 +17,53 @@ void HyperGraph::createVertex(int numberOfVertexes)
       validVertexId++;
   }
 }
-void HyperGraph::removeVertex(int vertexId)
+
+void HyperGraph::removeVertex(const int vertexId)
 {
     Vertexes.erase(std::remove_if(Vertexes.begin(),Vertexes.end(),
                                   [&](auto& vertex){ return vertex.getId()==vertexId;}),
-                                    Vertexes.end());
+                                  Vertexes.end());
 }
 
-bool HyperGraph::isContainingVertex(int vertexId){
-    auto iter= std::find_if(Vertexes.begin(),Vertexes.end(),[&](auto& vertex){return vertex.getId()==vertexId;});
+bool HyperGraph::isContainingVertex(const int vertexId)const
+{
+    auto iter= std::find_if(Vertexes.begin(),
+                            Vertexes.end(),
+                            [&](auto& vertex){return vertex.getId()==vertexId;});
     return (iter!=Vertexes.end());
 }
-void HyperGraph::createHyperEdge(int numberOfHyperEdges)
+
+void HyperGraph::createHyperEdge(const int numberOfHyperEdges)
 {
-    for(int i=0;i<numberOfHyperEdges;i++)
+    for(int i=0;i<numberOfHyperEdges;++i)
     {
         HyperEdges.push_back(HyperEdge(validHyperEdgeId));
-        validHyperEdgeId++;
+        ++validHyperEdgeId;
     }
 }
-void HyperGraph::removeHyperEdge(int hyperedgeID)
+
+void HyperGraph::removeHyperEdge(const int hyperedgeID)
 {
-    HyperEdges.erase(std::remove_if(HyperEdges.begin(),HyperEdges.end(),[&](auto&hyperedge){return hyperedge.getId()==hyperedgeID;}));
+    HyperEdges.erase(std::remove_if(HyperEdges.begin(),
+                     HyperEdges.end(),
+                     [&](auto&hyperedge){return hyperedge.getId()==hyperedgeID;}));
 }
-void HyperGraph::addHyperEdge( std::vector<Vertex *> &listOfVertexes)
+
+void HyperGraph::addHyperEdge(const std::vector<Vertex *> &listOfVertexes)
 {
     HyperEdges.push_back(HyperEdge(validHyperEdgeId,listOfVertexes));
     validHyperEdgeId++;
 }
 
-bool HyperGraph::isContainingHyperEdge(int hyperedgeID){
-    auto iter= std::find_if(HyperEdges.begin(),HyperEdges.end(),[&](auto& hyperEdge){return hyperEdge.getId()==hyperedgeID;});
+bool HyperGraph::isContainingHyperEdge(const int hyperedgeID)const
+{
+    auto iter= std::find_if(HyperEdges.begin(),
+                            HyperEdges.end(),
+                            [&](auto& hyperEdge){return hyperEdge.getId()==hyperedgeID;});
     return (iter!=HyperEdges.end());
 }
-void HyperGraph::addVertexToHyperEdge(HyperEdge *hyperedge, Vertex *vertex)
+
+void HyperGraph::addVertexToHyperEdge(HyperEdge *hyperedge,Vertex *vertex)
 {
     if(hyperedge->isContainingVertex(vertex->getId())==false)
     {
@@ -58,16 +71,18 @@ void HyperGraph::addVertexToHyperEdge(HyperEdge *hyperedge, Vertex *vertex)
     }
 }
 
-void HyperGraph::print(){
+void HyperGraph::print()
+{
 
     std::cout<<"Number of Vertexes : "<<Vertexes.size()<<'\n';
     std::cout<<"Vertexes id :  degree  "<<'\n';
-    for(auto& v1:Vertexes){
+    for(auto& v1:Vertexes)
+    {
         v1.print();
     }
-
     std::cout<<"Number of Edges : "<< HyperEdges.size()<<" :ID of vertexes"<<'\n';
-    for(auto& e1:HyperEdges){
+    for(auto& e1:HyperEdges)
+    {
         std::cout<<"Edge number "<<e1.getId()<<" : ";
         e1.print();
     }

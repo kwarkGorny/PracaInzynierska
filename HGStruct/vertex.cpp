@@ -1,6 +1,6 @@
 #include "vertex.h"
 #include<iostream>
-Vertex::Vertex(int vertexID) : id(vertexID),degree(0)
+Vertex::Vertex(const int vertexID) : id{vertexID},degree{0}
 {
 }
 Vertex& Vertex::operator=(const Vertex& vertex)
@@ -10,15 +10,16 @@ Vertex& Vertex::operator=(const Vertex& vertex)
 }
 Vertex& Vertex::operator++()
 {
-    this->degree++;
+    --(this->degree);
     return *this;
 }
 Vertex& Vertex::operator--()
 {
-    this->degree--;
+    --(this->degree);
     return *this;
 }
 
-void Vertex::print(){
+void Vertex::print()
+{
     std::cout <<"Vertex number "<< getId()<<" : "<<getDegree()<<" "<< '\n';
 }

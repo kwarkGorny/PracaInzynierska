@@ -1,16 +1,9 @@
-#include "GUI/mainwindow.h"
-#include <QApplication>
-#include<Patterns/hypergraphfabric.h>
-#include<Matrix/incidencymatrix.h>
+#include "Tests/guitest.h"
+#include"Tests/incidencymatrixtests.h"
+
 int main(int argc, char *argv[])
 {
-    IncidencyMatrix* hyperGraph=HyperGraphFabric::createTestIncidencyMatrix(6);
-    hyperGraph->print();
+  //  return IncidencyMatrixTest1(argc,argv);
+    return guiTest1(argc,argv);
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.drawHyperGraph(hyperGraph);
-    w.show();
-
-    return a.exec();
 }

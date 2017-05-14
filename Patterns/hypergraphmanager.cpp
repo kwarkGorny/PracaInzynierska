@@ -3,10 +3,10 @@
 HyperGraphManager::HyperGraphManager()
 {
 }
-double HyperGraphManager::calculateK(IncidencyMatrix& hyperGraph)
+const double HyperGraphManager::calculateK(IncidencyMatrix& hyperGraph)
 {
     double k=0.0;
-    for(auto& hyperedge:hyperGraph.getIncidencyMatrix())
+    for(const auto& hyperedge : hyperGraph.getIncidencyMatrix())
     {
         for(auto& vertex: hyperedge)
         {

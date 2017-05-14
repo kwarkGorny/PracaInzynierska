@@ -15,8 +15,8 @@ public:
     HyperGraphFabric();
 
     //static HyperGraph* createHyperGraph(int numberOfVertexes );
-    static HyperGraph* createTestHyperGraph(int numberOfVertexes);
-    static IncidencyMatrix* createTestIncidencyMatrix(int numberOfVertexes);
+    static HyperGraph* createTestHyperGraph(const int numberOfVertexes);
+    static IncidencyMatrix* createTestIncidencyMatrix(const int numberOfVertexes,const int numberOfHyperEdges);
 
 protected:
 private:

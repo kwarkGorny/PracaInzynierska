@@ -13,11 +13,13 @@ class HyperGraphManager
 {
 public:
     HyperGraphManager();
+
+    static const double calculateK(IncidencyMatrix &hyperGraph);
+
     //TODO : implementthis two metods
     //static HyperGraph& IncidencyMatrixToHyperGraph(IncidencyMatrix& matrix);
     //static IncidencyMatrix& HyperGraphToIncidencyMatrix(HyperGraph& hypergraph);
 
-    static double calculateK(IncidencyMatrix& hyperGraph);
 protected:
 private:
 
