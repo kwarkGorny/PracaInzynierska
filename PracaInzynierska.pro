@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     Patterns/hypergraphfabric.cpp \
     Patterns/hypergraphmanager.cpp \
     Tests/incidencymatrixtests.cpp \
-    Tests/guitest.cpp
+    Tests/guitest.cpp \
+    GUI/guivertex.cpp \
+    GUI/guihyperedge.cpp
 
 HEADERS  +=  GUI/mainwindow.h \
     HGStruct/hyperedge.h \
@@ -34,7 +36,9 @@ HEADERS  +=  GUI/mainwindow.h \
     Patterns/hypergraphfabric.h \
     Patterns/hypergraphmanager.h \
     Tests/guitest.h \
-    Tests/incidencymatrixtests.h
+    Tests/incidencymatrixtests.h \
+    GUI/guivertex.h \
+    GUI/guihyperedge.h
 
 FORMS    += mainwindow.ui
 

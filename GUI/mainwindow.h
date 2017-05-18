@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QtCore>
@@ -8,9 +7,9 @@
 #include<string>
 #include<vector>
 #include<memory>
-
 #include"Matrix/incidencymatrix.h"
-
+#include"guivertex.h"
+#include"guihyperedge.h"
 namespace Ui
 {
     class MainWindow;
@@ -23,7 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void saveGuiTofile(const std::string& nameOfFile);
+    void saveGuiTofile(const std::string& nameOfFile)const;
 
 protected:
 private slots:
@@ -38,12 +37,11 @@ private:
 
 
     Ui::MainWindow *ui;
-    QGraphicsScene* scene;
-
+    std::unique_ptr<QGraphicsScene> scene;
     std::unique_ptr<IncidencyMatrix> hyperGraph;
 
-    std::vector<QGraphicsEllipseItem*> vertexes;
-    std::vector<QGraphicsRectItem*> hyperEdges;
+    std::vector<GUIVertex*> vertexes;
+    std::vector<GUIHyperEdge*> hyperEdges;
     std::vector<QGraphicsLineItem*> lines;
 };
 

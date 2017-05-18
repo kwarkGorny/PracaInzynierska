@@ -21,15 +21,15 @@ void HyperGraph::createVertex(const int numberOfVertexes)
 void HyperGraph::removeVertex(const int vertexId)
 {
     Vertexes.erase(std::remove_if(Vertexes.begin(),Vertexes.end(),
-                                  [&](auto& vertex){ return vertex.getId()==vertexId;}),
+                                  [&](auto const& vertex){ return vertex.getId()==vertexId;}),
                                   Vertexes.end());
 }
 
 bool HyperGraph::isContainingVertex(const int vertexId)const
 {
-    auto iter= std::find_if(Vertexes.begin(),
+   const auto iter= std::find_if(Vertexes.begin(),
                             Vertexes.end(),
-                            [&](auto& vertex){return vertex.getId()==vertexId;});
+                            [&](auto const& vertex){return vertex.getId()==vertexId;});
     return (iter!=Vertexes.end());
 }
 
@@ -46,7 +46,7 @@ void HyperGraph::removeHyperEdge(const int hyperedgeID)
 {
     HyperEdges.erase(std::remove_if(HyperEdges.begin(),
                      HyperEdges.end(),
-                     [&](auto&hyperedge){return hyperedge.getId()==hyperedgeID;}));
+                     [&](auto const&hyperedge){return hyperedge.getId()==hyperedgeID;}));
 }
 
 void HyperGraph::addHyperEdge(const std::vector<Vertex *> &listOfVertexes)
@@ -59,7 +59,7 @@ bool HyperGraph::isContainingHyperEdge(const int hyperedgeID)const
 {
     auto iter= std::find_if(HyperEdges.begin(),
                             HyperEdges.end(),
-                            [&](auto& hyperEdge){return hyperEdge.getId()==hyperedgeID;});
+                            [&](auto const& hyperEdge){return hyperEdge.getId()==hyperedgeID;});
     return (iter!=HyperEdges.end());
 }
 
@@ -71,17 +71,17 @@ void HyperGraph::addVertexToHyperEdge(HyperEdge *hyperedge,Vertex *vertex)
     }
 }
 
-void HyperGraph::print()
+void HyperGraph::print() const
 {
 
     std::cout<<"Number of Vertexes : "<<Vertexes.size()<<'\n';
     std::cout<<"Vertexes id :  degree  "<<'\n';
-    for(auto& v1:Vertexes)
+    for(auto const& v1:Vertexes)
     {
         v1.print();
     }
     std::cout<<"Number of Edges : "<< HyperEdges.size()<<" :ID of vertexes"<<'\n';
-    for(auto& e1:HyperEdges)
+    for(auto const& e1:HyperEdges)
     {
         std::cout<<"Edge number "<<e1.getId()<<" : ";
         e1.print();

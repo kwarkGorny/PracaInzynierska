@@ -3,25 +3,25 @@
 #include<fstream>
 #include<string>
 
-HyperGraphMatrix::HyperGraphMatrix(int numberOfVertexes)
+HyperGraphMatrix::HyperGraphMatrix(const int numberOfVertexes)
 {
     for(int i=0;i<numberOfVertexes;i++)
     {
         matrix.push_back(std::vector<int>());
     }
 }
-void HyperGraphMatrix::createVertexes(int numberOfVertexes)
+void HyperGraphMatrix::createVertexes(const int numberOfVertexes)
 {
     for(int i=0;i<numberOfVertexes;i++)
     {
         matrix.push_back(std::vector<int>());
     }
 }
-void HyperGraphMatrix::removeVertex(int position)
+void HyperGraphMatrix::removeVertex(const int position)
 {
    matrix.erase(matrix.begin()+position);
 }
-void HyperGraphMatrix::createHyperEdges(int numberOfHyperEdges)
+void HyperGraphMatrix::createHyperEdges(const int numberOfHyperEdges)
 {
     for(auto& vertex:matrix)
     {
@@ -38,35 +38,35 @@ void HyperGraphMatrix::createHyperEdges(int numberOfHyperEdges)
 //        vertex.push_back(hyperedge);
 //    }
 //}
-void HyperGraphMatrix::removeHyperEdge(int position)
+void HyperGraphMatrix::removeHyperEdge(const int position)
 {
     for(auto& vertex:matrix)
     {
         vertex.erase(vertex.begin()+position);
     }
 }
-void HyperGraphMatrix::setConnection (int positionOfVertex,int positionOfHyperEdge,int value)
+void HyperGraphMatrix::setConnection (const int positionOfVertex,const int positionOfHyperEdge,const int value)
 {
-    if(positionOfVertex<matrix.size()&&positionOfVertex>=0)
+    if(positionOfVertex < matrix.size() && positionOfVertex>=0)
     {
-        if(positionOfHyperEdge<matrix[positionOfVertex].size()&&positionOfHyperEdge>=0)
+        if(positionOfHyperEdge < matrix[positionOfVertex].size() && positionOfHyperEdge>=0)
         {
             matrix[positionOfVertex][positionOfHyperEdge]=value;
         }
     }
 }
-int HyperGraphMatrix::getConnection (int positionOfVertex,int positionOfHyperEdge)
+int HyperGraphMatrix::getConnection (const int positionOfVertex,const int positionOfHyperEdge)const
 {
-    if(positionOfVertex<matrix.size()&&positionOfVertex>=0)
+    if(positionOfVertex < matrix.size() && positionOfVertex>=0)
     {
-        if(positionOfHyperEdge<matrix[positionOfVertex].size()&&positionOfHyperEdge>=0)
+        if(positionOfHyperEdge < matrix[positionOfVertex].size() && positionOfHyperEdge>=0)
         {
            return matrix[positionOfVertex][positionOfHyperEdge];
         }
     }
     return 0;
 }
-void HyperGraphMatrix::tofile(std::string& nameWithPath)
+void HyperGraphMatrix::tofile(const std::string& nameWithPath)const
 {
     std::ofstream file(nameWithPath);
     file<<matrix.size()<<'\n';
@@ -75,14 +75,16 @@ void HyperGraphMatrix::tofile(std::string& nameWithPath)
         for(int i=0;i<vertex.size();i++)
         {
             if(vertex[i]!=0)
-            file<<i;
+            {
+                file<<i;
+            }
         }
         file<<'\n';
     }
     file.flush();
     file.close();
 }
-void HyperGraphMatrix::print()
+void HyperGraphMatrix::print()const
 {
 
 }

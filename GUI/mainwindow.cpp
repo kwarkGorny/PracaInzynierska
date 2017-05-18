@@ -7,11 +7,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     ui->setupUi(this);
    //this->setStyleSheet("background-color: white;");
     this->setWindowTitle("Rysownik HiperGrafu");
-    scene= new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-
+    scene= std::make_unique<QGraphicsScene>(this);
+    ui->graphicsView->setScene(scene.get());
+    //scene->setBackgroundBrush(QBrush(Qt::white, Qt::SolidPattern));
     hyperGraph=std::make_unique<IncidencyMatrix>();
-
 }
 
 MainWindow::~MainWindow()
@@ -23,10 +22,10 @@ MainWindow::~MainWindow()
 void MainWindow::drawHyperGraph()
 {
 
-    QBrush redBrush(Qt::red);
-    QBrush blueBrush(Qt::blue);
-    QPen blackPen(Qt::black);
-    blackPen.setWidth(1);
+    QBrush redBrush(QColor(255,50,50));
+    QBrush blueBrush(QColor(100,149,237));
+    QPen randomPen(Qt::black);
+    randomPen.setWidth(5);
 
     std::default_random_engine e((std::random_device())());
     std::uniform_int_distribution<int> d(0,255);
@@ -36,35 +35,54 @@ void MainWindow::drawHyperGraph()
 
     for(int i=0;i<numberOfVertexes;i++)
     {
-        vertexes.push_back(scene->addEllipse(100,150*i,75,75,blackPen,blueBrush));
+        vertexes.push_back(new GUIVertex(QRectF(100,150*i,50,50),randomPen,blueBrush));
+        scene->addItem(vertexes[i]);
+       //vertexes[i]->setFlags(QGraphicsItem::ItemIsMovable);
     }
     for(int i=0;i<numberOfHyperEdges;i++)
     {
-        hyperEdges.push_back(scene->addRect(300,150*i,75,75,blackPen,redBrush));
+        hyperEdges.push_back(new GUIHyperEdge(QRectF(300,150*i,50,50),randomPen,redBrush));
+        scene->addItem(hyperEdges[i]);
     }
-    blackPen.setWidth(3);
+    randomPen.setWidth(3);
     for(int j=0;j<numberOfHyperEdges;j++)
     {
-        QColor color(d(e),d(e),d(e));
-        blackPen.setColor(color);
-
-        double rx=hyperEdges[j]->rect().x()+hyperEdges[j]->rect().width()/2;
-        double ry=hyperEdges[j]->rect().y()+hyperEdges[j]->rect().height()/2;
+        randomPen.setColor(QColor (d(e),d(e),d(e)));
 
         for(int i=0;i<numberOfVertexes;i++)
         {
             if(hyperGraph->getConnection(j,i))
             {
-                double cx=vertexes[i]->rect().x()+vertexes[i]->rect().width()/2;
-                double cy=vertexes[i]->rect().y()+vertexes[i]->rect().height()/2;
-
-                lines.push_back(scene->addLine(cx,cy,rx,ry,blackPen));
+                QGraphicsLineItem *line = scene->addLine(QLineF(40, 40, 80, 80));
+                line->setPen(randomPen);
+                lines.push_back(line);
+                vertexes[i]->addLine(line);
+                hyperEdges[j]->addLine(line);
             }
         }
     }
+
 }
 
-void MainWindow::saveGuiTofile(const std::string& nameOfFile)
+void MainWindow::on_pushButton_clicked()
+{
+    clearScene();
+
+    scene.reset(new QGraphicsScene (this));
+    ui->graphicsView->setScene(scene.get());
+
+    hyperGraph.reset(HyperGraphFabric::createTestIncidencyMatrix(6,6));
+
+    drawHyperGraph();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    saveGuiTofile("HyperGraph.png");
+    hyperGraph->print();
+}
+
+void MainWindow::saveGuiTofile(const std::string& nameOfFile)const
 {
     QImage img(scene->width(),scene->height(),QImage::Format_ARGB32_Premultiplied);
     QPainter p(&img);
@@ -72,7 +90,6 @@ void MainWindow::saveGuiTofile(const std::string& nameOfFile)
     p.end();
     img.save(QString::fromStdString(nameOfFile));
 }
-
 void MainWindow::clearScene()
 {
 
@@ -91,22 +108,4 @@ void MainWindow::clearScene()
          delete line;
     }
     lines.clear();
-    delete scene;
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    clearScene();
-
-    scene= new QGraphicsScene(this);
-    ui->graphicsView->setScene(scene);
-
-    hyperGraph.reset(HyperGraphFabric::createTestIncidencyMatrix(6,6));
-
-    drawHyperGraph();
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    hyperGraph->print();
 }

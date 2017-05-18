@@ -79,14 +79,14 @@ class HyperEdge
          * @brief Use to get number of vertexes in hyperedge
          * @return number of vertexes in hyperedge
          */
-        inline  int getNumberOfVertexes()const{return connectedVerexes.size();}
+//        inline  int getNumberOfVertexes()const{return connectedVerexes.size();}
 
-        inline auto beginOfHyperedge()const {return connectedVerexes.begin();}
-        inline auto endOfHyperedge()const {return connectedVerexes.end();}
+//        inline auto beginOfHyperedge()const {return connectedVerexes.begin();}
+//        inline auto endOfHyperedge()const {return connectedVerexes.end();}
 
-        inline Vertex* getVertex(const int pos)const { return connectedVerexes[pos]; }
+//        inline Vertex* getVertex(const int pos)const { return connectedVerexes[pos]; }
 
-        void print();
+        void print()const;
     protected:
     private:
         const int id;

@@ -1,5 +1,6 @@
 #ifndef VERTEX_H
 #define VERTEX_H
+
 /**
 * @author   Adam Szczepanski
 * @date 08.05.2017
@@ -54,7 +55,7 @@ class Vertex
         /**
          * @brief print vertex to console
         */
-        void print();
+        void print()const;
 
     protected:
     private:

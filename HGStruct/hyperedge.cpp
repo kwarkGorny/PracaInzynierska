@@ -4,7 +4,7 @@
 #include<algorithm>
 
 
-HyperEdge::HyperEdge(const int eID) : id(eID)
+HyperEdge::HyperEdge(const int eID) : id{eID}
 {
 
 }
@@ -16,7 +16,7 @@ HyperEdge::HyperEdge(const int eID,const std::vector<Vertex*>& vertexes):id(eID)
 
 HyperEdge& HyperEdge::operator=(const HyperEdge& hyperedge)
 {
-   connectedVerexes = hyperedge.getConnectedVerexes();
+   connectedVerexes = hyperedge.connectedVerexes;
     return *this;
 }
 
@@ -45,14 +45,15 @@ void HyperEdge::removeVertex(const Vertex* remove_vertex )
 
 bool HyperEdge::isContainingVertex(const int vertexID)const
 {
-    auto iter= std::find_if(connectedVerexes.begin(),
+   const auto iter= std::find_if(connectedVerexes.begin(),
                             connectedVerexes.end(),
                             [&](auto vertex){ return vertex->getId()==vertexID;});
     return (iter!=connectedVerexes.end());
 }
 
-void HyperEdge::print(){
-    for(auto& vertex:connectedVerexes)
+void HyperEdge::print()const
+{
+    for(auto const & vertex:connectedVerexes)
     {
         std::cout<< vertex->getId()<<" ";
     }

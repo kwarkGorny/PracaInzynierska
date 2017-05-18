@@ -19,7 +19,7 @@ Vertex& Vertex::operator--()
     return *this;
 }
 
-void Vertex::print()
+void Vertex::print()const
 {
     std::cout <<"Vertex number "<< getId()<<" : "<<getDegree()<<" "<< '\n';
 }

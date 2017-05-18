@@ -6,7 +6,6 @@
 IncidencyMatrix::IncidencyMatrix(const int numberOfVertexes)
 {
     this->numberOfVertexes=numberOfVertexes;
-    k=0;
 }
 
 void IncidencyMatrix::createVertexes(const int numberOfVertexes)
@@ -25,9 +24,14 @@ void IncidencyMatrix::removeVertex(const int position)
 {
     for(auto& hyperedge : incidencyMatrix)
     {
-        hyperedge.erase(hyperedge.begin()+position);
+        if(hyperedge.begin()+position<hyperedge.end())
+        {
+            hyperedge.erase(hyperedge.begin()+position);
+            --numberOfVertexes;
+            return;
+        }
     }
-    ++numberOfVertexes;
+
 }
 
 void IncidencyMatrix::createHyperEdges(const int numberOfHyperEdges)
@@ -74,7 +78,7 @@ int IncidencyMatrix::getConnection (const int positionOfHyperEdge,const int posi
     return 0;
 }
 
-void IncidencyMatrix::tofile(const std::string& nameWithPath)
+void IncidencyMatrix::tofile(const std::string& nameWithPath)const
 {
     std::ofstream file(nameWithPath);
     file<<numberOfVertexes<<'\n';
@@ -93,7 +97,7 @@ void IncidencyMatrix::tofile(const std::string& nameWithPath)
     file.close();
 }
 
-void IncidencyMatrix::print()
+void IncidencyMatrix::print()const
 {
 
     std::cout<<"Number of Vertexes : "<<numberOfVertexes<<'\n';
@@ -105,7 +109,6 @@ void IncidencyMatrix::print()
         }
         std::cout<<'\n';
     }
-    std::cout<<"Average k: "<<k<<std::endl;
 }
 
 

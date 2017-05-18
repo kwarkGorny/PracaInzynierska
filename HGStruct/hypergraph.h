@@ -105,7 +105,7 @@ class HyperGraph
         */
         inline  std::vector<HyperEdge>& getHyperEdges() {return HyperEdges;}
 
-        void print();
+        void print()const;
     protected:
     private:
 

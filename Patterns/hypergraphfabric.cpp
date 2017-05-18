@@ -27,14 +27,12 @@ IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(const int numberOfV
     std::uniform_int_distribution<int> d(0,1);
 
     matrix->createHyperEdges(numberOfHyperEdges);
-    for(auto&hyperedge:matrix->getIncidencyMatrix())
+    for(auto  &hyperedge:matrix->getIncidencyMatrix())
     {
         for(auto &vertex:hyperedge)
         {
             vertex=d(e);
-            matrix->setK(matrix->getK()+vertex);
         }
     }
-    matrix->setK(matrix->getK()/numberOfHyperEdges);
     return matrix;
 }

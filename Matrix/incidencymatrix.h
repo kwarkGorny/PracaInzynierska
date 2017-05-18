@@ -42,7 +42,7 @@ class IncidencyMatrix
         */
         void addHyperEdge(const std::vector<int>& hyperedge);
 
-        void setHyperEdge(const int pos,const std::vector<int>& hyperedge){incidencyMatrix[pos]=hyperedge;}
+       inline void setHyperEdge(const int pos,const std::vector<int>& hyperedge){incidencyMatrix[pos]=hyperedge;}
 
         /** @brief remove hyperedge from matrix
         *   @param position indcate which hyperedge to remove
@@ -73,26 +73,30 @@ class IncidencyMatrix
         *   @return  constance reference to incidencyMatrix
         */
 
+        inline const std::vector<std::vector<int>> & getIncidencyMatrix()const {return incidencyMatrix;}
+
+        /** @brief Returns whole incidency Matrix
+        *   @return  constance reference to incidencyMatrix
+        */
+
         inline  std::vector<std::vector<int>> & getIncidencyMatrix() {return incidencyMatrix;}
 
         /** @brief Create file in specyfic name and saves hypergraph in it
         *   @param nameWithPath name of file in which we want save hypergraph
         */
-        void tofile(const std::string& nameWithPath);
+        void tofile(const std::string& nameWithPath)const;
 
         inline int getNumberOfVertexes()const{return numberOfVertexes;}
 
-        inline double getK()const {return k;}
-        inline void setK(const double k){this->k=k;}
+
 
         //Implement this
-        void print();
+        void print()const;
 
     protected:
     private:
         std::vector<std::vector<int>> incidencyMatrix;/**< Incidency Matrix of hypergraph  */
         int numberOfVertexes; /**< Number of Vertexes  in hypergraph */
-        double k;
 
 };
 
