@@ -32,7 +32,7 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    void drawHyperGraph();
+    void drawHyperGraph(int sizeOfHyperedges);
     void clearScene();
     void saveGuiTofile(const std::string& nameOfFile)const;
 

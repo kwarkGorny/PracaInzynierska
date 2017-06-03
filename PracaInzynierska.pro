@@ -1,5 +1,5 @@
 
-QT  += core gui
+QT  += core gui printsupport
 CONFIG += c++14
 QMAKE_CXXFLAGS += -O3 -Wall -pedantic
 QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -pedantic
@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     Tests/incidencymatrixtests.cpp \
     Tests/guitest.cpp \
     GUI/guivertex.cpp \
-    GUI/guihyperedge.cpp
+    GUI/guihyperedge.cpp \
+    QCustomPlot/qcustomplot.cpp
 
 HEADERS  +=  GUI/mainwindow.h \
     HGStruct/hyperedge.h \
@@ -39,7 +40,8 @@ HEADERS  +=  GUI/mainwindow.h \
     Tests/guitest.h \
     Tests/incidencymatrixtests.h \
     GUI/guivertex.h \
-    GUI/guihyperedge.h
+    GUI/guihyperedge.h \
+    QCustomPlot/qcustomplot.h
 
 FORMS    += mainwindow.ui
 

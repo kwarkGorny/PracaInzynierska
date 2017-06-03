@@ -26,7 +26,7 @@ MainWindow::~MainWindow()
     clearScene();
 }
 
-void MainWindow::drawHyperGraph()
+void MainWindow::drawHyperGraph(int sizeOfHyperedges)
 {
 
     QBrush redBrush(QColor(255,50,50));
@@ -51,7 +51,7 @@ void MainWindow::drawHyperGraph()
     randomPen.setWidth(3);
     for(int j=0;j<numberOfHyperEdges;j++)
     {
-        randomPen.setColor(QColor (d(e),d(e),d(e)));
+       // randomPen.setColor(QColor (d(e),d(e),d(e)));
 
         for(int i=0;i<numberOfVertexes;i++)
         {
@@ -75,42 +75,55 @@ void MainWindow::drawHyperGraph()
     {
         scene->addItem(hyperedge.get());
     }
+
+    QBrush yellowBrush(Qt::yellow);
+
+    auto pTable=HyperGraphManager::calculatePTable(*(hyperGraph.get()));
+    for(int i=0;i<hyperEdges.size();i++)
+    {
+        if((*pTable)[i]!=sizeOfHyperedges)
+        {
+            hyperEdges[i]->setBrush(yellowBrush);
+        }
+    }
+    delete pTable;
+    ui->graphicsView->repaint();
+
+
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     clearScene();
 
-    ui->graphicsView->setScene(scene.get());
+    int numberOfVertices =ui->boxNumberOfVertices->value();
+    int sizeOfHyperedges =ui->boxSizeOfHyperedge->value();
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    hyperGraph.reset(HyperGraphFabric::createRandomIncidencyMatrix(1000,5,kDistribution));
+    hyperGraph.reset(HyperGraphFabric::createRandomIncidencyMatrix(numberOfVertices,sizeOfHyperedges,kDistribution));
 
     std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()<<"ms" <<std::endl;
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()<<"us" <<std::endl;
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count()<<"ns" <<std::endl;
+    std::cout << "Creation Time of HyperGraph = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()<<"ms" ;
+    std::cout << " |  " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()<<"us" ;
+    std::cout << " | " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count()<<"ns" <<std::endl;
 
-    drawHyperGraph();
-    QBrush yellowBrush(Qt::yellow);
+    begin = std::chrono::steady_clock::now();
 
-    auto pTable=HyperGraphManager::calculatePTable(*(hyperGraph.get()));
-    for(int i=0;i<hyperEdges.size();i++)
-    {
-        if((*pTable)[i]!=5)
-        {
-            hyperEdges[i]->setBrush(yellowBrush);
-        }
-    }
-    delete pTable;
+    drawHyperGraph(sizeOfHyperedges);
+
+    end= std::chrono::steady_clock::now();
+    std::cout << "Drawing Time of HyperGraph = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()<<"ms";
+    std::cout << " |  " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()<<"us" ;
+    std::cout << " | " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count()<<"ns" <<std::endl;
+    std::cout<<std::endl;
 
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
     saveGuiTofile("HyperGraph.png");
-    hyperGraph->print();
+   // hyperGraph->print();
 }
 
 void MainWindow::saveGuiTofile(const std::string& nameOfFile)const
@@ -127,5 +140,5 @@ void MainWindow::clearScene()
     hyperEdges.clear();
     lines.clear();
     scene.reset(new QGraphicsScene (this));
-
+    ui->graphicsView->setScene(scene.get());
 }
