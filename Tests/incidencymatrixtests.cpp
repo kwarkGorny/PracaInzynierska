@@ -9,13 +9,13 @@ int IncidencyMatrixTest1(int argc, char *argv[])
 
     std::poisson_distribution<int> poisson(3.1);
       // std::uniform_int_distribution<int> kDistribution(1,6);
-    std::function<int()>kDistribution=std::bind(poisson,e);
+    //std::function<int()>kDistribution=std::bind(poisson,e);
 
-    IncidencyMatrix* hypergraph=HyperGraphFabric::createRandomIncidencyMatrix(100,5,kDistribution);
+   // IncidencyMatrix* hypergraph=HyperGraphFabric::createRandomIncidencyMatrix(100,5,kDistribution);
 
-    hypergraph->print();
+    //hypergraph->print();
 
-    delete hypergraph;
+   // delete hypergraph;
 
     return 1;
 }

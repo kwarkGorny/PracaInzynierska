@@ -18,7 +18,7 @@ public:
     static HyperGraph* createTestHyperGraph(const int numberOfVertexes);
     static IncidencyMatrix* createTestIncidencyMatrix(const int numberOfVertexes,const int numberOfHyperEdges);
     static IncidencyMatrix* createTest1IncidencyMatrix(const int numberOfVertexes,const int degreeOFHyperEdge,const std::function<int()>& kDistribution);
-    static IncidencyMatrix* createRandomIncidencyMatrix(const int numberOfVertexes,const int degreeOFHyperEdge,const std::function<int()>& kDistribution);
+    static IncidencyMatrix* createRandomIncidencyMatrix(const int numberOfVertexes, const int degreeOFHyperEdge, const std::vector<int> &kTable);
 
 protected:
 private:

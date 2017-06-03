@@ -5,6 +5,7 @@
 #include <random>
 #include<iostream>
 #include<chrono>
+#include<map>
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -15,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 
     std::default_random_engine e((std::random_device())());
 
-    std::poisson_distribution<int> poisson(3.1);
-      // std::uniform_int_distribution<int> kDistribution(1,6);
+    std::poisson_distribution<int> poisson(10);
     kDistribution=std::bind(poisson,e);
 
 }
@@ -40,20 +40,20 @@ void MainWindow::drawHyperGraph(int sizeOfHyperedges)
     int numberOfVertexes=hyperGraph->getNumberOfVertexes();
     int numberOfHyperEdges=hyperGraph->getIncidencyMatrix().size();
 
-    for(int i=0;i<numberOfVertexes;i++)
+    for(int i=0;i<numberOfVertexes;++i)
     {
         vertexes.emplace_back(new GUIVertex(QRectF(100,150*i,50,50),randomPen,blueBrush));
     }
-    for(int i=0;i<numberOfHyperEdges;i++)
+    for(int i=0;i<numberOfHyperEdges;++i)
     {
         hyperEdges.emplace_back(new GUIHyperEdge(QRectF(300,150*i,50,50),randomPen,redBrush));
     }
     randomPen.setWidth(3);
-    for(int j=0;j<numberOfHyperEdges;j++)
+    for(int j=0;j<numberOfHyperEdges;++j)
     {
-       // randomPen.setColor(QColor (d(e),d(e),d(e)));
+       randomPen.setColor(QColor (d(e),d(e),d(e)));
 
-        for(int i=0;i<numberOfVertexes;i++)
+        for(int i=0;i<numberOfVertexes;++i)
         {
             if(hyperGraph->getConnection(j,i))
             {
@@ -78,20 +78,126 @@ void MainWindow::drawHyperGraph(int sizeOfHyperedges)
 
     QBrush yellowBrush(Qt::yellow);
 
-    auto pTable=HyperGraphManager::calculatePTable(*(hyperGraph.get()));
-    for(int i=0;i<hyperEdges.size();i++)
+   pTable.reset(HyperGraphManager::calculatePTable(*(hyperGraph.get())));
+    for(int i=0;i<numberOfHyperEdges;++i)
     {
         if((*pTable)[i]!=sizeOfHyperedges)
         {
             hyperEdges[i]->setBrush(yellowBrush);
         }
     }
-    delete pTable;
-    ui->graphicsView->repaint();
+
+    //ui->graphicsView->repaint();
 
 
 }
+void MainWindow::drawKHistogram()
+{
+    std::vector<int>* actualK= HyperGraphManager::calculateKTable(*hyperGraph);
+    QVector<double> x;
+    QVector<double> yTheoretic;
+    QVector<double> yReal ;
 
+    std::map<int,int> TheoreticalHist;
+    std::map<int,int> RealHist;
+
+    int n=ui->boxNumberOfVertices->value();
+    int max=0;
+    int maxk=0;
+    for( int i=0;i<n;++i)
+    {
+        TheoreticalHist[(*kTable)[i]]++;
+        RealHist[(*actualK)[i]]++;
+        if(maxk<(*kTable)[i]) maxk =(*kTable)[i];
+        if(maxk<(*actualK)[i]) maxk =(*actualK)[i];
+    }
+    for(int i=0;i<=maxk;++i)
+    {
+        x.push_back(i);
+        yTheoretic.push_back(TheoreticalHist[i]);
+        yReal.push_back(RealHist[i]);
+        if(max<yTheoretic[i]) max =yTheoretic[i];
+        if(max<yReal[i]) max =yReal[i];
+    }
+    for(int i=0;i<=maxk;++i)
+    {
+        yTheoretic[i]/=n;
+        yReal[i]/=n;
+    }
+
+    ui->WykresK->addGraph();
+    ui->WykresK->graph(0)->setData(x,yTheoretic);
+    ui->WykresK->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresK->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 10));
+    ui->WykresK->addGraph();
+    QPen pen (Qt::red);
+    ui->WykresK->graph(1)->setPen(pen);
+    ui->WykresK->graph(1)->setData(x,yReal);
+    ui->WykresK->graph(1)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresK->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
+    // give the axes some labels:
+    ui->WykresK->xAxis->setLabel("k");
+    ui->WykresK->yAxis->setLabel("P(k)");
+    // set axes ranges, so we see all data:
+    ui->WykresK->xAxis->setRange(0,1.1 * maxk);
+    ui->WykresK->yAxis->setRange(0,1);
+    ui->WykresK->replot();
+    delete actualK;
+}
+void MainWindow::drawPHistogram()
+{
+    std::vector<int>* actualP= HyperGraphManager::calculatePTable(*hyperGraph);
+    QVector<double> x;
+    QVector<double> yTheoretic;
+    QVector<double> yReal ;
+
+    std::map<int,int> TheoreticalHist;
+    std::map<int,int> RealHist;
+    int n=hyperEdges.size();
+    //int sizeOfHyperedges =ui->boxSizeOfHyperedge->value();
+
+    int max=0;
+    int maxp=0;
+    for( int i=0;i<n;++i)
+    {
+        //TheoreticalHist[sizeOfHyperedges]++;
+        RealHist[(*actualP)[i]]++;
+        //if(maxp<(*pTable)[i]) maxp =(*pTable)[i];
+        if(maxp<(*actualP)[i]) maxp =(*actualP)[i];
+    }
+    for(int i=0;i<=maxp;++i)
+    {
+        x.push_back(i);
+
+        yReal.push_back(RealHist[i]);
+       // if(max<yTheoretic[i]) max =yTheoretic[i];
+       if(max<yReal[i]) max =yReal[i];
+    }
+    for(int i=0;i<=maxp;++i)
+    {
+       // yTheoretic[i]/=n;
+        yReal[i]/=n;
+    }
+
+//    ui->WykresP->addGraph();
+//    ui->WykresP->graph(0)->setData(x,yTheoretic);
+//    ui->WykresP->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
+//    ui->WykresP->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 10));
+    ui->WykresP->addGraph();
+    QPen pen (Qt::red);
+    ui->WykresP->graph(0)->setPen(pen);
+    ui->WykresP->graph(0)->setData(x,yReal);
+    ui->WykresP->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresP->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
+    // give the axes some labels:
+    ui->WykresP->xAxis->setLabel("p");
+    ui->WykresP->yAxis->setLabel("P(p)");
+    // set axes ranges, so we see all data:
+    ui->WykresP->xAxis->setRange(0,1.1 *  maxp);
+    ui->WykresP->yAxis->setRange(0,1);
+    ui->WykresP->replot();
+    delete actualP;
+}
 void MainWindow::on_pushButton_clicked()
 {
     clearScene();
@@ -99,11 +205,14 @@ void MainWindow::on_pushButton_clicked()
     int numberOfVertices =ui->boxNumberOfVertices->value();
     int sizeOfHyperedges =ui->boxSizeOfHyperedge->value();
 
+    kTable.reset(HyperGraphManager::generateKTable(kDistribution,numberOfVertices));
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    hyperGraph.reset(HyperGraphFabric::createRandomIncidencyMatrix(numberOfVertices,sizeOfHyperedges,kDistribution));
+    hyperGraph.reset(HyperGraphFabric::createRandomIncidencyMatrix(numberOfVertices,sizeOfHyperedges,*kTable));
 
     std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+
+
     std::cout << "Creation Time of HyperGraph = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()<<"ms" ;
     std::cout << " |  " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()<<"us" ;
     std::cout << " | " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count()<<"ns" <<std::endl;
@@ -118,6 +227,8 @@ void MainWindow::on_pushButton_clicked()
     std::cout << " | " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count()<<"ns" <<std::endl;
     std::cout<<std::endl;
 
+    drawKHistogram();
+    drawPHistogram();
 }
 
 void MainWindow::on_pushButton_2_clicked()

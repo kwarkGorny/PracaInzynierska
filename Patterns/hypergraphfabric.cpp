@@ -51,7 +51,7 @@ IncidencyMatrix* HyperGraphFabric::createTest1IncidencyMatrix(const int numberOf
     std::vector<int> kTable(numberOfVertexes);
     std::for_each(kTable.begin(),kTable.end(),[&](auto & k){k=kDistribution();});
 
-    std::for_each(kTable.begin(),kTable.end(),[&](auto & k){std::cout<<k<<std::endl;});
+   // std::for_each(kTable.begin(),kTable.end(),[&](auto & k){std::cout<<k<<std::endl;});
 
     for(int i=0;i<numberOfVertexes;i++)
     {
@@ -87,33 +87,34 @@ IncidencyMatrix* HyperGraphFabric::createTest1IncidencyMatrix(const int numberOf
     return graph;
 }
 
-IncidencyMatrix* HyperGraphFabric::createRandomIncidencyMatrix(const int numberOfVertexes,const int degreeOFHyperEdge,const std::function<int()>& kDistribution)
+IncidencyMatrix* HyperGraphFabric::createRandomIncidencyMatrix(const int numberOfVertexes,const int degreeOFHyperEdge,const std::vector<int>& kTable)
 {
 
-    std::minstd_rand e((std::random_device())());
 
     IncidencyMatrix* graph = new IncidencyMatrix(numberOfVertexes);
-    std::vector<int> kTable(numberOfVertexes);
-    std::for_each(kTable.begin(),kTable.end(),[&](auto & k){k=kDistribution();});
 
    // std::for_each(kTable.begin(),kTable.end(),[&](auto & k){std::cout<<k<<std::endl;});
 
     std::vector<int> kT(kTable);
+
+    std::minstd_rand e((std::random_device())());
+
     int hyperedgeTries=0;
+    bool succeed=false;
     for(int i=0;i<numberOfVertexes;++i)
     {
         std::uniform_int_distribution<int> randomvertex(i,numberOfVertexes-1);
-       int maxNumberOfTries=numberOfVertexes-i;
-        while(kTable[i]>0)
+        int maxNumberOfTries=numberOfVertexes-i;
+        while(kT[i]>0)
         {
             graph->createHyperEdges();
-            --kTable[i];
+            --kT[i];
             graph->getIncidencyMatrix().back()[i]=1;
 
 
             for(int j=1;j<degreeOFHyperEdge;++j)//i od jednego bo liczymy tez siebie
             {
-               bool succeed=false;
+               succeed=false;
                hyperedgeTries=0;
                while(!succeed)
                {
@@ -121,9 +122,9 @@ IncidencyMatrix* HyperGraphFabric::createRandomIncidencyMatrix(const int numberO
                     int index=randomvertex(e);
                     if(graph->getIncidencyMatrix().back()[index]==0)
                     {
-                        if(kTable[index]>0)
+                        if(kT[index]>0)
                         {
-                            --kTable[index];
+                            --kT[index];
                             graph->getIncidencyMatrix().back()[index]=1;
                             succeed=true;
                         }

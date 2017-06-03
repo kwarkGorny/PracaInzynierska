@@ -33,13 +33,20 @@ private slots:
 
 private:
     void drawHyperGraph(int sizeOfHyperedges);
+    void drawKHistogram();
+    void drawPHistogram();
     void clearScene();
     void saveGuiTofile(const std::string& nameOfFile)const;
-
 
     std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<QGraphicsScene> scene;
     std::unique_ptr<IncidencyMatrix> hyperGraph;
+
+    std::unique_ptr<std::vector<int>> kTable;
+
+    std::unique_ptr<std::vector<int>> pTable;
+
+
 
     std::vector<std::unique_ptr<GUIVertex>> vertexes;
     std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;

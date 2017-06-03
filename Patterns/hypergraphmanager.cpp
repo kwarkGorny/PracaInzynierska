@@ -29,6 +29,12 @@ std::vector<int>* HyperGraphManager::calculateKTable(const IncidencyMatrix& hype
 
     return k;
 }
+std::vector<int>* HyperGraphManager::generateKTable(const std::function<int()>& kDistribution,const int size)
+{
+    std::vector<int>* kTable=new std::vector<int>(size);
+    std::for_each(kTable->begin(),kTable->end(),[&](auto & k){k=kDistribution();});
+    return kTable;
+}
 std::vector<int>* HyperGraphManager::calculatePTable(const IncidencyMatrix &hyperGraph)
 {
     std::vector<int>* pTable=new std::vector<int>(hyperGraph.getNumberOfHyperEdgess());
@@ -51,4 +57,10 @@ double HyperGraphManager::calculateAverageP(const IncidencyMatrix& hyperGraph)
 double HyperGraphManager::calculateAverageP(const std::vector<int>& pTable)
 {
     return (double) std::accumulate(pTable.begin(), pTable.end(), 0)/pTable.size();
+}
+std::vector<int>* HyperGraphManager::generatePTable(const std::function<int()>& pDistribution,const int size)
+{
+    std::vector<int>* pTable= new std::vector<int>(size);
+    std::for_each(pTable->begin(),pTable->end(),[&](auto & p){p=pDistribution();});
+    return pTable;
 }
