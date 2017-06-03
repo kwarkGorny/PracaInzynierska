@@ -81,14 +81,17 @@ class IncidencyMatrix
 
         inline  std::vector<std::vector<int>> & getIncidencyMatrix() {return incidencyMatrix;}
 
-        /** @brief Create file in specyfic name and saves hypergraph in it
-        *   @param nameWithPath name of file in which we want save hypergraph
-        */
-        void tofile(const std::string& nameWithPath)const;
+
 
         inline int getNumberOfVertexes()const{return numberOfVertexes;}
 
+        inline int getNumberOfHyperEdgess()const{return incidencyMatrix.size();}
 
+        /**
+        * @brief Create file in specyfic name and saves hypergraph in it
+        *   @param nameWithPath name of file in which we want save hypergraph
+        */
+        void tofile(const std::string& nameWithPath)const;
 
         //Implement this
         void print()const;

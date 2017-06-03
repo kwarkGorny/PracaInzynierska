@@ -82,7 +82,7 @@ void IncidencyMatrix::tofile(const std::string& nameWithPath)const
 {
     std::ofstream file(nameWithPath);
     file<<numberOfVertexes<<'\n';
-    for(auto& hyperedge : incidencyMatrix)
+    for(auto const& hyperedge : incidencyMatrix)
     {
         for(int i=0;i<numberOfVertexes;i++)
         {
@@ -101,14 +101,15 @@ void IncidencyMatrix::print()const
 {
 
     std::cout<<"Number of Vertexes : "<<numberOfVertexes<<'\n';
-    for(auto& hyperedge : incidencyMatrix)
+    for(auto const& hyperedge : incidencyMatrix)
     {
-        for(auto& vertex: hyperedge)
+        for(auto const& vertex: hyperedge)
         {
             std::cout<<vertex;
         }
         std::cout<<'\n';
     }
+    std::cout<<std::endl;
 }
 
 

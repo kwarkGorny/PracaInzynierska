@@ -7,6 +7,7 @@
 #include<string>
 #include<vector>
 #include<memory>
+#include<functional>
 #include"Matrix/incidencymatrix.h"
 #include"guivertex.h"
 #include"guihyperedge.h"
@@ -22,7 +23,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void saveGuiTofile(const std::string& nameOfFile)const;
 
 protected:
 private slots:
@@ -34,15 +34,19 @@ private slots:
 private:
     void drawHyperGraph();
     void clearScene();
+    void saveGuiTofile(const std::string& nameOfFile)const;
 
 
-    Ui::MainWindow *ui;
+    std::unique_ptr<Ui::MainWindow> ui;
     std::unique_ptr<QGraphicsScene> scene;
     std::unique_ptr<IncidencyMatrix> hyperGraph;
 
-    std::vector<GUIVertex*> vertexes;
-    std::vector<GUIHyperEdge*> hyperEdges;
-    std::vector<QGraphicsLineItem*> lines;
+    std::vector<std::unique_ptr<GUIVertex>> vertexes;
+    std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;
+    std::vector<std::unique_ptr<QGraphicsLineItem>> lines;
+
+    std::function<int()> kDistribution;
+
 };
 
 #endif // MAINWINDOW_H

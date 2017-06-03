@@ -14,15 +14,16 @@ void GUIVertex::addLine(QGraphicsLineItem *line)
     lines.push_back(line);
 
 }
-QVariant GUIVertex::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant GUIVertex::itemChange(const GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene())
     {
         moveLinesToCenter(value.toPointF());
+
     }
     return QGraphicsItem::itemChange(change, value);
 }
-void GUIVertex::moveLinesToCenter(QPointF newPos)
+void GUIVertex::moveLinesToCenter(const QPointF newPos)
 {
     // Converts the elipse position (top-left)
     // to its center position

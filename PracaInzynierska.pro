@@ -1,7 +1,8 @@
 
-QT       += core gui
+QT  += core gui
 CONFIG += c++14
-QMAKE_CXXFLAGS += -O3 -Wall -pedantic -g
+QMAKE_CXXFLAGS += -O3 -Wall -pedantic
+QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -pedantic
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PracaInzynierska

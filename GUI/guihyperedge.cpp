@@ -2,7 +2,7 @@
 
 
 
-GUIHyperEdge::GUIHyperEdge (const QRectF& rect,QPen& pen,QBrush& brush) : QGraphicsRectItem(rect)
+GUIHyperEdge::GUIHyperEdge (const QRectF& rect,const QPen& pen,const QBrush& brush) : QGraphicsRectItem(rect)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -11,13 +11,13 @@ GUIHyperEdge::GUIHyperEdge (const QRectF& rect,QPen& pen,QBrush& brush) : QGraph
 }
 
 
-void GUIHyperEdge::addLine(QGraphicsLineItem *line)
+void GUIHyperEdge::addLine( QGraphicsLineItem *line)
 {
     line->setLine(QLineF(line->line().p1(), centerPos(this->pos())));
     lines.push_back(line);
 }
 
-QVariant GUIHyperEdge::itemChange(GraphicsItemChange change, const QVariant &value)
+ QVariant GUIHyperEdge::itemChange(const GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange && scene()) {
         // value is the new position.
@@ -27,7 +27,7 @@ QVariant GUIHyperEdge::itemChange(GraphicsItemChange change, const QVariant &val
     return QGraphicsItem::itemChange(change, value);
 }
 
-void GUIHyperEdge::moveLinesToCenter(QPointF newPos)
+void GUIHyperEdge::moveLinesToCenter(const QPointF newPos)
 {
     // Converts the elipse position (top-left)
     // to its center position

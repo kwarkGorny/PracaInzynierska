@@ -70,9 +70,9 @@ void HyperGraphMatrix::tofile(const std::string& nameWithPath)const
 {
     std::ofstream file(nameWithPath);
     file<<matrix.size()<<'\n';
-    for(auto& vertex : matrix)
+    for(const auto& vertex : matrix)
     {
-        for(int i=0;i<vertex.size();i++)
+        for(int i=0,max=vertex.size();i<max;i++)
         {
             if(vertex[i]!=0)
             {

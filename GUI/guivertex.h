@@ -11,11 +11,11 @@ public:
     void addLine(QGraphicsLineItem *line) ;
 
 
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(const GraphicsItemChange change, const QVariant &value);
 
-    void moveLinesToCenter(QPointF newPos);
+    void moveLinesToCenter(const QPointF newPos);
 
-    inline QPointF centerPos(const QPointF newPos)
+    inline const QPointF centerPos(const QPointF newPos)const
     {
         return QPointF(newPos.x() + rect().x() + rect().width()/2, newPos.y() + rect().y() + rect().height()/2);
     }

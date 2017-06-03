@@ -7,17 +7,16 @@
 class GUIHyperEdge : public QGraphicsRectItem
 {
 public:
-    GUIHyperEdge (const QRectF& rect,QPen& pen,QBrush& brush);
+    GUIHyperEdge (const QRectF& rect,const QPen& pen,const QBrush& brush);
 
-    void addLine(QGraphicsLineItem *line);
-
-
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void addLine( QGraphicsLineItem *line);
 
 
-    void moveLinesToCenter(QPointF newPos);
+    QVariant itemChange(const GraphicsItemChange change, const QVariant &value);
 
-   inline QPointF centerPos(const QPointF newPos)
+    void moveLinesToCenter(const QPointF newPos);
+
+   inline const QPointF centerPos(const QPointF newPos)const
     {
         return QPointF(newPos.x() + rect().x() + rect().width()/2, newPos.y() + rect().y() + rect().height()/2);
     }
