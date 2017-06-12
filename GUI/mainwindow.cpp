@@ -13,11 +13,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     scene= std::make_unique<QGraphicsScene>(this);
     ui->graphicsView->setScene(scene.get());
     hyperGraph=std::make_unique<IncidencyMatrix>();
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     std::default_random_engine e((std::random_device())());
 
-    std::poisson_distribution<int> poisson(10);
+    std::poisson_distribution<int> poisson(6);
     kDistribution=std::bind(poisson,e);
+
+    prepareHistograms();
 
 }
 
@@ -25,9 +28,33 @@ MainWindow::~MainWindow()
 {
     clearScene();
 }
+void MainWindow::prepareHistograms()
+{
+    ui->WykresK->addGraph();
+    ui->WykresK->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresK->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 10));
+    ui->WykresK->addGraph();
+    QPen pen (Qt::red);
+    ui->WykresK->graph(1)->setPen(pen);
+    ui->WykresK->graph(1)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresK->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
+    ui->WykresK->xAxis->setLabel("k");
+    ui->WykresK->yAxis->setLabel("P(k)");
+
+
+    ui->WykresP->addGraph();
+    ui->WykresP->graph(0)->setPen(pen);
+    ui->WykresP->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
+    ui->WykresP->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
+    // give the axes some labels:
+    ui->WykresP->xAxis->setLabel("p");
+    ui->WykresP->yAxis->setLabel("P(p)");
+
+}
 
 void MainWindow::drawHyperGraph(int sizeOfHyperedges)
 {
+    clearScene();
 
     QBrush redBrush(QColor(255,50,50));
     QBrush blueBrush(QColor(100,149,237));
@@ -57,7 +84,7 @@ void MainWindow::drawHyperGraph(int sizeOfHyperedges)
         {
             if(hyperGraph->getConnection(j,i))
             {
-               std::unique_ptr<QGraphicsLineItem> line( scene->addLine(QLineF(40, 40, 80, 80)));
+               std::unique_ptr<QGraphicsLineItem> line{ scene->addLine(QLineF(40, 40, 80, 80))};
                 line->setPen(randomPen);
                 vertexes[i]->addLine(line.get());
                 hyperEdges[j]->addLine(line.get());
@@ -93,7 +120,7 @@ void MainWindow::drawHyperGraph(int sizeOfHyperedges)
 }
 void MainWindow::drawKHistogram()
 {
-    std::vector<int>* actualK= HyperGraphManager::calculateKTable(*hyperGraph);
+    auto actualK= HyperGraphManager::calculateKTable(*hyperGraph);
     QVector<double> x;
     QVector<double> yTheoretic;
     QVector<double> yReal ;
@@ -125,19 +152,12 @@ void MainWindow::drawKHistogram()
         yReal[i]/=n;
     }
 
-    ui->WykresK->addGraph();
     ui->WykresK->graph(0)->setData(x,yTheoretic);
-    ui->WykresK->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
-    ui->WykresK->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 10));
-    ui->WykresK->addGraph();
-    QPen pen (Qt::red);
-    ui->WykresK->graph(1)->setPen(pen);
+
+
     ui->WykresK->graph(1)->setData(x,yReal);
-    ui->WykresK->graph(1)->setLineStyle((QCPGraph::LineStyle)0);
-    ui->WykresK->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
-    // give the axes some labels:
-    ui->WykresK->xAxis->setLabel("k");
-    ui->WykresK->yAxis->setLabel("P(k)");
+
+
     // set axes ranges, so we see all data:
     ui->WykresK->xAxis->setRange(0,1.1 * maxk);
     ui->WykresK->yAxis->setRange(0,1);
@@ -146,7 +166,7 @@ void MainWindow::drawKHistogram()
 }
 void MainWindow::drawPHistogram()
 {
-    std::vector<int>* actualP= HyperGraphManager::calculatePTable(*hyperGraph);
+    std::vector<int>* actualP{ HyperGraphManager::calculatePTable(*hyperGraph)};
     QVector<double> x;
     QVector<double> yTheoretic;
     QVector<double> yReal ;
@@ -167,9 +187,10 @@ void MainWindow::drawPHistogram()
     }
     for(int i=0;i<=maxp;++i)
     {
-        x.push_back(i);
 
+        x.push_back(i);
         yReal.push_back(RealHist[i]);
+
        // if(max<yTheoretic[i]) max =yTheoretic[i];
        if(max<yReal[i]) max =yReal[i];
     }
@@ -183,34 +204,33 @@ void MainWindow::drawPHistogram()
 //    ui->WykresP->graph(0)->setData(x,yTheoretic);
 //    ui->WykresP->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
 //    ui->WykresP->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 10));
-    ui->WykresP->addGraph();
-    QPen pen (Qt::red);
-    ui->WykresP->graph(0)->setPen(pen);
     ui->WykresP->graph(0)->setData(x,yReal);
-    ui->WykresP->graph(0)->setLineStyle((QCPGraph::LineStyle)0);
-    ui->WykresP->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 10));
-    // give the axes some labels:
-    ui->WykresP->xAxis->setLabel("p");
-    ui->WykresP->yAxis->setLabel("P(p)");
+
     // set axes ranges, so we see all data:
     ui->WykresP->xAxis->setRange(0,1.1 *  maxp);
     ui->WykresP->yAxis->setRange(0,1);
+
     ui->WykresP->replot();
     delete actualP;
 }
 void MainWindow::on_pushButton_clicked()
 {
-    clearScene();
 
-    int numberOfVertices =ui->boxNumberOfVertices->value();
-    int sizeOfHyperedges =ui->boxSizeOfHyperedge->value();
+    int numberOfVertices{ui->boxNumberOfVertices->value()};
+    int sizeOfHyperedges {ui->boxSizeOfHyperedge->value()};
+
+   // std::default_random_engine e((std::random_device())());
+   // std::poisson_distribution<int> poisson(9);
+   //kDistribution=std::bind(poisson,e);
+
 
     kTable.reset(HyperGraphManager::generateKTable(kDistribution,numberOfVertices));
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    auto begin = std::chrono::steady_clock::now();
 
     hyperGraph.reset(HyperGraphFabric::createRandomIncidencyMatrix(numberOfVertices,sizeOfHyperedges,*kTable));
 
-    std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+    auto end= std::chrono::steady_clock::now();
 
 
     std::cout << "Creation Time of HyperGraph = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()<<"ms" ;

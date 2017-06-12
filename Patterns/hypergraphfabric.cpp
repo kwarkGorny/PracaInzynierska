@@ -11,7 +11,7 @@ HyperGraphFabric::HyperGraphFabric()
 }
 HyperGraph* HyperGraphFabric::createTestHyperGraph(const int numberOfVertexes)
 {
-    HyperGraph* graph= new HyperGraph(numberOfVertexes);
+    auto graph= new HyperGraph(numberOfVertexes);
 
     graph->createHyperEdge(5);
 
@@ -28,7 +28,7 @@ HyperGraph* HyperGraphFabric::createTestHyperGraph(const int numberOfVertexes)
 
 IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(const int numberOfVertexes,const int numberOfHyperEdges)
 {
-    IncidencyMatrix* matrix =new IncidencyMatrix(numberOfVertexes);
+    auto matrix =new IncidencyMatrix(numberOfVertexes);
 
     std::default_random_engine e((std::random_device())());
     std::uniform_int_distribution<int> d(0,1);
@@ -46,7 +46,7 @@ IncidencyMatrix* HyperGraphFabric::createTestIncidencyMatrix(const int numberOfV
 
 IncidencyMatrix* HyperGraphFabric::createTest1IncidencyMatrix(const int numberOfVertexes, const int degreeOFHyperEdge, const std::function<int()>& kDistribution)
 {
-    IncidencyMatrix* graph=new IncidencyMatrix(numberOfVertexes);
+    auto graph=new IncidencyMatrix(numberOfVertexes);
 
     std::vector<int> kTable(numberOfVertexes);
     std::for_each(kTable.begin(),kTable.end(),[&](auto & k){k=kDistribution();});
@@ -91,11 +91,9 @@ IncidencyMatrix* HyperGraphFabric::createRandomIncidencyMatrix(const int numberO
 {
 
 
-    IncidencyMatrix* graph = new IncidencyMatrix(numberOfVertexes);
+    auto graph = new IncidencyMatrix(numberOfVertexes);
 
-   // std::for_each(kTable.begin(),kTable.end(),[&](auto & k){std::cout<<k<<std::endl;});
-
-    std::vector<int> kT(kTable);
+    std::vector<int> kT{kTable};
 
     std::minstd_rand e((std::random_device())());
 
@@ -137,6 +135,26 @@ IncidencyMatrix* HyperGraphFabric::createRandomIncidencyMatrix(const int numberO
                }
 
             }
+
+        }
+    }
+    return graph;
+}
+
+IncidencyMatrix* HyperGraphFabric::createFullHypergraph(const int numberOfVertexes,const int degreeOFHyperEdge,const std::vector<int>& kTable)
+{
+    auto graph = new IncidencyMatrix(numberOfVertexes);
+
+    std::vector<int> kT{kTable};
+
+
+    for(int i=0;i<numberOfVertexes;++i)
+    {
+        while(kT[i]>0)
+        {
+            --kT[i];
+            graph->createHyperEdges();
+            graph->getIncidencyMatrix().back()[i]=1;
 
         }
     }

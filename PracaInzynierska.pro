@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     Tests/guitest.cpp \
     GUI/guivertex.cpp \
     GUI/guihyperedge.cpp \
-    QCustomPlot/qcustomplot.cpp
+    QCustomPlot/qcustomplot.cpp \
+    Matrix/adjacencylist.cpp
 
 HEADERS  +=  GUI/mainwindow.h \
     HGStruct/hyperedge.h \
@@ -41,7 +42,8 @@ HEADERS  +=  GUI/mainwindow.h \
     Tests/incidencymatrixtests.h \
     GUI/guivertex.h \
     GUI/guihyperedge.h \
-    QCustomPlot/qcustomplot.h
+    QCustomPlot/qcustomplot.h \
+    Matrix/adjacencylist.h
 
 FORMS    += mainwindow.ui
 
