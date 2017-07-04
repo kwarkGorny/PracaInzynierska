@@ -1,8 +1,7 @@
 
 QT  += core gui printsupport
-CONFIG += c++14
-QMAKE_CXXFLAGS += -O3 -Wall -pedantic
-QMAKE_CXXFLAGS_RELEASE += -O3 -Wall -pedantic
+CONFIG += c++1z
+QMAKE_CXXFLAGS += -O3 -Wall -pedantic -Wno-sign-conversion
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PracaInzynierska
