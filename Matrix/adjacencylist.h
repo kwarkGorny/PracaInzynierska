@@ -2,7 +2,8 @@
 #define ADJACENCYLIST_H
 #include <vector>
 #include<set>
-class AdjacencyList {
+class AdjacencyList
+{
 public:
   explicit AdjacencyList(const int quantityOfVertecies=0);
 
@@ -19,7 +20,7 @@ public:
    inline int getConnection(const int hyperedge, const int vertex) const{
        return adjacencylist[hyperedge].find(vertex)!=std::end(adjacencylist[hyperedge]);
    }
-   inline int size()const{return adjacencylist.size();}
+   inline auto size()const{return adjacencylist.size();}
    inline const auto &getAdjacencyList() const { return adjacencylist; }
    inline auto &getAdjacencyList() { return adjacencylist; }
    inline const auto &getNumberOfVertices() const { return numberOfVertecies; }
