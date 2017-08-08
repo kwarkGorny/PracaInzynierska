@@ -1,30 +1,33 @@
 #ifndef ADJACENCYLIST_H
 #define ADJACENCYLIST_H
 #include <vector>
+#include<set>
 class AdjacencyList {
 public:
-  explicit AdjacencyList(const int quantityOfVertecies);
+  explicit AdjacencyList(const int quantityOfVertecies=0);
 
-  inline void addVerticies(const int quantity = 1);
-  void removeVertex(const int pos);
+   void addVerticies(const int quantity = 1);
+   void removeVertex(const int id);
 
-  inline void addHyperegdes(const int quantity = 1);
-  inline void removeHyperegde(const int pos);
+   void addHyperEdges(const int quantity = 1);
+   void removeHyperegde(const int pos);
 
-  inline void addVertexToHyperedge(const int hyperedge, const int vertex);
-  inline void removeVertexFromHyperedge(const int hyperedge, const int vertex);
+   void addVertexToHyperedge(const int hyperedge, const int vertex);
+   void removeVertexFromHyperedge(const int hyperedge, const int vertex);
 
   // int checkConnection(const )
-  inline int getConnection(const int hyperedge, const int vertex) const;
-
-  inline const auto &getAdjacencyList() const { return adjacencylist; }
-  inline auto &getAdjacencyList() { return adjacencylist; }
-  inline const auto &getNumberOfVertices() const { return numberOfVertecies; }
+   inline int getConnection(const int hyperedge, const int vertex) const{
+       return adjacencylist[hyperedge].find(vertex)!=std::end(adjacencylist[hyperedge]);
+   }
+   inline int size()const{return adjacencylist.size();}
+   inline const auto &getAdjacencyList() const { return adjacencylist; }
+   inline auto &getAdjacencyList() { return adjacencylist; }
+   inline const auto &getNumberOfVertices() const { return numberOfVertecies; }
 
 protected:
 private:
   int numberOfVertecies{0};
-  std::vector<std::vector<int>> adjacencylist{};
+  std::vector<std::set<int>> adjacencylist{};
 };
 
 #endif // ADJACENCYLIST_H

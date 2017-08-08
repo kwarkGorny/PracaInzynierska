@@ -1,9 +1,12 @@
-#include "Tests/guitest.h"
-#include "Tests/incidencymatrixtests.h"
-#include <iostream>
-#include <cassert>
-int main( [[maybe_unused]] int argc,[[maybe_unused]] char *argv[]) {
-  //  return IncidencyMatrixTest1(argc,argv);
-  std::cout.sync_with_stdio(false);
-  return guiTest1(argc, argv);
+#include "GUI/mainwindow.h"
+#include <QApplication>
+#include<iostream>
+int main(int argc, char *argv[])
+{
+    std::ios::sync_with_stdio(false);
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }

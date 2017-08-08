@@ -12,19 +12,20 @@
  *  This class is for changing HaperGraph from 1 representation to other
  *
 */
+#include"Matrix/adjacencylist.h"
 class HyperGraphManager {
 public:
   HyperGraphManager();
 
-  static double calculateAverageK(const IncidencyMatrix &hyperGraph);
+  static double calculateAverageK(const AdjacencyList &hyperGraph);
   static double calculateAverageK(const std::vector<int> &kTable);
-  static std::vector<int> *calculateKTable(const IncidencyMatrix &hyperGraph);
+  static std::vector<int> *calculateKTable(const AdjacencyList &hyperGraph);
   static std::vector<int> *
   generateKTable(const std::function<int()> &kDistribution, const int size);
 
-  static double calculateAverageP(const IncidencyMatrix &hyperGraph);
+  static double calculateAverageP(const AdjacencyList &hyperGraph);
   static double calculateAverageP(const std::vector<int> &pTable);
-  static std::vector<int> *calculatePTable(const IncidencyMatrix &hyperGraph);
+  static std::vector<int> *calculatePTable(const AdjacencyList &hyperGraph);
   static std::vector<int> *
   generatePTable(const std::function<int()> &pDistribution, const int size);
 

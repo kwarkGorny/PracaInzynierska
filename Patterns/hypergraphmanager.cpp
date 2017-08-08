@@ -3,7 +3,7 @@
 #include <vector>
 HyperGraphManager::HyperGraphManager() {}
 
-double HyperGraphManager::calculateAverageK(const IncidencyMatrix &hyperGraph) {
+double HyperGraphManager::calculateAverageK(const AdjacencyList &hyperGraph) {
   auto kTable = calculateKTable(hyperGraph);
   double av =
       std::accumulate(kTable->begin(), kTable->end(), 0) / kTable->size();
@@ -15,10 +15,10 @@ double HyperGraphManager::calculateAverageK(const std::vector<int> &kTable) {
          kTable.size();
 }
 std::vector<int> *
-HyperGraphManager::calculateKTable(const IncidencyMatrix &hyperGraph) {
-  auto k = new std::vector<int>(hyperGraph.getNumberOfVertexes());
-  for (int i = 0; i < hyperGraph.getNumberOfVertexes(); i++) {
-    for (int j = 0; j < hyperGraph.getNumberOfHyperEdgess(); j++) {
+HyperGraphManager::calculateKTable(const AdjacencyList &hyperGraph) {
+  auto k = new std::vector<int>(hyperGraph.getNumberOfVertices());
+  for (int i = 0; i < hyperGraph.getNumberOfVertices(); i++) {
+    for (int j = 0; j < hyperGraph.size(); j++) {
       (*k)[i] += hyperGraph.getConnection(j, i);
     }
   }
@@ -29,21 +29,22 @@ std::vector<int> *
 HyperGraphManager::generateKTable(const std::function<int()> &kDistribution,
                                   const int size) {
   auto kTable = new std::vector<int>(size);
+
   std::for_each(kTable->begin(), kTable->end(),
                 [&](auto &k) { k = kDistribution(); });
   return kTable;
 }
 std::vector<int> *
-HyperGraphManager::calculatePTable(const IncidencyMatrix &hyperGraph) {
-  auto pTable = new std::vector<int>(hyperGraph.getNumberOfHyperEdgess());
-  for (int i = 0; i < hyperGraph.getNumberOfHyperEdgess(); i++) {
-    for (int j = 0; j < hyperGraph.getNumberOfVertexes(); j++) {
+HyperGraphManager::calculatePTable(const AdjacencyList &hyperGraph) {
+  auto pTable = new std::vector<int>(hyperGraph.size());
+  for (int i = 0; i < hyperGraph.size(); i++) {
+    for (int j = 0; j < hyperGraph.getNumberOfVertices(); j++) {
       (*pTable)[i] += hyperGraph.getConnection(i, j);
     }
   }
   return pTable;
 }
-double HyperGraphManager::calculateAverageP(const IncidencyMatrix &hyperGraph) {
+double HyperGraphManager::calculateAverageP(const AdjacencyList &hyperGraph) {
   auto pTable = calculatePTable(hyperGraph);
   double av = (double)std::accumulate(pTable->begin(), pTable->end(), 0) /
               pTable->size();

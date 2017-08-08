@@ -39,53 +39,6 @@ HyperGraphFabric::createTestIncidencyMatrix(const int numberOfVertexes,
   return matrix;
 }
 
-// IncidencyMatrix* HyperGraphFabric::createTest1IncidencyMatrix(const int
-// numberOfVertexes, const int degreeOFHyperEdge, const std::function<int()>&
-// kDistribution)
-//{
-//    auto graph=new IncidencyMatrix(numberOfVertexes);
-
-//    std::vector<int> kTable(numberOfVertexes);
-//    std::for_each(kTable.begin(),kTable.end(),[&](auto &
-//    k){k=kDistribution();});
-
-//   // std::for_each(kTable.begin(),kTable.end(),[&](auto &
-//   k){std::cout<<k<<std::endl;});
-
-//    for(int i=0;i<numberOfVertexes;i++)
-//    {
-
-//        while(kTable[i]>0)
-//        {
-
-//            int degree=1;
-//            std::vector<int> hyperedge(numberOfVertexes);
-//            --kTable[i];
-//            hyperedge[i]=1;
-//            for(int j=0;j<numberOfVertexes;j++)
-//            {
-//                if(degree==degreeOFHyperEdge)
-//                {
-//                    break;
-//                }
-//                if(i==j)
-//                {
-//                    continue;
-//                }
-//                if(kTable[j]>0)
-//                {
-//                    --kTable[j];
-//                    hyperedge[j]=1;
-//                    ++degree;
-//                }
-//            }
-//            graph->addHyperEdge(hyperedge);
-//        }
-
-//    }
-//    return graph;
-//}
-
 IncidencyMatrix *
 HyperGraphFabric::createRandomIncidencyMatrix(const int numberOfVertexes,
                                               const int degreeOFHyperEdge,
@@ -128,6 +81,58 @@ HyperGraphFabric::createRandomIncidencyMatrix(const int numberOfVertexes,
           }
         }
       }
+    }
+  }
+  return graph;
+}
+
+AdjacencyList *
+HyperGraphFabric::createRandomAdjacencyList(const int numberOfVertexes,
+                                              const int degreeOFHyperEdge,
+                                              const std::vector<int> &kTable) {
+
+  auto graph = new AdjacencyList(numberOfVertexes);
+
+  std::vector<int> kT{kTable};
+
+  std::minstd_rand e((std::random_device())());
+  //std::poisson_distribution<int> poisson(degreeOFHyperEdge);
+
+  int hyperedgeTries = 0;
+  bool succeed = false;
+
+  for (int i = 0; i < numberOfVertexes; ++i) {
+    if(kT[i]>0){
+    std::uniform_int_distribution<int> randomvertex(i, numberOfVertexes - 1);
+    int maxNumberOfTries = numberOfVertexes - i;
+    while (kT[i] > 0) {
+      --kT[i];
+      graph->addHyperEdges();
+      graph->addVertexToHyperedge(graph->size()-1,i);
+    //  int h=poisson(e);
+     // h = (h<=0)?1:h;
+
+      for (int j = 1; j < degreeOFHyperEdge; ++j)       {
+        succeed = false;
+        hyperedgeTries = 0;
+
+        while (!succeed) {
+          ++hyperedgeTries;
+          int index = randomvertex(e);
+          if (graph->getAdjacencyList().back().find(index) == graph->getAdjacencyList().back().end()) {
+            if (kT[index] > 0) {
+              --kT[index];
+              graph->getAdjacencyList().back().insert(index) ;
+              succeed = true;
+            }
+          }
+
+          if (hyperedgeTries > maxNumberOfTries) {
+            succeed = true;
+          }
+        }
+      }
+    }
     }
   }
   return graph;

@@ -2,6 +2,7 @@
 #define HYPERGRAPHFABRIC_H
 #include "HGStruct/hypergraph.h"
 #include "Matrix/incidencymatrix.h"
+#include"Matrix/adjacencylist.h"
 #include <functional>
 /**
  *  @author   Adam Szczepanski
@@ -30,7 +31,10 @@ public:
   static IncidencyMatrix *createFullHypergraph(const int numberOfVertexes,
                                                const int degreeOFHyperEdge,
                                                const std::vector<int> &kTable);
-
+  static AdjacencyList*
+  createRandomAdjacencyList(const int numberOfVertexes,
+                              const int degreeOFHyperEdge,
+                              const std::vector<int> &kTable);
 protected:
 private:
 };
