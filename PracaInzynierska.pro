@@ -17,9 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-    GUI/guihyperedge.cpp \
-    GUI/guivertex.cpp \
-    GUI/mainwindow.cpp \
     HGStruct/hyperedge.cpp \
     HGStruct/hypergraph.cpp \
     HGStruct/vertex.cpp \
@@ -29,12 +26,14 @@ SOURCES += main.cpp\
     Matrix/incidencymatrix.cpp \
     Patterns/hypergraphfabric.cpp \
     Patterns/hypergraphmanager.cpp \
-    QCustomPlot/qcustomplot.cpp
+    QCustomPlot/qcustomplot.cpp \
+    Patterns/randomnumber.cpp\
+    GUI/guihyperedge.cpp \
+    GUI/guivertex.cpp \
+    GUI/mainwindow.cpp \
+    Patterns/adjacencylistfabric.cpp
 
-HEADERS  += GUI/guihyperedge.h \
-    GUI/guivertex.h \
-    GUI/mainwindow.h \
-    HGStruct/hyperedge.h \
+HEADERS  +=     HGStruct/hyperedge.h \
     HGStruct/hypergraph.h \
     HGStruct/vertex.h \
     Matrix/adjacencylist.h \
@@ -43,6 +42,12 @@ HEADERS  += GUI/guihyperedge.h \
     Matrix/incidencymatrix.h \
     Patterns/hypergraphfabric.h \
     Patterns/hypergraphmanager.h \
-    QCustomPlot/qcustomplot.h
+    QCustomPlot/qcustomplot.h \
+    Patterns/enums.h \
+    Patterns/randomnumber.h\
+    GUI/guihyperedge.h \
+    GUI/guivertex.h \
+    GUI/mainwindow.h \
+    Patterns/adjacencylistfabric.h
 
 FORMS    += mainwindow.ui

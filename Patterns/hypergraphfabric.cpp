@@ -86,57 +86,6 @@ HyperGraphFabric::createRandomIncidencyMatrix(const int numberOfVertexes,
   return graph;
 }
 
-AdjacencyList *
-HyperGraphFabric::createRandomAdjacencyList(const int numberOfVertexes,
-                                              const int degreeOFHyperEdge,
-                                              const std::vector<int> &kTable) {
-
-  auto graph = new AdjacencyList(numberOfVertexes);
-
-  std::vector<int> kT{kTable};
-
-  std::minstd_rand e((std::random_device())());
-  //std::poisson_distribution<int> poisson(degreeOFHyperEdge);
-
-  int hyperedgeTries = 0;
-  bool succeed = false;
-
-  for (int i = 0; i < numberOfVertexes; ++i) {
-    if(kT[i]>0){
-    std::uniform_int_distribution<int> randomvertex(i, numberOfVertexes - 1);
-    int maxNumberOfTries = numberOfVertexes - i;
-    while (kT[i] > 0) {
-      --kT[i];
-      graph->addHyperEdges();
-      graph->addVertexToHyperedge(graph->size()-1,i);
-    //  int h=poisson(e);
-     // h = (h<=0)?1:h;
-
-      for (int j = 1; j < degreeOFHyperEdge; ++j)       {
-        succeed = false;
-        hyperedgeTries = 0;
-
-        while (!succeed) {
-          ++hyperedgeTries;
-          int index = randomvertex(e);
-          if (graph->getAdjacencyList().back().find(index) == graph->getAdjacencyList().back().end()) {
-            if (kT[index] > 0) {
-              --kT[index];
-              graph->getAdjacencyList().back().insert(index) ;
-              succeed = true;
-            }
-          }
-
-          if (hyperedgeTries > maxNumberOfTries) {
-            succeed = true;
-          }
-        }
-      }
-    }
-    }
-  }
-  return graph;
-}
 
 IncidencyMatrix *
 HyperGraphFabric::createFullHypergraph(const int numberOfVertexes,

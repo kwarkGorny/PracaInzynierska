@@ -14,7 +14,7 @@ public:
    *  @remark Set degree of vertex as 0
    *  @param vertexID id initial value for vertex
    */
-  Vertex(const int vertexID);
+  explicit Vertex(const int vertexID);
 
   /** @brief Destructor of the Vertex class */
   ~Vertex() {}
@@ -25,12 +25,12 @@ public:
   Vertex &operator=(const Vertex &vertex);
 
   /**
-   * @brief operator++ is useto increment degree by 1 of the Vertex
+   * @brief operator++ is useto increment degree by 1
   */
   Vertex &operator++();
 
   /**
-   * @brief operator++ is use to decrement degree by 1 of  the Verte
+   * @brief operator++ is use to decrement degree by 1
    */
   Vertex &operator--();
 

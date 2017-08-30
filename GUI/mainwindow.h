@@ -13,27 +13,19 @@
 #include<functional>
 #include<iostream>
 #include<unordered_map>
+
 #include"Matrix/incidencymatrix.h"
 #include"Matrix/adjacencylist.h"
 #include"Patterns/hypergraphmanager.h"
-#include"Patterns/hypergraphfabric.h"
+#include"Patterns/adjacencylistfabric.h"
+#include"Patterns/enums.h"
+
 #include"guivertex.h"
 #include"guihyperedge.h"
 #include "ui_mainwindow.h"
 namespace Ui {
 class MainWindow;
 }
-enum DISTRIBUTION{
-    CONST=0,
-    UNIFORM=1,
-    POISSON=2,
-};
-enum ALGORITHM{
-    RANDOM_HYPERGRAPH=0,
-    FULL_HYPERGRAPH=1,
-    TEST=3,
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -42,12 +34,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void prepareHistograms();
-    void drawHyperGraph(int sizeOfHyperedges);
+    void drawHyperGraph();
     void drawKHistogram();
     void drawPHistogram();
     void clearScene();
     void saveGuiTofile(const std::string& nameOfFile)const;
-    void showTime(const std::string& nameOfFun,std::chrono::time_point<std::chrono::steady_clock> begin,std::chrono::time_point<std::chrono::steady_clock> end);
+    void showTime(const std::string& nameOfFun,std::chrono::time_point<std::chrono::steady_clock> begin,std::chrono::time_point<std::chrono::steady_clock> end=std::chrono::steady_clock::now());
     void randomHypergraphAlgorithm();
 
 private slots:
@@ -61,20 +53,16 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
+    bool algorithmStarted=false;
     std::unique_ptr<QGraphicsScene> scene;
     std::unique_ptr<AdjacencyList> hyperGraph;
 
     std::unique_ptr<std::vector<int>> kTable;
-
     std::unique_ptr<std::vector<int>> pTable;
-
-
 
     std::vector<std::unique_ptr<GUIVertex>> vertexes;
     std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;
     std::vector<std::unique_ptr<QGraphicsLineItem>> lines;
-
-    std::function<int()> kDistribution;
 
 };
 

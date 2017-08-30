@@ -2,7 +2,7 @@
 #define HYPERGRAPHFABRIC_H
 #include "HGStruct/hypergraph.h"
 #include "Matrix/incidencymatrix.h"
-#include"Matrix/adjacencylist.h"
+#include"Patterns/enums.h"
 #include <functional>
 /**
  *  @author   Adam Szczepanski
@@ -17,8 +17,7 @@ public:
 
   // static HyperGraph* createHyperGraph(int numberOfVertexes );
   static HyperGraph *createTestHyperGraph(const int numberOfVertexes);
-  static IncidencyMatrix *
-  createTestIncidencyMatrix(const int numberOfVertexes,
+  static IncidencyMatrix * createTestIncidencyMatrix(const int numberOfVertexes,
                             const int numberOfHyperEdges);
   static IncidencyMatrix *
   createTest1IncidencyMatrix(const int numberOfVertexes,
@@ -31,10 +30,9 @@ public:
   static IncidencyMatrix *createFullHypergraph(const int numberOfVertexes,
                                                const int degreeOFHyperEdge,
                                                const std::vector<int> &kTable);
-  static AdjacencyList*
-  createRandomAdjacencyList(const int numberOfVertexes,
-                              const int degreeOFHyperEdge,
-                              const std::vector<int> &kTable);
+
+
+
 protected:
 private:
 };

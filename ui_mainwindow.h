@@ -16,6 +16,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
@@ -47,6 +48,8 @@ public:
     QSpinBox *HMaxDegreeS;
     QLabel *HyperEdgeL;
     QSpinBox *HAverageDegreeS;
+    QLabel *HDistributionParamL;
+    QDoubleSpinBox *HDistributionParamDSB;
     QFrame *ResultFrame;
     QGridLayout *gridLayout;
     QCheckBox *DrawHypergraphChB;
@@ -55,6 +58,7 @@ public:
     QLabel *WattodoL;
     QCheckBox *kHistogramChB;
     QLabel *AlgorithmL;
+    QPushButton *StartBtn;
     QFrame *VertexFrame;
     QGridLayout *gridLayout_2;
     QLabel *VtoL;
@@ -65,10 +69,11 @@ public:
     QSpinBox *VAverageDegreeS;
     QSpinBox *VAmountS;
     QSpinBox *VMaxDegreeS;
-    QLabel *AvarageDegreeL;
+    QLabel *VAvarageDegreeL;
     QComboBox *VDistributionCB;
     QLabel *VDegreeRangeL;
-    QPushButton *StartBtn;
+    QLabel *VDistributionParamL;
+    QDoubleSpinBox *VDistributionParamDSP;
     QFrame *DrawFrame;
     QGridLayout *gridLayout_5;
     QGraphicsView *HypergraphDrawView;
@@ -89,7 +94,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1280, 622);
+        MainWindow->resize(1280, 665);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -189,6 +194,21 @@ public:
 
         gridLayout_3->addWidget(HAverageDegreeS, 6, 2, 1, 1);
 
+        HDistributionParamL = new QLabel(HyperEdgeFrame);
+        HDistributionParamL->setObjectName(QStringLiteral("HDistributionParamL"));
+
+        gridLayout_3->addWidget(HDistributionParamL, 3, 0, 1, 1);
+
+        HDistributionParamDSB = new QDoubleSpinBox(HyperEdgeFrame);
+        HDistributionParamDSB->setObjectName(QStringLiteral("HDistributionParamDSB"));
+        HDistributionParamDSB->setEnabled(false);
+        HDistributionParamDSB->setDecimals(5);
+        HDistributionParamDSB->setMaximum(1);
+        HDistributionParamDSB->setSingleStep(0.001);
+        HDistributionParamDSB->setValue(0.2);
+
+        gridLayout_3->addWidget(HDistributionParamDSB, 3, 2, 1, 1);
+
 
         gridLayout_4->addWidget(HyperEdgeFrame, 3, 0, 1, 1);
 
@@ -247,6 +267,13 @@ public:
 
         gridLayout_4->addWidget(ResultFrame, 0, 0, 1, 1);
 
+        StartBtn = new QPushButton(ParametersFrame);
+        StartBtn->setObjectName(QStringLiteral("StartBtn"));
+        sizePolicy2.setHeightForWidth(StartBtn->sizePolicy().hasHeightForWidth());
+        StartBtn->setSizePolicy(sizePolicy2);
+
+        gridLayout_4->addWidget(StartBtn, 4, 0, 1, 1);
+
         VertexFrame = new QFrame(ParametersFrame);
         VertexFrame->setObjectName(QStringLiteral("VertexFrame"));
         sizePolicy.setHeightForWidth(VertexFrame->sizePolicy().hasHeightForWidth());
@@ -260,7 +287,7 @@ public:
         VtoL = new QLabel(VertexFrame);
         VtoL->setObjectName(QStringLiteral("VtoL"));
 
-        gridLayout_2->addWidget(VtoL, 9, 1, 1, 1);
+        gridLayout_2->addWidget(VtoL, 10, 1, 1, 1);
 
         AmountL = new QLabel(VertexFrame);
         AmountL->setObjectName(QStringLiteral("AmountL"));
@@ -274,7 +301,7 @@ public:
         VMinDegreeS->setSizePolicy(sizePolicy);
         VMinDegreeS->setMaximum(999999999);
 
-        gridLayout_2->addWidget(VMinDegreeS, 9, 0, 1, 1);
+        gridLayout_2->addWidget(VMinDegreeS, 10, 0, 1, 1);
 
         VDistributionL = new QLabel(VertexFrame);
         VDistributionL->setObjectName(QStringLiteral("VDistributionL"));
@@ -294,7 +321,7 @@ public:
         VAverageDegreeS->setMaximum(999999999);
         VAverageDegreeS->setValue(5);
 
-        gridLayout_2->addWidget(VAverageDegreeS, 6, 2, 1, 1);
+        gridLayout_2->addWidget(VAverageDegreeS, 7, 2, 1, 1);
 
         VAmountS = new QSpinBox(VertexFrame);
         VAmountS->setObjectName(QStringLiteral("VAmountS"));
@@ -312,12 +339,12 @@ public:
         VMaxDegreeS->setSizePolicy(sizePolicy);
         VMaxDegreeS->setMaximum(999999999);
 
-        gridLayout_2->addWidget(VMaxDegreeS, 9, 2, 1, 1);
+        gridLayout_2->addWidget(VMaxDegreeS, 10, 2, 1, 1);
 
-        AvarageDegreeL = new QLabel(VertexFrame);
-        AvarageDegreeL->setObjectName(QStringLiteral("AvarageDegreeL"));
+        VAvarageDegreeL = new QLabel(VertexFrame);
+        VAvarageDegreeL->setObjectName(QStringLiteral("VAvarageDegreeL"));
 
-        gridLayout_2->addWidget(AvarageDegreeL, 6, 0, 1, 1);
+        gridLayout_2->addWidget(VAvarageDegreeL, 7, 0, 1, 1);
 
         VDistributionCB = new QComboBox(VertexFrame);
         VDistributionCB->setObjectName(QStringLiteral("VDistributionCB"));
@@ -331,17 +358,25 @@ public:
         sizePolicy1.setHeightForWidth(VDegreeRangeL->sizePolicy().hasHeightForWidth());
         VDegreeRangeL->setSizePolicy(sizePolicy1);
 
-        gridLayout_2->addWidget(VDegreeRangeL, 8, 0, 1, 1);
+        gridLayout_2->addWidget(VDegreeRangeL, 9, 0, 1, 1);
+
+        VDistributionParamL = new QLabel(VertexFrame);
+        VDistributionParamL->setObjectName(QStringLiteral("VDistributionParamL"));
+
+        gridLayout_2->addWidget(VDistributionParamL, 6, 0, 1, 1);
+
+        VDistributionParamDSP = new QDoubleSpinBox(VertexFrame);
+        VDistributionParamDSP->setObjectName(QStringLiteral("VDistributionParamDSP"));
+        VDistributionParamDSP->setEnabled(false);
+        VDistributionParamDSP->setDecimals(5);
+        VDistributionParamDSP->setMaximum(1);
+        VDistributionParamDSP->setSingleStep(0.001);
+        VDistributionParamDSP->setValue(0.2);
+
+        gridLayout_2->addWidget(VDistributionParamDSP, 6, 2, 1, 1);
 
 
-        gridLayout_4->addWidget(VertexFrame, 1, 0, 1, 1);
-
-        StartBtn = new QPushButton(ParametersFrame);
-        StartBtn->setObjectName(QStringLiteral("StartBtn"));
-        sizePolicy2.setHeightForWidth(StartBtn->sizePolicy().hasHeightForWidth());
-        StartBtn->setSizePolicy(sizePolicy2);
-
-        gridLayout_4->addWidget(StartBtn, 4, 0, 1, 1);
+        gridLayout_4->addWidget(VertexFrame, 2, 0, 1, 1);
 
 
         gridLayout_6->addWidget(ParametersFrame, 0, 0, 1, 1);
@@ -465,9 +500,12 @@ public:
          << QApplication::translate("MainWindow", "Constant", 0)
          << QApplication::translate("MainWindow", "Uniform", 0)
          << QApplication::translate("MainWindow", "Poisson", 0)
+         << QApplication::translate("MainWindow", "Binomial", 0)
+         << QApplication::translate("MainWindow", "Geometric", 0)
         );
-        HAverageDegreeL->setText(QApplication::translate("MainWindow", "Average Degree :", 0));
+        HAverageDegreeL->setText(QApplication::translate("MainWindow", "Degree :", 0));
         HyperEdgeL->setText(QApplication::translate("MainWindow", "HyperEdge Options", 0));
+        HDistributionParamL->setText(QApplication::translate("MainWindow", "Distribution Param:", 0));
         DrawHypergraphChB->setText(QApplication::translate("MainWindow", "Draw Hypergraph", 0));
         AlgorithmsCB->clear();
         AlgorithmsCB->insertItems(0, QStringList()
@@ -479,19 +517,22 @@ public:
         WattodoL->setText(QApplication::translate("MainWindow", "What to do?", 0));
         kHistogramChB->setText(QApplication::translate("MainWindow", "Make k Histogram", 0));
         AlgorithmL->setText(QApplication::translate("MainWindow", "Choose Algorithm :", 0));
+        StartBtn->setText(QApplication::translate("MainWindow", "Start!", 0));
         VtoL->setText(QApplication::translate("MainWindow", " to", 0));
         AmountL->setText(QApplication::translate("MainWindow", "Amount :", 0));
         VDistributionL->setText(QApplication::translate("MainWindow", "Distribution :", 0));
         VerticiesL->setText(QApplication::translate("MainWindow", "Vertex Options", 0));
-        AvarageDegreeL->setText(QApplication::translate("MainWindow", "Average Degree :", 0));
+        VAvarageDegreeL->setText(QApplication::translate("MainWindow", "Degree :", 0));
         VDistributionCB->clear();
         VDistributionCB->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Constant", 0)
          << QApplication::translate("MainWindow", "Uniform", 0)
          << QApplication::translate("MainWindow", "Poisson", 0)
+         << QApplication::translate("MainWindow", "Binomial", 0)
+         << QApplication::translate("MainWindow", "Geometric", 0)
         );
         VDegreeRangeL->setText(QApplication::translate("MainWindow", "Degree Range :", 0));
-        StartBtn->setText(QApplication::translate("MainWindow", "Start!", 0));
+        VDistributionParamL->setText(QApplication::translate("MainWindow", "Distribution Param :", 0));
         label_2->setText(QApplication::translate("MainWindow", "Name of file :", 0));
         label->setText(QApplication::translate("MainWindow", "Name of file :", 0));
         pushButton_2->setText(QApplication::translate("MainWindow", "Save to png", 0));

@@ -9,7 +9,7 @@ void AdjacencyList::addVerticies(const int quantity)
     }
 }
 void AdjacencyList::removeVertex(const int id){
-    numberOfVertecies--;
+    --numberOfVertecies;
     std::for_each(adjacencylist.begin(),adjacencylist.end(),[&](auto&& hyperedge){hyperedge.erase(id);});
 }
 void AdjacencyList::addHyperEdges(const int quantity)

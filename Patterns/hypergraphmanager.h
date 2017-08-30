@@ -1,38 +1,49 @@
 #ifndef HYPERGRAPHMANAGER_H
 #define HYPERGRAPHMANAGER_H
-#include "HGStruct/hypergraph.h"
-#include "Matrix/incidencymatrix.h"
+
+#include"Matrix/adjacencylist.h"
+#include"enums.h"
+
 #include <algorithm>
 #include <functional>
 #include <vector>
+#include <unordered_map>
+#include<map>
+#include<set>
+#include <string>
+#include<iostream>
+#include<fstream>
 /**
  * @author   Adam Szczepanski
  * @date 10.05.2017
- *  @brief Manager class fo HyperGraph
- *  This class is for changing HaperGraph from 1 representation to other
+ * @brief Manager class fo HyperGraph
+ *
  *
 */
-#include"Matrix/adjacencylist.h"
+
+
 class HyperGraphManager {
 public:
   HyperGraphManager();
 
   static double calculateAverageK(const AdjacencyList &hyperGraph);
-  static double calculateAverageK(const std::vector<int> &kTable);
   static std::vector<int> *calculateKTable(const AdjacencyList &hyperGraph);
-  static std::vector<int> *
-  generateKTable(const std::function<int()> &kDistribution, const int size);
+  static std::unordered_map<int,int> *calculateKHistogram(const AdjacencyList &hyperGraph);
 
   static double calculateAverageP(const AdjacencyList &hyperGraph);
-  static double calculateAverageP(const std::vector<int> &pTable);
   static std::vector<int> *calculatePTable(const AdjacencyList &hyperGraph);
-  static std::vector<int> *
-  generatePTable(const std::function<int()> &pDistribution, const int size);
+  static std::unordered_map<int,int> *calculatePHistogram(const AdjacencyList &hyperGraph);
 
+
+  static std::vector<int> *generateTable(const std::function<int()>& distribution, const int size);
+
+  static std::map<std::set<int>,int>* getHyperEdgeHistogram(const AdjacencyList& hyperGraph);
   // TODO : implementthis two metods
   // static HyperGraph& IncidencyMatrixToHyperGraph(IncidencyMatrix& matrix);
   // static IncidencyMatrix& HyperGraphToIncidencyMatrix(HyperGraph&
   // hypergraph);
+
+  static void adjacenyListToFile(const AdjacencyList &hyperGraph , const std::string& nameOfFile);
 
 protected:
 private:
