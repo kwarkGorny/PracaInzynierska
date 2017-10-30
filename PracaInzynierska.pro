@@ -7,8 +7,12 @@
 
 QT  += core gui printsupport
 CONFIG += c++1z
-QMAKE_CXXFLAGS += -O3 -Wall -pedantic -Wno-sign-conversion
+QMAKE_CXXFLAGS += -O3 -Wall -pedantic -Wno-sign-conversion -march=native
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+INCLUDEPATH += /usr/include/boost
+LIBS += -L/usr/include/boost -lboost_system -lboost_chrono -lboost_thread -lboost_timer
+
 
 TARGET = FullGUI
 TEMPLATE = app
@@ -17,37 +21,46 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-    HGStruct/hyperedge.cpp \
-    HGStruct/hypergraph.cpp \
-    HGStruct/vertex.cpp \
-    Matrix/adjacencylist.cpp \
-    Matrix/hypergraphmatrix.cpp \
-    Matrix/ihypergraph.cpp \
-    Matrix/incidencymatrix.cpp \
-    Patterns/hypergraphfabric.cpp \
-    Patterns/hypergraphmanager.cpp \
     QCustomPlot/qcustomplot.cpp \
-    Patterns/randomnumber.cpp\
     GUI/guihyperedge.cpp \
     GUI/guivertex.cpp \
     GUI/mainwindow.cpp \
-    Patterns/adjacencylistfabric.cpp
+    Tests/guitest.cpp \
+    Distributions/distribution.cpp \
+    Distributions/uniform.cpp \
+    Distributions/poisson.cpp \
+    Distributions/geometric.cpp \
+    Distributions/binomal.cpp \
+    Distributions/constant.cpp \
+    GUI/hypergraphdrawdialog.cpp \
+    AdjacencyList/AdjacencyList.cpp \
+    AdjacencyList/AdjacencyListFabric.cpp \
+    AdjacencyList/AdjacencyListManager.cpp \
+    Patterns/Statistics.cpp \
+    GUI/KHistogramWindow.cpp \
+    GUI/PHistogramWindow.cpp
 
-HEADERS  +=     HGStruct/hyperedge.h \
-    HGStruct/hypergraph.h \
-    HGStruct/vertex.h \
-    Matrix/adjacencylist.h \
-    Matrix/hypergraphmatrix.h \
-    Matrix/ihypergraph.h \
-    Matrix/incidencymatrix.h \
-    Patterns/hypergraphfabric.h \
-    Patterns/hypergraphmanager.h \
-    QCustomPlot/qcustomplot.h \
-    Patterns/enums.h \
-    Patterns/randomnumber.h\
+HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
     GUI/guivertex.h \
     GUI/mainwindow.h \
-    Patterns/adjacencylistfabric.h
+    Tests/guitest.h \
+    ui_mainwindow.h \
+    Distributions/distribution.h \
+    Distributions/uniform.h \
+    Distributions/poisson.h \
+    Distributions/geometric.h \
+    Distributions/binomal.h \
+    Distributions/constant.h \
+    GUI/hypergraphdrawdialog.h \
+    AdjacencyList/AdjacencyList.h \
+    AdjacencyList/AdjacencyListFabric.h \
+    AdjacencyList/AdjacencyListManager.h \
+    Patterns/Statistics.h \
+    GUI/KHistogramWindow.h \
+    GUI/PHistogramWindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    GUI/hypergraphdrawdialog.ui \
+    GUI/KHistogramWindow.ui \
+    GUI/PHistogramWindow.ui

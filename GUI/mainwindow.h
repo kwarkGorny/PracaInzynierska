@@ -4,25 +4,28 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QtCore>
-#include <QGraphicsScene>
-#include<string>
+
 #include<vector>
 #include<memory>
-#include<random>
 #include<chrono>
-#include<functional>
-#include<iostream>
+#include<string>
 #include<unordered_map>
-
-#include"Matrix/incidencymatrix.h"
-#include"Matrix/adjacencylist.h"
-#include"Patterns/hypergraphmanager.h"
-#include"Patterns/adjacencylistfabric.h"
-#include"Patterns/enums.h"
-
-#include"guivertex.h"
-#include"guihyperedge.h"
+#include"Distributions/distribution.h"
+#include"AdjacencyList/AdjacencyList.h"
 #include "ui_mainwindow.h"
+#include "KHistogramWindow.h"
+#include "PHistogramWindow.h"
+
+
+using namespace std::chrono;
+
+
+enum  ALGORITHM{
+    RANDOM_HYPERGRAPH,
+    FULL_HYPERGRAPH,
+    TEST,
+};
+
 namespace Ui {
 class MainWindow;
 }
@@ -33,14 +36,19 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void prepareHistograms();
-    void drawHyperGraph();
-    void drawKHistogram();
-    void drawPHistogram();
-    void clearScene();
-    void saveGuiTofile(const std::string& nameOfFile)const;
-    void showTime(const std::string& nameOfFun,std::chrono::time_point<std::chrono::steady_clock> begin,std::chrono::time_point<std::chrono::steady_clock> end=std::chrono::steady_clock::now());
-    void randomHypergraphAlgorithm();
+
+
+
+    void SelectPDstribution();
+    void SelectKDstribution();
+
+
+    void ChooseAndRunAlgorithm();
+
+    void AnalizeHyperGraph();
+    void ShowTime(const std::string& nameOfFun,time_point<steady_clock> begin,time_point<steady_clock> end=steady_clock::now());
+
+    void RandomHypergraphAlgorithm();
 
 private slots:
     void on_StartBtn_clicked();
@@ -51,19 +59,23 @@ private slots:
 
     void on_HDistributionCB_currentIndexChanged(int index);
 
+    void on_pushButton_5_clicked();
+
+    void on_PlotKHistogramBtn_clicked();
+
+    void on_PlotPHistogramBtn_clicked();
+
 private:
     Ui::MainWindow* ui;
-    bool algorithmStarted=false;
-    std::unique_ptr<QGraphicsScene> scene;
-    std::unique_ptr<AdjacencyList> hyperGraph;
 
-    std::unique_ptr<std::vector<int>> kTable;
-    std::unique_ptr<std::vector<int>> pTable;
+    AdjacencyList m_HyperGraph;
+    std::unique_ptr<Distribution> m_PDistribution;
+    std::unique_ptr<Distribution> m_KDistribution;
 
-    std::vector<std::unique_ptr<GUIVertex>> vertexes;
-    std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;
-    std::vector<std::unique_ptr<QGraphicsLineItem>> lines;
+    std::unique_ptr<KHistogramWindow> m_KHistogram;
+    std::unique_ptr<PHistogramWindow> m_PHistogram;
 
+    bool m_AlgorithmStarted=false;
 };
 
 #endif // MAINWINDOW_H

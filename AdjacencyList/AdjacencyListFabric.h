@@ -1,8 +1,7 @@
 #ifndef ADJACENCYLISTFABRIC_H
 #define ADJACENCYLISTFABRIC_H
-#include"Matrix/adjacencylist.h"
-#include <functional>
-#include<random>
+#include"AdjacencyList/AdjacencyList.h"
+#include "Distributions/distribution.h"
 
 class AdjacencyListFabric
 {
@@ -12,10 +11,12 @@ public:
     //                              const int degreeOFHyperEdge,
     //                              const std::vector<int> &kTable);
 
-      static AdjacencyList*
-      createRandomAdjacencyList(const int numberOfVertices,
-                                const std::function<int()>& HyperEdgeDistribution,
-                                const  std::function<int()>& VertexDistribution);
+      static AdjacencyList CreateRandomAdjacencyList(int numberOfVertices,
+                                                      Distribution &HyperEdgeDistribution,
+                                                      Distribution &VertexDistribution);
+
+
+
 protected:
 private:
 };
