@@ -2,6 +2,11 @@
 #define POISSON_H
 #include"distribution.h"
 
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Poisson Distribution
+*/
 
 
 
@@ -15,6 +20,7 @@ public:
 
     static std::vector<double> GetTheoretical(int N,double lambda);
     virtual std::vector<double> GetTheoretical(int N);
+    virtual double GetAverage();
 
 
 

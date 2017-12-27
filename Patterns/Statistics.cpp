@@ -9,7 +9,7 @@ int Statistics::Factorial( int N)
     int factorial = 1;
     for(int i = 2 ;i<=N ; ++i)
     {
-           factorial *= i;
+        factorial *= i;
     }
     return factorial;
 }
@@ -29,8 +29,7 @@ double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers,d
 {
     double accum = 0.0;
     std::for_each (std::begin(numbers), std::end(numbers),
-                   [&](auto&& d) {accum += (d - average) * (d - average);});
-
+                   [&](const int d) {accum += (d - average) * (d - average);});
     return sqrt(accum / (numbers.size()-1));
 }
 
@@ -74,6 +73,7 @@ std::vector<int> Statistics::GenerateTableParallel(const size_t size , Distribut
 }
 void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
 {
+
     for(auto&& number : table)
     {
         number /= normalize;
@@ -91,11 +91,16 @@ std::unordered_map<int,double> Statistics::CalculateHistogram(const std::vector<
     }
     return histogram;
 }
-void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram, double normalize)
+void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)
 {
-    for(auto& it  : histogram)
+    double sum =0;
+    for(auto&& it  : histogram)
     {
-        it.second /= normalize;
+        sum += it.second;
+    }
+    for(auto&& it  : histogram)
+    {
+        it.second /=sum;
     }
 }
 std::vector<int> Statistics::FisherYatesShuffle(std::size_t size, std::size_t max_size)

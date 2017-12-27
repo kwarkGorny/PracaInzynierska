@@ -1,26 +1,29 @@
 #include "AdjacencyListManager.h"
 
 #include<fstream>
+#include<iostream>
 
-AdjacencyListManager::AdjacencyListManager() {}
+AdjacencyListManager::AdjacencyListManager()
+{
 
+}
 
 std::vector<int> AdjacencyListManager::CalculateKTable(const AdjacencyList& hyperGraph)
 {
-  std::vector<int> k(hyperGraph.GetNumberOfVertices());
-
+  std::vector<int> kTable(hyperGraph.GetNumberOfVertices());
   for(auto&& hyperedge : hyperGraph.GetAdjacencyList())
   {
     for(auto&& vertex :  hyperedge)
     {
-        k[vertex]+=1;
+        kTable[vertex] += 1;
     }
   }
-  return k;
+  return kTable;
 }
 
 
-std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::set<int>>& hyperGraph) {
+std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::set<int>>& hyperGraph)
+{
    std::vector<int> pTable(hyperGraph.size());
    for(size_t i = 0; i < hyperGraph.size(); ++i)
    {
@@ -33,19 +36,22 @@ std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::se
 void AdjacencyListManager::AdjacenyListToFile(const AdjacencyList &hyperGraph , const std::string& nameOfFile)
 {
     std::ofstream file (nameOfFile);
-    file<<hyperGraph.GetNumberOfVertices()<<'\n';
-    file<<hyperGraph.size()<<'\n';
-    for(auto const& hyperedge : hyperGraph.GetAdjacencyList())
+    if(file.is_open())
     {
-        file<<hyperedge.size()<<'\n';
-        for(auto const& vertex:hyperedge)
+        file<<hyperGraph.GetNumberOfVertices()<<'\n';
+        file<<hyperGraph.size()<<'\n';
+        for(auto const& hyperedge : hyperGraph.GetAdjacencyList())
         {
-            file<<vertex<<" ";
+            file<<hyperedge.size()<<'\n';
+            for(auto const& vertex:hyperedge)
+            {
+                file<<vertex<<" ";
+            }
+            file<<'\n';
         }
-        file<<'\n';
+        file.flush();
+        file.close();
     }
-    file.flush();
-    file.close();
 }
 
 std::map<std::set<int>,int> AdjacencyListManager::CalculateHyperedgeDuplicates(const std::vector<std::set<int>>& hyperGraph)
@@ -59,3 +65,23 @@ std::map<std::set<int>,int> AdjacencyListManager::CalculateHyperedgeDuplicates(c
 
 }
 
+void AdjacencyListManager::ShowHyperedgeDuplicates(const std::map<std::set<int>,int>& hyperGraphDuplicates)
+{
+    bool noDuplicates = true;
+    for(auto && hyperEdge : hyperGraphDuplicates)
+    {
+        if(hyperEdge.second>1)
+        {
+            noDuplicates = false;
+            for(auto && vertex : hyperEdge.first)
+            {
+                 std::cout<<vertex << " " ;
+             }
+            std::cout<< " dupicate: " << hyperEdge.second << " \n" ;
+        }
+    }
+    if(noDuplicates)
+    {
+         std::cout<< "No Dupicates  \n" ;
+    }
+}

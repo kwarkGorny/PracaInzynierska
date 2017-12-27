@@ -9,20 +9,24 @@
 #include <QGraphicsScene>
 
 
-
-#include"AdjacencyList/AdjacencyList.h"
+#include "Patterns/Data.h"
 #include "Distributions/uniform.h"
 
 #include"guivertex.h"
 #include"guihyperedge.h"
-#include "ui_hypergraphdrawwindow.h"
 
 #include<memory>
 
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Graphic component use to draw HyperGraph
+*/
 
 
-namespace Ui {
-class HyperGraphDrawDialog;
+namespace Ui
+{
+    class HyperGraphDrawDialog;
 }
 
 class HyperGraphDrawDialog : public QDialog
@@ -30,7 +34,7 @@ class HyperGraphDrawDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit HyperGraphDrawDialog(QWidget *parent = 0, AdjacencyList *hyperGraph = nullptr);
+    explicit HyperGraphDrawDialog(QWidget *parent = 0);
     ~HyperGraphDrawDialog();
 
     void drawHyperGraph();
@@ -47,14 +51,9 @@ private:
 
     std::unique_ptr<QGraphicsScene> scene;
 
-
     std::vector<std::unique_ptr<GUIVertex>> vertexes;
     std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;
     std::vector<std::unique_ptr<QGraphicsLineItem>> lines;
-
-
-    AdjacencyList* hyperGraph;
-
 
     const QBrush verticesBrush{QColor(255, 50, 50)};
     const QBrush hyperedgeBrush{QColor(100, 149, 237)};

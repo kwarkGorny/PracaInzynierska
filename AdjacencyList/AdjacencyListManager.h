@@ -11,13 +11,14 @@
 /**
  * @author   Adam Szczepanski
  * @date 10.05.2017
- * @brief Manager class fo HyperGraph
+ * @brief Manager class fo AdjacencyList
  *
  *
 */
 
 
-class AdjacencyListManager {
+class AdjacencyListManager
+{
 public:
   AdjacencyListManager();
 
@@ -26,6 +27,9 @@ public:
 
 
   static std::map<std::set<int>,int> CalculateHyperedgeDuplicates(const std::vector<std::set<int>>& hyperGraph);
+  static void ShowHyperedgeDuplicates(const std::map<std::set<int>,int>& hyperGraphDuplicates);
+
+
   static void AdjacenyListToFile(const AdjacencyList &hyperGraph , const std::string& nameOfFile);
 
 protected:

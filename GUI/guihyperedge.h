@@ -2,6 +2,11 @@
 #define GUIHYPEREDGE_H
 #include <QApplication>
 #include <QGraphicsRectItem>
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Graphic representation of Hyperedge for drawing component
+*/
 
 
 class GUIHyperEdge : public QGraphicsRectItem

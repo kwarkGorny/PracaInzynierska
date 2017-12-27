@@ -2,15 +2,16 @@
 
 #include"Distributions/uniform.h"
 #include "Patterns/Statistics.h"
-
+#include<algorithm>
+#include<iostream>
 AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,
-                                                              Distribution &HyperEdgeDistribution,
-                                                              Distribution &VertexDistribution)
+                                                             std::vector<int>& kTable,
+                                                             Distribution &HyperEdgeDistribution)
 {
     AdjacencyList graph(numberOfVertices);
-
-    auto kTable = Statistics::GenerateTable(numberOfVertices,VertexDistribution);
-
+   // int estimatedNumberOfHyperedges =averageK*numberOfVertices/HyperEdgeDistribution.GetAverage();
+   // std::cout<<"estimated number of hyperedges: "<<estimatedNumberOfHyperedges<<'\n';
+   // graph.Reserve(estimatedNumberOfHyperedges);
     int last = numberOfVertices-1;
     for (int i = 0; i < last ; ++i)
     {
@@ -68,4 +69,14 @@ AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertice
     }
 
     return graph;
+}
+
+AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,
+                                                             Distribution &VertexDistribution,
+                                                             Distribution &HyperEdgeDistribution)
+{
+
+    auto kTable = Statistics::GenerateTable(numberOfVertices,VertexDistribution);
+    
+    return CreateRandomAdjacencyList(numberOfVertices,kTable,HyperEdgeDistribution);
 }

@@ -2,9 +2,9 @@
 
 #include<iostream>
 #include<chrono>
+#include"Distributions/pareto.h"
+KHistogramWindow::KHistogramWindow(QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow)
 
-KHistogramWindow::KHistogramWindow(AdjacencyList *hyperGraph, Distribution*kDistribution, QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow),
-                                                                                                                m_HyperGraph(hyperGraph), m_KDistribution(kDistribution)
 {
     ui->setupUi(this);
     PrepareHistogram();
@@ -18,25 +18,27 @@ KHistogramWindow::~KHistogramWindow()
 
 void KHistogramWindow::AnalizeVertices()
 {
-    m_KTable = AdjacencyListManager::CalculateKTable(*m_HyperGraph);
-    m_KHistogram = Statistics::CalculateHistogram(m_KTable);
-    Statistics::NormalizeHistogram(m_KHistogram,m_HyperGraph->GetNumberOfVertices());
+   DATA.SetKTable(AdjacencyListManager::CalculateKTable(DATA.GetHyperGraph()));
+   m_KHistogram = Statistics::CalculateHistogram(DATA.GetKTable());
+   Statistics::NormalizeHistogram(m_KHistogram);
 
-    m_KTheoretical = m_KDistribution->GetTheoretical(m_HyperGraph->GetNumberOfVertices());
+   auto maxp= *std::max_element(DATA.GetKTable().begin(),DATA.GetKTable().end());
 
-   double averageK = Statistics::CalculateAverage(m_KTable);
-   double standDevK = Statistics::CalculateStandardDeviations(m_KTable,averageK);
+   m_KTheoretical = DATA.GetKDistribution()->GetTheoretical(maxp);
+
+   double averageK = Statistics::CalculateAverage(DATA.GetKTable());
+   double standDevK = Statistics::CalculateStandardDeviations(DATA.GetKTable(),averageK);
    double ChiSquare = Statistics::ChiSquareTest( m_KHistogram , m_KTheoretical);
 
-    ui->VAverageKL->setText(QString::number(averageK));
-    ui->VStandDevKL->setText(QString::number(standDevK));
-    ui->VChiSquareL->setText(QString::number(ChiSquare));
+   ui->VAverageKL->setText(QString::number(averageK));
+   ui->VStandDevKL->setText(QString::number(standDevK));
+   ui->VChiSquareL->setText(QString::number(ChiSquare));
 }
 void KHistogramWindow::DrawKHistogram()
 {
     using namespace std::chrono;
     std::cout<<"Starting Making K Histogram "<<std::endl;
-    auto begin = steady_clock::now();
+    //auto begin = steady_clock::now();
 
     DrawToHistogram(ui->kPlotWidget,m_KHistogram);
     DrawTheoreticalHistogram(ui->kPlotWidget,m_KTheoretical);

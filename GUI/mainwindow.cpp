@@ -1,21 +1,26 @@
 #include "mainwindow.h"
 
+
 #include"AdjacencyList/AdjacencyListManager.h"
 #include"AdjacencyList/AdjacencyListFabric.h"
 #include"Patterns/Statistics.h"
+#include"Patterns/Data.h"
 
 #include"Distributions/geometric.h"
 #include"Distributions/uniform.h"
 #include"Distributions/poisson.h"
 #include"Distributions/constant.h"
+#include"Distributions/pareto.h"
 
 #include<iostream>
+
+
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Rysownik HiperGrafu");
+    this->setWindowTitle("Hypergraph Drawer");
 }
 
 MainWindow::~MainWindow()
@@ -41,7 +46,7 @@ void MainWindow::RandomHypergraphAlgorithm()
 
     auto begin=steady_clock::now();
 
-    m_HyperGraph = AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices, *m_PDistribution, *m_KDistribution);
+    DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
 
     ShowTime("Algorithm took ",begin);
 }
@@ -55,23 +60,38 @@ void MainWindow::AnalizeHyperGraph()
 }
 void MainWindow::on_pushButton_5_clicked()
 {
-    AnalizeHyperGraph();
+    HyperGraphDrawDialog* drawer = new HyperGraphDrawDialog (this);
+    drawer->show();
 }
 
 void MainWindow::on_PlotKHistogramBtn_clicked()
 {
-    if(m_KDistribution)
+    if(DATA.GetKDistribution())
     {
-        m_KHistogram.reset(new KHistogramWindow (&m_HyperGraph,m_KDistribution.get(),this));
+        if(m_KHistogram)
+        {
+            if(m_KHistogram->isVisible())
+            {
+                return;
+            }
+        }
+        m_KHistogram.reset(new KHistogramWindow (this));
         m_KHistogram->show();
     }
 }
 
 void MainWindow::on_PlotPHistogramBtn_clicked()
 {
-    if(m_PDistribution)
+    if(DATA.GetPDistribution())
     {
-        m_PHistogram.reset(new PHistogramWindow (&m_HyperGraph,m_PDistribution.get(),this));
+        if(m_PHistogram)
+        {
+            if(m_PHistogram->isVisible())
+            {
+                return;
+            }
+        }
+        m_PHistogram.reset(new PHistogramWindow (this));
         m_PHistogram->show();
     }
 }
@@ -88,10 +108,10 @@ void MainWindow::on_StartBtn_clicked()
 
     ChooseAndRunAlgorithm();
 
-    std::cout<<"Number of Vertices : "<< m_HyperGraph.GetNumberOfVertices() <<" Number of Hyperedges : "<<m_HyperGraph.size()<<std::endl;
+    std::cout<<"Number of Vertices : "<< DATA.GetHyperGraph().GetNumberOfVertices() <<" Number of Hyperedges : "<<DATA.GetHyperGraph().size()<<std::endl;
     std::cout<<"End of Simulation\n"<<std::endl;
 
-    //AdjacencyListManager::AdjacenyListToFile(*m_HyperGraph,"papiez1.txt");
+    //AdjacencyListManager::AdjacenyListToFile(*m_HyperGraph,"hypergraph1.txt");
     //AnalizeHyperGraph();
     m_AlgorithmStarted=false;
 }
@@ -101,29 +121,30 @@ void MainWindow::SelectKDstribution()
     switch(ui->VDistributionCB->currentIndex())
     {
         case DISTRIBUTION::CONST:
-            m_KDistribution.reset(new Constant(ui->VAverageDegreeS->value()));
+           DATA.SetKDistribution(new Constant(ui->VAverageDegreeS->value()));
         break;
         case DISTRIBUTION::UNIFORM:
         {
             int min = ui->VMaxDegreeS->value()>ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
             int max = ui->VMaxDegreeS->value()<=ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
-            m_KDistribution.reset(new Uniform (min,max));
+             DATA.SetKDistribution(new Uniform (min,max));
         }
         break;
         case DISTRIBUTION::POISSON:
         {
-            m_KDistribution.reset(new Poisson(ui->VAverageDegreeS->value()));
+             DATA.SetKDistribution(new Poisson(ui->VAverageDegreeS->value()));
         }
         break;
         case DISTRIBUTION::GEOMETRIC:
         {
-            m_KDistribution.reset(new Geometric(ui->VDistributionParamDSP->value()));
+             DATA.SetKDistribution(new Geometric(ui->VDistributionParamDSP->value()));
         }
         break;
-    }
-    if(m_KHistogram)
-    {
-        m_KHistogram->SetKDistribution(m_KDistribution.get());
+        case DISTRIBUTION::PARETO:
+        {
+            //m_PDistribution.reset(new Pareto());
+        }
+        break;
     }
 }
 void MainWindow::SelectPDstribution()
@@ -131,29 +152,30 @@ void MainWindow::SelectPDstribution()
     switch(ui->HDistributionCB->currentIndex())
     {
         case DISTRIBUTION::CONST:
-            m_PDistribution.reset(new Constant(ui->HAverageDegreeS->value()));
+             DATA.SetPDistribution(new Constant(ui->HAverageDegreeS->value()));
         break;
         case DISTRIBUTION::UNIFORM:
         {
             int min = ui->HMaxDegreeS->value()>ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
             int max = ui->HMaxDegreeS->value()<=ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
-             m_PDistribution.reset(new Uniform(min,max));
+             DATA.SetPDistribution(new Uniform(min,max));
         }
         break;
         case DISTRIBUTION::POISSON:
         {
-             m_PDistribution.reset(new Poisson(ui->HAverageDegreeS->value()));
+             DATA.SetPDistribution(new Poisson(ui->HAverageDegreeS->value()));
         }
         break;
         case DISTRIBUTION::GEOMETRIC:
         {
-             m_PDistribution.reset(new Geometric(ui->HDistributionParamDSB->value()));
+             DATA.SetPDistribution(new Geometric(ui->HDistributionParamDSB->value()));
         }
         break;
-    }
-    if(m_PHistogram)
-    {
-        m_PHistogram->SetPDistribution(m_PDistribution.get());
+        case DISTRIBUTION::PARETO:
+        {
+            //m_PDistribution.reset(new Pareto());
+        }
+        break;
     }
 }
 void MainWindow::ChooseAndRunAlgorithm()
@@ -247,8 +269,8 @@ void MainWindow::on_VDistributionCB_currentIndexChanged(int index)
             ui->VDistributionParamDSP->setEnabled(true);
             ui->VAvarageDegreeL->setText("Lambda :");
         break;
-        case DISTRIBUTION::BINOMIAL:
-            std::cout<<"BINOMIAL"<<std::endl;
+        case DISTRIBUTION::PARETO:
+            std::cout<<"PARETO"<<std::endl;
             ui->VMaxDegreeS->setEnabled(false);
             ui->VMinDegreeS->setEnabled(false);
             ui->VAverageDegreeS->setEnabled(true);
@@ -299,13 +321,15 @@ void MainWindow::on_HDistributionCB_currentIndexChanged(int index)
             ui->HDistributionParamDSB->setEnabled(true);
             ui->HAverageDegreeL->setText("Lambda :");
         break;
-        case DISTRIBUTION::BINOMIAL:
-            std::cout<<"BINOMIAL"<<std::endl;
+        case DISTRIBUTION::PARETO:
+            std::cout<<"PARETO"<<std::endl;
             ui->HMaxDegreeS->setEnabled(false);
             ui->HMinDegreeS->setEnabled(false);
             ui->HAverageDegreeS->setEnabled(true);
             ui->HDistributionParamDSB->setEnabled(true);
-            ui->HAverageDegreeL->setText("Average Degree :");
+            ui->HAverageDegreeL->setText("Lambda :");
+            ui->HDistributionParamL->setText("Scale :");
+
         break;
         default:
             std::cerr<<"Error out of bound"<<std::endl;

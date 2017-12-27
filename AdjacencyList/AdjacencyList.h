@@ -2,6 +2,14 @@
 #define ADJACENCYLIST_H
 #include <vector>
 #include<set>
+
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief AdjacencyList implementation
+*/
+
+
 class AdjacencyList
 {
 public:
@@ -14,6 +22,7 @@ public:
    inline void AddHyperEdge(std::set<int>&& hyperEdge) {m_Adjacencylist.emplace_back(std::move(hyperEdge));}
    inline void AddHyperEdge(std::set<int> const& hyperEdge) {m_Adjacencylist.emplace_back(hyperEdge);}
 
+   inline void Reserve(const int N){m_Adjacencylist.reserve(N);}
    void RemoveHyperegde(const int pos);
 
    bool AddVertexToHyperedge(const int hyperedge, const int vertex);
@@ -34,7 +43,7 @@ public:
 
 
    inline auto size()const {return m_Adjacencylist.size();}
-   inline int const& GetNumberOfVertices() const {return m_NumberOfVertecies; }
+   inline int GetNumberOfVertices() const {return m_NumberOfVertecies; }
 
    inline auto const& GetAdjacencyList() const {return m_Adjacencylist; }
    inline auto & GetAdjacencyList() {return m_Adjacencylist; }

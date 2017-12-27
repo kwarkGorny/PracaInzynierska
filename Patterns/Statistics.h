@@ -6,6 +6,11 @@
 #include <vector>
 #include<unordered_map>
 
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Statistics function
+*/
 
 class Statistics
 {
@@ -26,7 +31,7 @@ public:
     static std::vector<int> GenerateTableParallel(const size_t size , Distribution& distribution);
 
     static std::unordered_map<int,double> CalculateHistogram(const std::vector<int> &table);
-    static void NormalizeHistogram(std::unordered_map<int,double>& histogram, double normalize);
+    static void NormalizeHistogram(std::unordered_map<int,double>& histogram);
 
 
     static void NormalizeTable(std::vector<int>& table,double normalize);

@@ -1,10 +1,14 @@
 #include "PHistogramWindow.h"
 
+#include"AdjacencyList/AdjacencyListManager.h"
+#include"Patterns/Statistics.h"
+#include "Patterns/Data.h"
+
 #include<iostream>
 #include<chrono>
 
-PHistogramWindow::PHistogramWindow(AdjacencyList *hyperGraph, Distribution *pDistribution, QWidget *parent) :   QMainWindow(parent), ui(new Ui::PHistogramWindow),
-                                                                                                                m_HyperGraph(hyperGraph), m_PDistribution(pDistribution)
+PHistogramWindow::PHistogramWindow(QWidget *parent) :   QMainWindow(parent), ui(new Ui::PHistogramWindow)
+
 
 {
     ui->setupUi(this);
@@ -33,21 +37,24 @@ void PHistogramWindow::PrepareHistogram()
 }
 void PHistogramWindow::reset()
 {
-    m_PTable.empty();
     m_PHistogram.empty();
     m_PTheoretical.empty();
 }
 
 void PHistogramWindow::AnalizeHyperEdges()
 {
-    m_PTable = AdjacencyListManager::CalculatePTable(m_HyperGraph->GetAdjacencyList());
-    m_PHistogram = Statistics::CalculateHistogram(m_PTable);
-    Statistics::NormalizeHistogram(m_PHistogram,m_HyperGraph->size());
+    DATA.SetPTable(AdjacencyListManager::CalculatePTable(DATA.GetHyperGraph().GetAdjacencyList()));
+    m_PHistogram = Statistics::CalculateHistogram(DATA.GetPTable());
+    Statistics::NormalizeHistogram(m_PHistogram);
 
-    m_PTheoretical = m_PDistribution->GetTheoretical(m_HyperGraph->size()); // staje sie nullem
+    m_PTheoretical = DATA.GetPDistribution()->GetTheoretical(DATA.GetHyperGraph().size()); // staje sie nullem
 
-    double averageP = Statistics::CalculateAverage(m_PTable);
-    double standDevP = Statistics::CalculateStandardDeviations(m_PTable,averageP);
+
+    auto hyperEdgesDuplicates = AdjacencyListManager::CalculateHyperedgeDuplicates(DATA.GetHyperGraph().GetAdjacencyList());
+    AdjacencyListManager::ShowHyperedgeDuplicates(hyperEdgesDuplicates);
+
+    double averageP = Statistics::CalculateAverage(DATA.GetPTable());
+    double standDevP = Statistics::CalculateStandardDeviations(DATA.GetPTable(),averageP);
     double ChiSquare = Statistics::ChiSquareTest(m_PHistogram,m_PTheoretical );
 
     ui->PAveragePL->setText(QString::number(averageP));
@@ -61,7 +68,7 @@ void PHistogramWindow::DrawPHistogram()
     using namespace std::chrono;
 
     std::cout<<"Starting Making P Histogram "<<std::endl;
-    auto begin = steady_clock::now();
+    //auto begin = steady_clock::now();
 
 
     DrawToHistogram(ui->pPlotWidget,m_PHistogram);

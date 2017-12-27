@@ -19,7 +19,7 @@ std::vector<double> Geometric::GetTheoretical(int N,double parameter)
     boost::math::geometric_distribution<> posTheoretical(parameter);
     std::vector<double> prob ;
     prob.reserve(N);
-    for(int k=0; k<N ;++k)
+    for(int k=0; k<=N ;++k)
     {
         prob.emplace_back(boost::math::pdf(posTheoretical,k));
     }
@@ -28,4 +28,9 @@ std::vector<double> Geometric::GetTheoretical(int N,double parameter)
 std::vector<double> Geometric::GetTheoretical(int N)
 {
     return Geometric::GetTheoretical(N,m_Geometric.p());
+}
+double Geometric::GetAverage()
+{
+    boost::math::geometric_distribution<> posTheoretical(m_Geometric.p());
+    return boost::math::mean(posTheoretical);
 }

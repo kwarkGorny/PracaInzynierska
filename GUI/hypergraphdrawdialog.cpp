@@ -1,10 +1,9 @@
 #include "hypergraphdrawdialog.h"
 #include "ui_hypergraphdrawdialog.h"
 
-HyperGraphDrawDialog::HyperGraphDrawDialog(QWidget *parent,AdjacencyList *hyperGraph) :
+HyperGraphDrawDialog::HyperGraphDrawDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::HyperGraphDrawDialog),
-    hyperGraph(hyperGraph)
+    ui(new Ui::HyperGraphDrawDialog)
 {
     ui->setupUi(this);
     this->setWindowTitle("Rysownik HiperGrafu");
@@ -21,18 +20,14 @@ HyperGraphDrawDialog::~HyperGraphDrawDialog()
 
 void HyperGraphDrawDialog::on_HypergraphDrawButton_clicked()
 {
-    if(hyperGraph)
-    {
-        drawHyperGraph();
-    }
+    drawHyperGraph();
 }
 
 
 
 void HyperGraphDrawDialog::saveGuiTofile(const std::string &nameOfFile) const
 {
-  QImage img(scene->width(), scene->height(),
-             QImage::Format_ARGB32_Premultiplied);
+  QImage img(scene->width(), scene->height(),QImage::Format_ARGB32_Premultiplied);
   QPainter p(&img);
   scene->render(&p);
   p.end();
@@ -55,8 +50,8 @@ void HyperGraphDrawDialog::drawHyperGraph()
   QPen randomPen(Qt::black);
   randomPen.setWidth(5);
 
-  int numberOfVertexes = hyperGraph->GetNumberOfVertices();
-  int numberOfHyperEdges = hyperGraph->size();
+  int numberOfVertexes = DATA.GetHyperGraph().GetNumberOfVertices();
+  int numberOfHyperEdges = DATA.GetHyperGraph().size();
 
   vertexes.reserve(numberOfVertexes);
   hyperEdges.reserve(numberOfHyperEdges);
@@ -77,7 +72,7 @@ void HyperGraphDrawDialog::drawHyperGraph()
   {
 
     randomPen.setColor(QColor(Uniform::get(0,255), Uniform::get(0,255), Uniform::get(0,255)));
-    for(auto&& vertex : hyperGraph->GetHyperEdge(i))
+    for(auto&& vertex : DATA.GetHyperGraph().GetHyperEdge(i))
     {
         lines.emplace_back(scene->addLine(QLineF(40, 40, 80, 80),randomPen));
         vertexes[vertex]->addLine(lines.back().get());

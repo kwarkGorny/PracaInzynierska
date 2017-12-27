@@ -2,12 +2,18 @@
 #define DISTRIBUTION_H
 #include<random>
 
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Distribution interface for random engine
+*/
+
 
 enum  DISTRIBUTION{
     CONST,
     UNIFORM,
     POISSON,
-    BINOMIAL,
+    PARETO,
     GEOMETRIC,
 };
 
@@ -20,8 +26,9 @@ public:
 
     virtual int operator ()() =0;
 
-
     virtual std::vector<double> GetTheoretical(int N) =0;
+
+    virtual double GetAverage()=0;
 
     static std::mt19937 m_RandomNumberEngine;
 

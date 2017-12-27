@@ -2,6 +2,13 @@
 #define CONSTANT_H
 #include"Distributions/distribution.h"
 
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Constant Distribution
+*/
+
+
 class Constant : public Distribution
 {
 public:
@@ -11,11 +18,12 @@ public:
     int operator() ();
 
     virtual std::vector<double> GetTheoretical(int N);
+    virtual double GetAverage();
 
 
 
 protected:
-    const int value;
+    const int m_Value;
 private:
 
 };

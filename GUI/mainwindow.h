@@ -10,11 +10,19 @@
 #include<chrono>
 #include<string>
 #include<unordered_map>
-#include"Distributions/distribution.h"
-#include"AdjacencyList/AdjacencyList.h"
+
 #include "ui_mainwindow.h"
 #include "KHistogramWindow.h"
 #include "PHistogramWindow.h"
+#include"hypergraphdrawdialog.h"
+
+
+/**
+ * @author   Adam Szczepanski
+ * @date 27.12.2017
+ * @brief Main window of application
+*/
+
 
 
 using namespace std::chrono;
@@ -46,6 +54,7 @@ public:
     void ChooseAndRunAlgorithm();
 
     void AnalizeHyperGraph();
+
     void ShowTime(const std::string& nameOfFun,time_point<steady_clock> begin,time_point<steady_clock> end=steady_clock::now());
 
     void RandomHypergraphAlgorithm();
@@ -67,10 +76,6 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-
-    AdjacencyList m_HyperGraph;
-    std::unique_ptr<Distribution> m_PDistribution;
-    std::unique_ptr<Distribution> m_KDistribution;
 
     std::unique_ptr<KHistogramWindow> m_KHistogram;
     std::unique_ptr<PHistogramWindow> m_PHistogram;
