@@ -67,20 +67,15 @@ std::vector<int> Statistics::GenerateTable(const size_t size,Distribution& distr
 std::vector<int> Statistics::GenerateTableParallel(const size_t size , Distribution& distribution)
 {
     std::vector<int> table(size) ;
-
-
     return table;
 }
 void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
 {
-
     for(auto&& number : table)
     {
         number /= normalize;
     }
 }
-
-
 std::unordered_map<int,double> Statistics::CalculateHistogram(const std::vector<int>& table)
 {
     std::unordered_map<int,double>  histogram;

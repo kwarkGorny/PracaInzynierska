@@ -8,7 +8,7 @@
 QT  += core gui printsupport
 
 CONFIG+= strict_c++ c++1z
-QMAKE_CXXFLAGS += -O3
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 INCLUDEPATH += /usr/include/boost
@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     GUI/KHistogramWindow.cpp \
     GUI/PHistogramWindow.cpp \
     Distributions/pareto.cpp \
-    Patterns/Data.cpp
+    Patterns/Data.cpp \
+    Patterns/RandomSystem.cpp
 
 HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
@@ -63,7 +64,8 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/KHistogramWindow.h \
     GUI/PHistogramWindow.h \
     Distributions/pareto.h \
-    Patterns/Data.h
+    Patterns/Data.h \
+    Patterns/RandomSystem.h
 
 FORMS    += mainwindow.ui \
     GUI/hypergraphdrawdialog.ui \

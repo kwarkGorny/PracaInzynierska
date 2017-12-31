@@ -7,7 +7,7 @@
 #include<iostream>
 #include<chrono>
 
-PHistogramWindow::PHistogramWindow(QWidget *parent) :   QMainWindow(parent), ui(new Ui::PHistogramWindow)
+PHistogramWindow::PHistogramWindow(QWidget *parent) :   QMainWindow(parent), ui(new Ui::PHistogramWindow),m_PHistogram{},m_PTheoretical{}
 
 
 {
@@ -35,19 +35,20 @@ void PHistogramWindow::PrepareHistogram()
   ui->pPlotWidget->yAxis->setLabel("P(p)");
   ui->pPlotWidget->yAxis->setRange(0,1);
 }
-void PHistogramWindow::reset()
+void PHistogramWindow::Reset()
 {
-    m_PHistogram.empty();
-    m_PTheoretical.empty();
+    m_PHistogram.clear();
+    m_PTheoretical.clear();
 }
 
 void PHistogramWindow::AnalizeHyperEdges()
 {
+    Reset();
     DATA.SetPTable(AdjacencyListManager::CalculatePTable(DATA.GetHyperGraph().GetAdjacencyList()));
     m_PHistogram = Statistics::CalculateHistogram(DATA.GetPTable());
     Statistics::NormalizeHistogram(m_PHistogram);
 
-    m_PTheoretical = DATA.GetPDistribution()->GetTheoretical(DATA.GetHyperGraph().size()); // staje sie nullem
+    m_PTheoretical = DATA.GetPDistribution()->GetTheoretical(DATA.GetHyperGraph().size());
 
 
     auto hyperEdgesDuplicates = AdjacencyListManager::CalculateHyperedgeDuplicates(DATA.GetHyperGraph().GetAdjacencyList());

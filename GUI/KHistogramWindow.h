@@ -41,6 +41,7 @@ public:
 
     void AnalizeVertices();
 
+    void Reset();
 
 private slots:
     void on_VAnalyzeBtn_clicked();

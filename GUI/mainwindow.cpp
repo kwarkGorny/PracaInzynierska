@@ -14,13 +14,23 @@
 
 #include<iostream>
 
+#include<QFileDialog>
+#include<QDir>
 
 
-
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow) , m_ActualState(APPLICATION_STATE_NONE)
 {
     ui->setupUi(this);
     this->setWindowTitle("Hypergraph Drawer");
+    menuBar()->setNativeMenuBar(false);
+
+
+    ui->ChooseAlgorithmFrame->setEnabled(false);
+    ui->VertexFrame->setEnabled(false);
+    ui->HyperEdgeFrame->setEnabled(false);
+    ui->CreateHypergraphFrame->setEnabled(false);
+    ui->AdditionalOptionFrame->setEnabled(false);
+    ChangeApplicationState(APPLICATION_STATE_CHOOSE_ALGORITHM);
 }
 
 MainWindow::~MainWindow()
@@ -39,15 +49,23 @@ void MainWindow::ShowTime(const std::string& nameOfFun,time_point<steady_clock> 
 
 void MainWindow::RandomHypergraphAlgorithm()
 {
-    int numberOfVertices{ui->VAmountS->value()};
+    const int numberOfVertices = ui->VAmountS->value();
 
     SelectKDstribution();
     SelectPDstribution();
 
+
+
     auto begin=steady_clock::now();
 
-    DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
-
+    if(ui->VUseLoadedChB->isEnabled() && ui->VUseLoadedChB->isCheckable() && ui->VUseLoadedChB->isChecked())
+    {
+        DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(m_LoadedKTable,*DATA.GetPDistribution()));
+    }
+    else
+    {
+        DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
+    }
     ShowTime("Algorithm took ",begin);
 }
 
@@ -58,6 +76,83 @@ void MainWindow::AnalizeHyperGraph()
    auto begin=steady_clock::now();
    ShowTime("Analyze took ",begin);
 }
+void MainWindow::ChangeApplicationState(APPLICATION_STATE newState)
+{
+    OnStateLeave(m_ActualState);
+    m_ActualState = newState;
+    OnStateEnter(m_ActualState);
+}
+
+void MainWindow::OnStateEnter(APPLICATION_STATE newState)
+{
+    switch(newState)
+    {
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_ALGORITHM:
+        ui->ChooseAlgorithmFrame->setEnabled(true);
+        ui->VertexFrame->setEnabled(false);
+        ui->HyperEdgeFrame->setEnabled(false);
+        ui->CreateHypergraphFrame->setEnabled(false);
+        ui->AdditionalOptionFrame->setEnabled(false);
+
+    break;
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_VERTEX_DISTRIBUTION:
+        ui->ChooseAlgorithmFrame->setEnabled(true);
+        ui->VertexFrame->setEnabled(true);
+        ui->HyperEdgeFrame->setEnabled(false);
+        ui->CreateHypergraphFrame->setEnabled(false);
+        ui->AdditionalOptionFrame->setEnabled(false);
+    break;
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION:
+        ui->ChooseAlgorithmFrame->setEnabled(true);
+        ui->VertexFrame->setEnabled(true);
+        ui->HyperEdgeFrame->setEnabled(true);
+        ui->CreateHypergraphFrame->setEnabled(false);
+        ui->AdditionalOptionFrame->setEnabled(false);
+    break;
+    case APPLICATION_STATE::APPLICATION_STATE_CREATE_HYPERGRAPH:
+        ui->ChooseAlgorithmFrame->setEnabled(true);
+        ui->VertexFrame->setEnabled(true);
+        ui->HyperEdgeFrame->setEnabled(true);
+        ui->CreateHypergraphFrame->setEnabled(true);
+        ui->AdditionalOptionFrame->setEnabled(false);
+    break;
+    case APPLICATION_STATE::APPLICATION_STATE_ADDITIONAL_OPTION:
+        ui->ChooseAlgorithmFrame->setEnabled(true);
+        ui->VertexFrame->setEnabled(true);
+        ui->HyperEdgeFrame->setEnabled(true);
+        ui->CreateHypergraphFrame->setEnabled(true);
+        ui->AdditionalOptionFrame->setEnabled(true);
+    break;
+    default:
+
+    break;
+    }
+}
+
+void MainWindow::OnStateLeave(APPLICATION_STATE preState)
+{
+    switch(preState)
+    {
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_ALGORITHM:
+        break;
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_VERTEX_DISTRIBUTION:
+        break;
+    case APPLICATION_STATE::APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION:
+        break;
+    case APPLICATION_STATE::APPLICATION_STATE_CREATE_HYPERGRAPH:
+        break;
+    case APPLICATION_STATE::APPLICATION_STATE_ADDITIONAL_OPTION:
+        break;
+    default:
+
+    break;
+    }
+}
+
+
+
+
+
 void MainWindow::on_pushButton_5_clicked()
 {
     HyperGraphDrawDialog* drawer = new HyperGraphDrawDialog (this);
@@ -95,6 +190,17 @@ void MainWindow::on_PlotPHistogramBtn_clicked()
         m_PHistogram->show();
     }
 }
+
+void MainWindow::on_VCheckBtn_clicked()
+{
+    ChangeApplicationState(APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION);
+}
+
+void MainWindow::on_HCheckBtn_clicked()
+{
+    ChangeApplicationState(APPLICATION_STATE_CREATE_HYPERGRAPH);
+}
+
 void MainWindow::on_StartBtn_clicked()
 {
     if(m_AlgorithmStarted)
@@ -111,8 +217,9 @@ void MainWindow::on_StartBtn_clicked()
     std::cout<<"Number of Vertices : "<< DATA.GetHyperGraph().GetNumberOfVertices() <<" Number of Hyperedges : "<<DATA.GetHyperGraph().size()<<std::endl;
     std::cout<<"End of Simulation\n"<<std::endl;
 
-    //AdjacencyListManager::AdjacenyListToFile(*m_HyperGraph,"hypergraph1.txt");
     //AnalizeHyperGraph();
+    ChangeApplicationState(APPLICATION_STATE_ADDITIONAL_OPTION);
+
     m_AlgorithmStarted=false;
 }
 
@@ -142,7 +249,7 @@ void MainWindow::SelectKDstribution()
         break;
         case DISTRIBUTION::PARETO:
         {
-            //m_PDistribution.reset(new Pareto());
+            DATA.SetKDistribution(new Pareto(ui->VAverageDegreeS->value(),ui->VDistributionParamDSP->value()));
         }
         break;
     }
@@ -173,8 +280,11 @@ void MainWindow::SelectPDstribution()
         break;
         case DISTRIBUTION::PARETO:
         {
-            //m_PDistribution.reset(new Pareto());
+            DATA.SetPDistribution(new Pareto(ui->HAverageDegreeS->value(),ui->HDistributionParamDSB->value()));
         }
+        break;
+        default:
+            std::cout<<"Error non such algorithm"<<std::endl;
         break;
     }
 }
@@ -182,15 +292,15 @@ void MainWindow::ChooseAndRunAlgorithm()
 {
     switch(ui->AlgorithmsCB->currentIndex())
     {
-        case ALGORITHM::RANDOM_HYPERGRAPH:
+        case ALGORITHM::ALGORITHM_RANDOM_HYPERGRAPH:
             std::cout<<"Random Hypergraph Algorithm"<<std::endl;
             RandomHypergraphAlgorithm();
 
         break;
-        case ALGORITHM::FULL_HYPERGRAPH:
+        case ALGORITHM::ALGORITHM_FULL_HYPERGRAPH:
             std::cout<<"Full Hypergraph Algorithm"<<std::endl;
         break;
-        case ALGORITHM::TEST:
+        case ALGORITHM::ALGORITHM_TEST:
             std::cout<<"Test Algorithm"<<std::endl;
         break;
         default:
@@ -203,7 +313,7 @@ void MainWindow::on_AlgorithmsCB_currentIndexChanged(int index)
     std::cout<< "Algorithm ComboBox :";
     switch(index)
     {
-        case ALGORITHM::RANDOM_HYPERGRAPH:
+        case ALGORITHM::ALGORITHM_RANDOM_HYPERGRAPH:
             std::cout<<" Random Hypergraph "<<std::endl;
             ui->VDistributionCB->setEnabled(true);
             ui->VAverageDegreeS->setEnabled(true);
@@ -212,8 +322,9 @@ void MainWindow::on_AlgorithmsCB_currentIndexChanged(int index)
             ui->HDistributionCB->setEnabled(true);
             ui->HDistributionCB->setCurrentIndex(DISTRIBUTION::CONST);
             ui->VDistributionCB->setCurrentIndex(DISTRIBUTION::CONST);
+            ChangeApplicationState(APPLICATION_STATE_CHOOSE_VERTEX_DISTRIBUTION);
         break;
-        case ALGORITHM::FULL_HYPERGRAPH:
+        case ALGORITHM::ALGORITHM_FULL_HYPERGRAPH:
             std::cout<<" Full Hypergraph "<<std::endl;
             ui->VDistributionCB->setEnabled(false);
             ui->VAverageDegreeS->setEnabled(false);
@@ -222,12 +333,23 @@ void MainWindow::on_AlgorithmsCB_currentIndexChanged(int index)
             ui->HDistributionCB->setEnabled(false);
             ui->HDistributionCB->setCurrentIndex(DISTRIBUTION::CONST);
             ui->VDistributionCB->setCurrentIndex(DISTRIBUTION::CONST);
+            ChangeApplicationState(APPLICATION_STATE_CHOOSE_ALGORITHM);
+
         break;
-        case ALGORITHM::TEST:
+        case ALGORITHM::ALGORITHM_TEST:
             std::cout<<" Test Hypergraph "<<std::endl;
+            ChangeApplicationState(APPLICATION_STATE_CHOOSE_ALGORITHM);
+
+        break;
+        case ALGORITHM::ALGORITHM_CHOOSE_ALGORITHM:
+            std::cout<<" Test Hypergraph "<<std::endl;
+            ChangeApplicationState(APPLICATION_STATE_CHOOSE_ALGORITHM);
+
         break;
         default:
             std::cerr<<" Error out of bound "<<std::endl;
+            ChangeApplicationState(APPLICATION_STATE_CHOOSE_ALGORITHM);
+
         break;
     }
 }
@@ -335,6 +457,37 @@ void MainWindow::on_HDistributionCB_currentIndexChanged(int index)
             std::cerr<<"Error out of bound"<<std::endl;
         break;
     }
+}
+
+
+
+void MainWindow::on_actionSave_as_triggered()
+{
+    std::cout<<"Save as action ..."<<std::endl;
+    const QString fileName = QFileDialog::getSaveFileName(this,"Save Hypergraph",QDir::homePath());
+    AdjacencyListManager::AdjacenyListToFile(DATA.GetHyperGraph(),fileName.toStdString());
+    std::cout<<"Save as action Done."<<std::endl;
+
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    std::cout<<"Load action ..."<<std::endl;
+    const QString fileName = QFileDialog::getOpenFileName(this,"Load Hypergraph",QDir::homePath());
+    DATA.SetHyperGraph(AdjacencyListManager::AdjacenyListFromFile(fileName.toStdString()));
+    std::cout<<"Load action Done."<<std::endl;
+}
+
+void MainWindow::on_actionLoad_kTable_triggered()
+{
+    std::cout<<"Load kTable action"<<std::endl;
+    const QString fileName = QFileDialog::getOpenFileName(this,"Load vertex degree distribution",QDir::homePath());
+    m_LoadedKTable = AdjacencyListManager::KTableFromFile(fileName.toStdString());
+    std::cout<<"Load action Done."<<std::endl;
+
+    ui->VUseLoadedChB->setEnabled(true);
+    ui->VUseLoadedChB->setCheckable(true);
+    ui->VUseLoadedChB->setChecked(true);
 }
 
 

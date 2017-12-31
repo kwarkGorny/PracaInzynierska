@@ -1,21 +1,21 @@
-#include "poisson.h"
+#include "logarithmic.h"
 
 #include<boost/math/distributions/poisson.hpp>
 
 #include"Patterns/RandomSystem.h"
 
 
-Poisson::Poisson(double average) : Distribution () , m_Poisson(average)
+Logarithmic::Logarithmic(double average) : Distribution () , m_Poisson(average)
 {
 
 }
 
 
-int Poisson::operator()()
+int Logarithmic::operator()()
 {
     return m_Poisson(RANDOMSYSTEM.GetRandomEngine());
 }
-std::vector<double> Poisson::GetTheoretical(int N,double lambda)
+std::vector<double> Logarithmic::GetTheoretical(int N,double lambda)
 {
     boost::math::poisson_distribution<> posTheoretical(lambda);
     std::vector<double> prob ;
@@ -26,11 +26,11 @@ std::vector<double> Poisson::GetTheoretical(int N,double lambda)
     }
     return prob;
 }
-std::vector<double> Poisson::GetTheoretical(int N)
+std::vector<double> Logarithmic::GetTheoretical(int N)
 {
     return Poisson::GetTheoretical(N,m_Poisson.mean());
 }
-double Poisson::GetAverage()
+double Logarithmic::GetAverage()
 {
     return m_Poisson.mean();
 }

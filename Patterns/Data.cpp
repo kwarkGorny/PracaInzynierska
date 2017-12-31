@@ -9,3 +9,12 @@ Data& Data::GetInstance()
     static Data data;
     return data;
 }
+void Data::Reset()
+{
+    m_HyperGraph.Reset();
+    m_PTable.clear();
+    m_KTable.clear();
+
+    m_PDistribution.reset({});
+    m_KDistribution.reset({});
+}

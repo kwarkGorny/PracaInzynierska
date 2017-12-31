@@ -3,7 +3,7 @@
 #include<iostream>
 #include<chrono>
 #include"Distributions/pareto.h"
-KHistogramWindow::KHistogramWindow(QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow)
+KHistogramWindow::KHistogramWindow(QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow) ,m_KHistogram{},m_KTheoretical{}
 
 {
     ui->setupUi(this);
@@ -18,13 +18,14 @@ KHistogramWindow::~KHistogramWindow()
 
 void KHistogramWindow::AnalizeVertices()
 {
+   Reset();
    DATA.SetKTable(AdjacencyListManager::CalculateKTable(DATA.GetHyperGraph()));
    m_KHistogram = Statistics::CalculateHistogram(DATA.GetKTable());
    Statistics::NormalizeHistogram(m_KHistogram);
 
    auto maxp= *std::max_element(DATA.GetKTable().begin(),DATA.GetKTable().end());
 
-   m_KTheoretical = DATA.GetKDistribution()->GetTheoretical(maxp);
+   m_KTheoretical = DATA.GetKDistribution()->GetTheoretical(DATA.GetHyperGraph().size());
 
    double averageK = Statistics::CalculateAverage(DATA.GetKTable());
    double standDevK = Statistics::CalculateStandardDeviations(DATA.GetKTable(),averageK);
@@ -115,4 +116,9 @@ void KHistogramWindow::on_VAnalyzeBtn_clicked()
     ResetHistogram(ui->kPlotWidget);
     AnalizeVertices();
     DrawKHistogram();
+}
+void KHistogramWindow::Reset()
+{
+    m_KHistogram.clear();
+    m_KTheoretical.clear();
 }

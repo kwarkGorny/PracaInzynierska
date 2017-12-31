@@ -36,7 +36,7 @@ public:
 
     void AnalizeHyperEdges();
 
-    void reset();
+    void Reset();
 
 
 

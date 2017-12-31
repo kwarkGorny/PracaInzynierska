@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
@@ -21,6 +22,8 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QWidget>
@@ -30,8 +33,24 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionSave_as;
+    QAction *actionLoad;
+    QAction *actionLoad_kTable;
     QWidget *centralWidget;
     QGridLayout *gridLayout_6;
+    QFrame *CreateHypergraphFrame;
+    QGridLayout *gridLayout_4;
+    QPushButton *StartBtn;
+    QFrame *ChooseAlgorithmFrame;
+    QGridLayout *gridLayout;
+    QLabel *AlgorithmL;
+    QComboBox *AlgorithmsCB;
+    QFrame *AdditionalOptionFrame;
+    QFormLayout *formLayout;
+    QLabel *WattodoL;
+    QPushButton *PlotKHistogramBtn;
+    QPushButton *PlotPHistogramBtn;
+    QPushButton *pushButton_5;
     QFrame *VertexFrame;
     QGridLayout *gridLayout_2;
     QLabel *AmountL;
@@ -45,54 +64,145 @@ public:
     QComboBox *VDistributionCB;
     QSpinBox *VMaxDegreeS;
     QLabel *VDistributionL;
-    QLabel *VerticiesL;
     QLabel *VDegreeRangeL;
+    QLabel *VerticiesL;
+    QPushButton *VCheckBtn;
+    QCheckBox *VUseLoadedChB;
     QFrame *HyperEdgeFrame;
     QGridLayout *gridLayout_3;
+    QLabel *HyperEdgeL;
     QDoubleSpinBox *HDistributionParamDSB;
     QSpinBox *HMaxDegreeS;
     QLabel *HAverageDegreeL;
     QLabel *HDistibutionL;
     QSpinBox *HMinDegreeS;
     QLabel *HtoL;
-    QLabel *HyperEdgeL;
     QSpinBox *HAverageDegreeS;
     QLabel *HDegreeRandgeL;
     QLabel *HDistributionParamL;
     QComboBox *HDistributionCB;
-    QFrame *frame;
-    QFormLayout *formLayout;
-    QLabel *WattodoL;
-    QPushButton *StartBtn;
-    QPushButton *PlotKHistogramBtn;
-    QPushButton *PlotPHistogramBtn;
-    QPushButton *pushButton_5;
-    QFrame *ResultFrame;
-    QGridLayout *gridLayout;
-    QLabel *AlgorithmL;
-    QComboBox *AlgorithmsCB;
+    QPushButton *HCheckBtn;
+    QMenuBar *menuBar;
+    QMenu *menuFiles;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(280, 687);
+        MainWindow->resize(331, 761);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        actionSave_as = new QAction(MainWindow);
+        actionSave_as->setObjectName(QStringLiteral("actionSave_as"));
+        actionLoad = new QAction(MainWindow);
+        actionLoad->setObjectName(QStringLiteral("actionLoad"));
+        actionLoad_kTable = new QAction(MainWindow);
+        actionLoad_kTable->setObjectName(QStringLiteral("actionLoad_kTable"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_6 = new QGridLayout(centralWidget);
         gridLayout_6->setSpacing(6);
         gridLayout_6->setContentsMargins(11, 11, 11, 11);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        VertexFrame = new QFrame(centralWidget);
-        VertexFrame->setObjectName(QStringLiteral("VertexFrame"));
+        CreateHypergraphFrame = new QFrame(centralWidget);
+        CreateHypergraphFrame->setObjectName(QStringLiteral("CreateHypergraphFrame"));
+        CreateHypergraphFrame->setFrameShape(QFrame::StyledPanel);
+        CreateHypergraphFrame->setFrameShadow(QFrame::Raised);
+        gridLayout_4 = new QGridLayout(CreateHypergraphFrame);
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setContentsMargins(11, 11, 11, 11);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        StartBtn = new QPushButton(CreateHypergraphFrame);
+        StartBtn->setObjectName(QStringLiteral("StartBtn"));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(StartBtn->sizePolicy().hasHeightForWidth());
+        StartBtn->setSizePolicy(sizePolicy1);
+
+        gridLayout_4->addWidget(StartBtn, 0, 0, 1, 1);
+
+
+        gridLayout_6->addWidget(CreateHypergraphFrame, 5, 0, 1, 1);
+
+        ChooseAlgorithmFrame = new QFrame(centralWidget);
+        ChooseAlgorithmFrame->setObjectName(QStringLiteral("ChooseAlgorithmFrame"));
+        sizePolicy1.setHeightForWidth(ChooseAlgorithmFrame->sizePolicy().hasHeightForWidth());
+        ChooseAlgorithmFrame->setSizePolicy(sizePolicy1);
+        ChooseAlgorithmFrame->setFrameShape(QFrame::StyledPanel);
+        ChooseAlgorithmFrame->setFrameShadow(QFrame::Raised);
+        gridLayout = new QGridLayout(ChooseAlgorithmFrame);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setHorizontalSpacing(1);
+        gridLayout->setVerticalSpacing(6);
+        gridLayout->setContentsMargins(-1, -1, 9, -1);
+        AlgorithmL = new QLabel(ChooseAlgorithmFrame);
+        AlgorithmL->setObjectName(QStringLiteral("AlgorithmL"));
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(AlgorithmL->sizePolicy().hasHeightForWidth());
+        AlgorithmL->setSizePolicy(sizePolicy2);
+
+        gridLayout->addWidget(AlgorithmL, 0, 0, 1, 1);
+
+        AlgorithmsCB = new QComboBox(ChooseAlgorithmFrame);
+        AlgorithmsCB->setObjectName(QStringLiteral("AlgorithmsCB"));
+        sizePolicy2.setHeightForWidth(AlgorithmsCB->sizePolicy().hasHeightForWidth());
+        AlgorithmsCB->setSizePolicy(sizePolicy2);
+
+        gridLayout->addWidget(AlgorithmsCB, 2, 0, 1, 2);
+
+
+        gridLayout_6->addWidget(ChooseAlgorithmFrame, 0, 0, 1, 1);
+
+        AdditionalOptionFrame = new QFrame(centralWidget);
+        AdditionalOptionFrame->setObjectName(QStringLiteral("AdditionalOptionFrame"));
+        AdditionalOptionFrame->setEnabled(true);
+        sizePolicy1.setHeightForWidth(AdditionalOptionFrame->sizePolicy().hasHeightForWidth());
+        AdditionalOptionFrame->setSizePolicy(sizePolicy1);
+        AdditionalOptionFrame->setFrameShape(QFrame::StyledPanel);
+        AdditionalOptionFrame->setFrameShadow(QFrame::Raised);
+        formLayout = new QFormLayout(AdditionalOptionFrame);
+        formLayout->setSpacing(6);
+        formLayout->setContentsMargins(11, 11, 11, 11);
+        formLayout->setObjectName(QStringLiteral("formLayout"));
+        WattodoL = new QLabel(AdditionalOptionFrame);
+        WattodoL->setObjectName(QStringLiteral("WattodoL"));
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, WattodoL);
+
+        PlotKHistogramBtn = new QPushButton(AdditionalOptionFrame);
+        PlotKHistogramBtn->setObjectName(QStringLiteral("PlotKHistogramBtn"));
+        sizePolicy2.setHeightForWidth(PlotKHistogramBtn->sizePolicy().hasHeightForWidth());
+        PlotKHistogramBtn->setSizePolicy(sizePolicy2);
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, PlotKHistogramBtn);
+
+        PlotPHistogramBtn = new QPushButton(AdditionalOptionFrame);
+        PlotPHistogramBtn->setObjectName(QStringLiteral("PlotPHistogramBtn"));
+        sizePolicy2.setHeightForWidth(PlotPHistogramBtn->sizePolicy().hasHeightForWidth());
+        PlotPHistogramBtn->setSizePolicy(sizePolicy2);
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, PlotPHistogramBtn);
+
+        pushButton_5 = new QPushButton(AdditionalOptionFrame);
+        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+        sizePolicy1.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
+        pushButton_5->setSizePolicy(sizePolicy1);
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, pushButton_5);
+
+
+        gridLayout_6->addWidget(AdditionalOptionFrame, 6, 0, 1, 1);
+
+        VertexFrame = new QFrame(centralWidget);
+        VertexFrame->setObjectName(QStringLiteral("VertexFrame"));
         sizePolicy1.setHeightForWidth(VertexFrame->sizePolicy().hasHeightForWidth());
         VertexFrame->setSizePolicy(sizePolicy1);
         VertexFrame->setFrameShape(QFrame::StyledPanel);
@@ -113,11 +223,11 @@ public:
 
         VDistributionParamL = new QLabel(VertexFrame);
         VDistributionParamL->setObjectName(QStringLiteral("VDistributionParamL"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(VDistributionParamL->sizePolicy().hasHeightForWidth());
-        VDistributionParamL->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(VDistributionParamL->sizePolicy().hasHeightForWidth());
+        VDistributionParamL->setSizePolicy(sizePolicy3);
 
         gridLayout_2->addWidget(VDistributionParamL, 6, 0, 1, 1);
 
@@ -135,11 +245,8 @@ public:
         VDistributionParamDSP = new QDoubleSpinBox(VertexFrame);
         VDistributionParamDSP->setObjectName(QStringLiteral("VDistributionParamDSP"));
         VDistributionParamDSP->setEnabled(false);
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(VDistributionParamDSP->sizePolicy().hasHeightForWidth());
-        VDistributionParamDSP->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(VDistributionParamDSP->sizePolicy().hasHeightForWidth());
+        VDistributionParamDSP->setSizePolicy(sizePolicy2);
         VDistributionParamDSP->setDecimals(5);
         VDistributionParamDSP->setMaximum(1);
         VDistributionParamDSP->setSingleStep(0.001);
@@ -174,8 +281,8 @@ public:
 
         VDistributionCB = new QComboBox(VertexFrame);
         VDistributionCB->setObjectName(QStringLiteral("VDistributionCB"));
-        sizePolicy2.setHeightForWidth(VDistributionCB->sizePolicy().hasHeightForWidth());
-        VDistributionCB->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(VDistributionCB->sizePolicy().hasHeightForWidth());
+        VDistributionCB->setSizePolicy(sizePolicy3);
 
         gridLayout_2->addWidget(VDistributionCB, 3, 2, 1, 1);
 
@@ -194,22 +301,34 @@ public:
 
         gridLayout_2->addWidget(VDistributionL, 3, 0, 1, 1);
 
-        VerticiesL = new QLabel(VertexFrame);
-        VerticiesL->setObjectName(QStringLiteral("VerticiesL"));
-        sizePolicy2.setHeightForWidth(VerticiesL->sizePolicy().hasHeightForWidth());
-        VerticiesL->setSizePolicy(sizePolicy2);
-
-        gridLayout_2->addWidget(VerticiesL, 0, 0, 1, 2);
-
         VDegreeRangeL = new QLabel(VertexFrame);
         VDegreeRangeL->setObjectName(QStringLiteral("VDegreeRangeL"));
-        sizePolicy2.setHeightForWidth(VDegreeRangeL->sizePolicy().hasHeightForWidth());
-        VDegreeRangeL->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(VDegreeRangeL->sizePolicy().hasHeightForWidth());
+        VDegreeRangeL->setSizePolicy(sizePolicy3);
 
         gridLayout_2->addWidget(VDegreeRangeL, 9, 0, 1, 2);
 
+        VerticiesL = new QLabel(VertexFrame);
+        VerticiesL->setObjectName(QStringLiteral("VerticiesL"));
+        sizePolicy3.setHeightForWidth(VerticiesL->sizePolicy().hasHeightForWidth());
+        VerticiesL->setSizePolicy(sizePolicy3);
 
-        gridLayout_6->addWidget(VertexFrame, 1, 0, 1, 1);
+        gridLayout_2->addWidget(VerticiesL, 0, 0, 1, 3);
+
+        VCheckBtn = new QPushButton(VertexFrame);
+        VCheckBtn->setObjectName(QStringLiteral("VCheckBtn"));
+
+        gridLayout_2->addWidget(VCheckBtn, 11, 1, 1, 1);
+
+        VUseLoadedChB = new QCheckBox(VertexFrame);
+        VUseLoadedChB->setObjectName(QStringLiteral("VUseLoadedChB"));
+        VUseLoadedChB->setEnabled(false);
+        VUseLoadedChB->setCheckable(false);
+
+        gridLayout_2->addWidget(VUseLoadedChB, 11, 2, 1, 1);
+
+
+        gridLayout_6->addWidget(VertexFrame, 1, 0, 2, 1);
 
         HyperEdgeFrame = new QFrame(centralWidget);
         HyperEdgeFrame->setObjectName(QStringLiteral("HyperEdgeFrame"));
@@ -221,6 +340,13 @@ public:
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        HyperEdgeL = new QLabel(HyperEdgeFrame);
+        HyperEdgeL->setObjectName(QStringLiteral("HyperEdgeL"));
+        sizePolicy3.setHeightForWidth(HyperEdgeL->sizePolicy().hasHeightForWidth());
+        HyperEdgeL->setSizePolicy(sizePolicy3);
+
+        gridLayout_3->addWidget(HyperEdgeL, 1, 0, 1, 3);
+
         HDistributionParamDSB = new QDoubleSpinBox(HyperEdgeFrame);
         HDistributionParamDSB->setObjectName(QStringLiteral("HDistributionParamDSB"));
         HDistributionParamDSB->setEnabled(false);
@@ -246,23 +372,23 @@ public:
 
         HAverageDegreeL = new QLabel(HyperEdgeFrame);
         HAverageDegreeL->setObjectName(QStringLiteral("HAverageDegreeL"));
-        sizePolicy2.setHeightForWidth(HAverageDegreeL->sizePolicy().hasHeightForWidth());
-        HAverageDegreeL->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(HAverageDegreeL->sizePolicy().hasHeightForWidth());
+        HAverageDegreeL->setSizePolicy(sizePolicy3);
 
         gridLayout_3->addWidget(HAverageDegreeL, 6, 0, 1, 1);
 
         HDistibutionL = new QLabel(HyperEdgeFrame);
         HDistibutionL->setObjectName(QStringLiteral("HDistibutionL"));
-        sizePolicy2.setHeightForWidth(HDistibutionL->sizePolicy().hasHeightForWidth());
-        HDistibutionL->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(HDistibutionL->sizePolicy().hasHeightForWidth());
+        HDistibutionL->setSizePolicy(sizePolicy3);
 
         gridLayout_3->addWidget(HDistibutionL, 2, 0, 1, 1);
 
         HMinDegreeS = new QSpinBox(HyperEdgeFrame);
         HMinDegreeS->setObjectName(QStringLiteral("HMinDegreeS"));
         HMinDegreeS->setEnabled(false);
-        sizePolicy2.setHeightForWidth(HMinDegreeS->sizePolicy().hasHeightForWidth());
-        HMinDegreeS->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(HMinDegreeS->sizePolicy().hasHeightForWidth());
+        HMinDegreeS->setSizePolicy(sizePolicy3);
         HMinDegreeS->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
         HMinDegreeS->setMaximum(99999999);
 
@@ -272,13 +398,6 @@ public:
         HtoL->setObjectName(QStringLiteral("HtoL"));
 
         gridLayout_3->addWidget(HtoL, 8, 1, 1, 1);
-
-        HyperEdgeL = new QLabel(HyperEdgeFrame);
-        HyperEdgeL->setObjectName(QStringLiteral("HyperEdgeL"));
-        sizePolicy2.setHeightForWidth(HyperEdgeL->sizePolicy().hasHeightForWidth());
-        HyperEdgeL->setSizePolicy(sizePolicy2);
-
-        gridLayout_3->addWidget(HyperEdgeL, 1, 0, 1, 2);
 
         HAverageDegreeS = new QSpinBox(HyperEdgeFrame);
         HAverageDegreeS->setObjectName(QStringLiteral("HAverageDegreeS"));
@@ -292,15 +411,15 @@ public:
 
         HDegreeRandgeL = new QLabel(HyperEdgeFrame);
         HDegreeRandgeL->setObjectName(QStringLiteral("HDegreeRandgeL"));
-        sizePolicy2.setHeightForWidth(HDegreeRandgeL->sizePolicy().hasHeightForWidth());
-        HDegreeRandgeL->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(HDegreeRandgeL->sizePolicy().hasHeightForWidth());
+        HDegreeRandgeL->setSizePolicy(sizePolicy3);
 
         gridLayout_3->addWidget(HDegreeRandgeL, 7, 0, 1, 3);
 
         HDistributionParamL = new QLabel(HyperEdgeFrame);
         HDistributionParamL->setObjectName(QStringLiteral("HDistributionParamL"));
-        sizePolicy2.setHeightForWidth(HDistributionParamL->sizePolicy().hasHeightForWidth());
-        HDistributionParamL->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(HDistributionParamL->sizePolicy().hasHeightForWidth());
+        HDistributionParamL->setSizePolicy(sizePolicy3);
 
         gridLayout_3->addWidget(HDistributionParamL, 3, 0, 1, 2);
 
@@ -311,89 +430,31 @@ public:
 
         gridLayout_3->addWidget(HDistributionCB, 2, 2, 1, 1);
 
+        HCheckBtn = new QPushButton(HyperEdgeFrame);
+        HCheckBtn->setObjectName(QStringLiteral("HCheckBtn"));
 
-        gridLayout_6->addWidget(HyperEdgeFrame, 2, 0, 1, 1);
-
-        frame = new QFrame(centralWidget);
-        frame->setObjectName(QStringLiteral("frame"));
-        frame->setEnabled(true);
-        sizePolicy1.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
-        frame->setSizePolicy(sizePolicy1);
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        formLayout = new QFormLayout(frame);
-        formLayout->setSpacing(6);
-        formLayout->setContentsMargins(11, 11, 11, 11);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
-        WattodoL = new QLabel(frame);
-        WattodoL->setObjectName(QStringLiteral("WattodoL"));
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, WattodoL);
-
-        StartBtn = new QPushButton(frame);
-        StartBtn->setObjectName(QStringLiteral("StartBtn"));
-        sizePolicy1.setHeightForWidth(StartBtn->sizePolicy().hasHeightForWidth());
-        StartBtn->setSizePolicy(sizePolicy1);
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, StartBtn);
-
-        PlotKHistogramBtn = new QPushButton(frame);
-        PlotKHistogramBtn->setObjectName(QStringLiteral("PlotKHistogramBtn"));
-        sizePolicy3.setHeightForWidth(PlotKHistogramBtn->sizePolicy().hasHeightForWidth());
-        PlotKHistogramBtn->setSizePolicy(sizePolicy3);
-
-        formLayout->setWidget(2, QFormLayout::LabelRole, PlotKHistogramBtn);
-
-        PlotPHistogramBtn = new QPushButton(frame);
-        PlotPHistogramBtn->setObjectName(QStringLiteral("PlotPHistogramBtn"));
-        sizePolicy3.setHeightForWidth(PlotPHistogramBtn->sizePolicy().hasHeightForWidth());
-        PlotPHistogramBtn->setSizePolicy(sizePolicy3);
-
-        formLayout->setWidget(3, QFormLayout::LabelRole, PlotPHistogramBtn);
-
-        pushButton_5 = new QPushButton(frame);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
-        sizePolicy1.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy1);
-
-        formLayout->setWidget(4, QFormLayout::LabelRole, pushButton_5);
+        gridLayout_3->addWidget(HCheckBtn, 9, 1, 1, 1);
 
 
-        gridLayout_6->addWidget(frame, 4, 0, 1, 1);
-
-        ResultFrame = new QFrame(centralWidget);
-        ResultFrame->setObjectName(QStringLiteral("ResultFrame"));
-        sizePolicy1.setHeightForWidth(ResultFrame->sizePolicy().hasHeightForWidth());
-        ResultFrame->setSizePolicy(sizePolicy1);
-        ResultFrame->setFrameShape(QFrame::StyledPanel);
-        ResultFrame->setFrameShadow(QFrame::Raised);
-        gridLayout = new QGridLayout(ResultFrame);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setHorizontalSpacing(1);
-        gridLayout->setVerticalSpacing(6);
-        gridLayout->setContentsMargins(-1, -1, 9, -1);
-        AlgorithmL = new QLabel(ResultFrame);
-        AlgorithmL->setObjectName(QStringLiteral("AlgorithmL"));
-        sizePolicy3.setHeightForWidth(AlgorithmL->sizePolicy().hasHeightForWidth());
-        AlgorithmL->setSizePolicy(sizePolicy3);
-
-        gridLayout->addWidget(AlgorithmL, 0, 0, 1, 1);
-
-        AlgorithmsCB = new QComboBox(ResultFrame);
-        AlgorithmsCB->setObjectName(QStringLiteral("AlgorithmsCB"));
-        sizePolicy3.setHeightForWidth(AlgorithmsCB->sizePolicy().hasHeightForWidth());
-        AlgorithmsCB->setSizePolicy(sizePolicy3);
-
-        gridLayout->addWidget(AlgorithmsCB, 2, 0, 1, 2);
-
-
-        gridLayout_6->addWidget(ResultFrame, 0, 0, 1, 1);
+        gridLayout_6->addWidget(HyperEdgeFrame, 3, 0, 2, 1);
 
         MainWindow->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 331, 22));
+        menuFiles = new QMenu(menuBar);
+        menuFiles->setObjectName(QStringLiteral("menuFiles"));
+        MainWindow->setMenuBar(menuBar);
+
+        menuBar->addAction(menuFiles->menuAction());
+        menuFiles->addAction(actionSave_as);
+        menuFiles->addAction(actionLoad);
+        menuFiles->addAction(actionLoad_kTable);
 
         retranslateUi(MainWindow);
+
+        AlgorithmsCB->setCurrentIndex(3);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -401,6 +462,22 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        actionSave_as->setText(QApplication::translate("MainWindow", "Save as...", 0));
+        actionLoad->setText(QApplication::translate("MainWindow", "Load", 0));
+        actionLoad_kTable->setText(QApplication::translate("MainWindow", "Load kTable", 0));
+        StartBtn->setText(QApplication::translate("MainWindow", "4. Create HyperGraph", 0));
+        AlgorithmL->setText(QApplication::translate("MainWindow", "1. Choose Algorithm :", 0));
+        AlgorithmsCB->clear();
+        AlgorithmsCB->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Random Hypergraph", 0)
+         << QApplication::translate("MainWindow", "Full HyperGraph", 0)
+         << QApplication::translate("MainWindow", "Test", 0)
+         << QApplication::translate("MainWindow", "Choose Algorithm", 0)
+        );
+        WattodoL->setText(QApplication::translate("MainWindow", "5. Additional Options :", 0));
+        PlotKHistogramBtn->setText(QApplication::translate("MainWindow", "Plot k-Histgram", 0));
+        PlotPHistogramBtn->setText(QApplication::translate("MainWindow", "Plot p-Histogram", 0));
+        pushButton_5->setText(QApplication::translate("MainWindow", "Draw HyperGraph", 0));
         AmountL->setText(QApplication::translate("MainWindow", "Amount :", 0));
         VtoL->setText(QApplication::translate("MainWindow", " to", 0));
         VDistributionParamL->setText(QApplication::translate("MainWindow", "Parameter", 0));
@@ -414,12 +491,14 @@ public:
          << QApplication::translate("MainWindow", "Geometric", 0)
         );
         VDistributionL->setText(QApplication::translate("MainWindow", "Distribution :", 0));
-        VerticiesL->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt;\">Vertex Options</span></p></body></html>", 0));
         VDegreeRangeL->setText(QApplication::translate("MainWindow", "Degree Range :", 0));
+        VerticiesL->setText(QApplication::translate("MainWindow", "<html><head/><body><p>2. Vertex degree distribution</p></body></html>", 0));
+        VCheckBtn->setText(QApplication::translate("MainWindow", "Check", 0));
+        VUseLoadedChB->setText(QApplication::translate("MainWindow", "use Loaded", 0));
+        HyperEdgeL->setText(QApplication::translate("MainWindow", "<html><head/><body><p>3. Hyperegde degree distribution</p></body></html>", 0));
         HAverageDegreeL->setText(QApplication::translate("MainWindow", "Degree :", 0));
         HDistibutionL->setText(QApplication::translate("MainWindow", "Distribution :", 0));
         HtoL->setText(QApplication::translate("MainWindow", "to", 0));
-        HyperEdgeL->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt;\">Hyperedge Options</span></p></body></html>", 0));
         HDegreeRandgeL->setText(QApplication::translate("MainWindow", "Degree Range :", 0));
         HDistributionParamL->setText(QApplication::translate("MainWindow", "Parameter", 0));
         HDistributionCB->clear();
@@ -430,18 +509,8 @@ public:
          << QApplication::translate("MainWindow", "Pareto", 0)
          << QApplication::translate("MainWindow", "Geometric", 0)
         );
-        WattodoL->setText(QApplication::translate("MainWindow", "What to do?", 0));
-        StartBtn->setText(QApplication::translate("MainWindow", "Create HyperGraph", 0));
-        PlotKHistogramBtn->setText(QApplication::translate("MainWindow", "Plot k-Histgram", 0));
-        PlotPHistogramBtn->setText(QApplication::translate("MainWindow", "Plot p-Histogram", 0));
-        pushButton_5->setText(QApplication::translate("MainWindow", "HyperGraph Drawer", 0));
-        AlgorithmL->setText(QApplication::translate("MainWindow", "Algorithm :", 0));
-        AlgorithmsCB->clear();
-        AlgorithmsCB->insertItems(0, QStringList()
-         << QApplication::translate("MainWindow", "Random Hypergraph", 0)
-         << QApplication::translate("MainWindow", "Full HyperGraph", 0)
-         << QApplication::translate("MainWindow", "Test", 0)
-        );
+        HCheckBtn->setText(QApplication::translate("MainWindow", "Check", 0));
+        menuFiles->setTitle(QApplication::translate("MainWindow", "Files", 0));
     } // retranslateUi
 
 };

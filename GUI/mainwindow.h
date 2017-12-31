@@ -28,10 +28,23 @@
 using namespace std::chrono;
 
 
-enum  ALGORITHM{
-    RANDOM_HYPERGRAPH,
-    FULL_HYPERGRAPH,
-    TEST,
+enum  ALGORITHM
+{
+    ALGORITHM_RANDOM_HYPERGRAPH,
+    ALGORITHM_FULL_HYPERGRAPH,
+    ALGORITHM_TEST,
+    ALGORITHM_CHOOSE_ALGORITHM,
+};
+
+enum APPLICATION_STATE
+{
+    APPLICATION_STATE_NONE,
+    APPLICATION_STATE_CHOOSE_ALGORITHM,
+    APPLICATION_STATE_CHOOSE_VERTEX_DISTRIBUTION,
+    APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION,
+    APPLICATION_STATE_CREATE_HYPERGRAPH,
+    APPLICATION_STATE_ADDITIONAL_OPTION,
+    APPLICATION_STATE_COUNT,
 };
 
 namespace Ui {
@@ -59,6 +72,10 @@ public:
 
     void RandomHypergraphAlgorithm();
 
+    void ChangeApplicationState(APPLICATION_STATE newState);
+protected:
+    void OnStateEnter(APPLICATION_STATE newState);
+    void OnStateLeave(APPLICATION_STATE preState);
 private slots:
     void on_StartBtn_clicked();
 
@@ -74,6 +91,16 @@ private slots:
 
     void on_PlotPHistogramBtn_clicked();
 
+    void on_actionSave_as_triggered();
+
+    void on_actionLoad_triggered();
+
+    void on_actionLoad_kTable_triggered();
+
+    void on_VCheckBtn_clicked();
+
+    void on_HCheckBtn_clicked();
+
 private:
     Ui::MainWindow* ui;
 
@@ -81,6 +108,11 @@ private:
     std::unique_ptr<PHistogramWindow> m_PHistogram;
 
     bool m_AlgorithmStarted=false;
+
+    APPLICATION_STATE m_ActualState;
+
+    std::vector<int> m_LoadedKTable;
+
 };
 
 #endif // MAINWINDOW_H

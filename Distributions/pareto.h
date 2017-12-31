@@ -1,13 +1,7 @@
 #ifndef PARETO_H
 #define PARETO_H
 #include"distribution.h"
-#include<random>
-#include <iostream>
-#include <boost/random/uniform_real_distribution.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/variate_generator.hpp>
 #include <boost/math/distributions/pareto.hpp>
-#include <time.h>
 
 /**
  * @author   Adam Szczepanski
@@ -19,7 +13,7 @@
 class Pareto : public Distribution
 {
 public:
-    Pareto(int scale, int shape);
+    Pareto(int scale, double shape);
     virtual~Pareto(){}
 
     int operator() () ;
@@ -32,6 +26,10 @@ public:
 
 protected:
 private:
+     int m_Scale;
+     double m_Shape;
+     boost::math::pareto_distribution<> m_Pareto;
+
 };
 
 

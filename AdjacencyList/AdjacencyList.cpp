@@ -36,3 +36,8 @@ void AdjacencyList::RemoveVertexFromHyperedge(const int hyperedge, const int ver
 {
     m_Adjacencylist[hyperedge].erase(vertex);
 }
+void AdjacencyList::Reset()
+{
+    m_NumberOfVertecies =0;
+    m_Adjacencylist.clear();
+}

@@ -48,6 +48,7 @@ public:
    inline auto const& GetAdjacencyList() const {return m_Adjacencylist; }
    inline auto & GetAdjacencyList() {return m_Adjacencylist; }
 
+   void Reset();
 
 protected:
 private:

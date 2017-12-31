@@ -15,6 +15,8 @@ enum  DISTRIBUTION{
     POISSON,
     PARETO,
     GEOMETRIC,
+    LOGARITMIC,
+
 };
 
 
@@ -29,8 +31,6 @@ public:
     virtual std::vector<double> GetTheoretical(int N) =0;
 
     virtual double GetAverage()=0;
-
-    static std::mt19937 m_RandomNumberEngine;
 
 protected:
 private:

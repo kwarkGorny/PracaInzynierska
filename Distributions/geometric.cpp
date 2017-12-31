@@ -2,7 +2,7 @@
 
 #include<boost/math/distributions/geometric.hpp>
 
-
+#include"Patterns/RandomSystem.h"
 
 Geometric::Geometric(double parameter) : Distribution (), m_Geometric(parameter)
 {
@@ -12,7 +12,7 @@ Geometric::Geometric(double parameter) : Distribution (), m_Geometric(parameter)
 
 int Geometric::operator()()
 {
-    return m_Geometric(m_RandomNumberEngine);
+    return m_Geometric(RANDOMSYSTEM.GetRandomEngine());
 }
 std::vector<double> Geometric::GetTheoretical(int N,double parameter)
 {

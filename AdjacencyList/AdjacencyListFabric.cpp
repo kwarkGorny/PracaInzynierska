@@ -4,16 +4,15 @@
 #include "Patterns/Statistics.h"
 #include<algorithm>
 #include<iostream>
-AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,
-                                                             std::vector<int>& kTable,
-                                                             Distribution &HyperEdgeDistribution)
+AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution)
 {
-    AdjacencyList graph(numberOfVertices);
-   // int estimatedNumberOfHyperedges =averageK*numberOfVertices/HyperEdgeDistribution.GetAverage();
-   // std::cout<<"estimated number of hyperedges: "<<estimatedNumberOfHyperedges<<'\n';
-   // graph.Reserve(estimatedNumberOfHyperedges);
-    int last = numberOfVertices-1;
-    for (int i = 0; i < last ; ++i)
+    const int numberOfVertices =theoreticalKTable.size();
+    const int lastVertexId = numberOfVertices-1;
+
+    AdjacencyList hypergraph(numberOfVertices);
+    std::vector<int> kTable = theoreticalKTable;
+
+    for (int i = 0; i < lastVertexId ; ++i)
     {
       if(kTable[i]>0)
       {
@@ -23,7 +22,7 @@ AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertice
 
               --kTable[i];
 
-              graph.AddHyperEdge({i});
+              hypergraph.AddHyperEdge({i});
 
               int degreeOfHyperedge = HyperEdgeDistribution();
               if(degreeOfHyperedge > numberOfVertices)
@@ -33,19 +32,19 @@ AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertice
               int hyperedgeTries = 0;
               bool failed =false;
               int vertex;
-              while(graph.end().size() < static_cast<unsigned int>(degreeOfHyperedge) && failed == false )
+              while(hypergraph.end().size() < static_cast<unsigned int>(degreeOfHyperedge) && failed == false )
               {
-                  vertex=Uniform::get(i,numberOfVertices);
+                  vertex=Uniform::get(i,lastVertexId);
                   if(kTable[vertex] > 0)
                   {
-                     if(graph.end().insert(vertex).second)
+                     if(hypergraph.end().insert(vertex).second)
                      {
                         --kTable[vertex];
                      }
                   }
                   else if(hyperedgeTries>maxNumberOfTries)
                   {
-                      if(graph.end().insert(vertex).second)
+                      if(hypergraph.end().insert(vertex).second)
                       {
                          --kTable[vertex];
                       }
@@ -62,21 +61,11 @@ AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertice
           }
       }
     }
-    while(kTable[last]>0)
-    {
-        --kTable[last];
-        graph.AddHyperEdge({last});
-    }
-
-    return graph;
+    AdjacencyListManager::MakeLoops(hypergraph,lastVertexId,kTable[lastVertexId]);//making loops for last vertex
+    return hypergraph;
 }
 
-AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,
-                                                             Distribution &VertexDistribution,
-                                                             Distribution &HyperEdgeDistribution)
-{
-
-    auto kTable = Statistics::GenerateTable(numberOfVertices,VertexDistribution);
-    
-    return CreateRandomAdjacencyList(numberOfVertices,kTable,HyperEdgeDistribution);
+AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,Distribution &VertexDistribution,Distribution &HyperEdgeDistribution)
+{    
+    return CreateRandomAdjacencyList(Statistics::GenerateTable(numberOfVertices,VertexDistribution),HyperEdgeDistribution);
 }
