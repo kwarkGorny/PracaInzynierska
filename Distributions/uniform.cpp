@@ -8,20 +8,24 @@
 Uniform::Uniform(int start,int end): Distribution(),m_Uniform(start,end)
 {
 }
+
 int Uniform::operator()()
 {
     return  m_Uniform(RANDOMSYSTEM.GetRandomEngine());
 }
+
 int Uniform::get(const int min ,const int max)
 {
     std::uniform_int_distribution<int> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());
 }
+
 double Uniform::getReal(const double min ,const double max)
 {
     std::uniform_real_distribution<double> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());
 }
+
 std::vector<double> Uniform::GetTheoretical(int N,double min,double max)
 {
     boost::math::uniform_distribution<> posTheoretical(min-1,max);//we want to min inclusive
@@ -33,12 +37,19 @@ std::vector<double> Uniform::GetTheoretical(int N,double min,double max)
     }
     return prob;
 }
+
 std::vector<double> Uniform::GetTheoretical(int N)
 {
     return Uniform::GetTheoretical(N,m_Uniform.min(),m_Uniform.max());
 }
+
 double Uniform::GetAverage()
 {
     boost::math::uniform_distribution<> posTheoretical(m_Uniform.min(),m_Uniform.max());
     return boost::math::mean(posTheoretical);
+}
+
+bool Uniform::IsValid()const
+{
+    return true;
 }

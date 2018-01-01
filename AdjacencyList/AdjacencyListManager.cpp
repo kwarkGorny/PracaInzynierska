@@ -3,10 +3,6 @@
 #include<fstream>
 #include<iostream>
 
-AdjacencyListManager::AdjacencyListManager()
-{
-
-}
 
 std::vector<int> AdjacencyListManager::CalculateKTable(const AdjacencyList& hyperGraph)
 {
@@ -21,7 +17,6 @@ std::vector<int> AdjacencyListManager::CalculateKTable(const AdjacencyList& hype
   return kTable;
 }
 
-
 std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::set<int>>& hyperGraph)
 {
    std::vector<int> pTable(hyperGraph.size());
@@ -31,6 +26,7 @@ std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::se
    }
    return pTable;
 }
+
 void AdjacencyListManager::MakeLoops(AdjacencyList &hyperGraph,int vertexId,int amount)
 {
     for(int i=0 ;i<amount;++i)
@@ -38,6 +34,7 @@ void AdjacencyListManager::MakeLoops(AdjacencyList &hyperGraph,int vertexId,int 
         hyperGraph.AddHyperEdge({vertexId});
     }
 }
+
 std::vector<int> AdjacencyListManager::KTableFromFile(const std::string& nameOfFile)
 {
     std::ifstream file (nameOfFile);
@@ -91,6 +88,7 @@ void AdjacencyListManager::AdjacenyListToFile(const AdjacencyList &hyperGraph , 
         file.close();
     }
 }
+
 AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& nameOfFile)
 {
     std::ifstream file (nameOfFile);
@@ -129,6 +127,7 @@ AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& name
     }
     return hyperGraph;
 }
+
 std::map<std::set<int>,int> AdjacencyListManager::CalculateHyperedgeDuplicates(const std::vector<std::set<int>>& hyperGraph)
 {
    std::map<std::set<int>,int> hyperEdgeHistogram;
@@ -137,7 +136,6 @@ std::map<std::set<int>,int> AdjacencyListManager::CalculateHyperedgeDuplicates(c
         ++hyperEdgeHistogram[hyperEdge];
    }
    return hyperEdgeHistogram;
-
 }
 
 void AdjacencyListManager::ShowHyperedgeDuplicates(const std::map<std::set<int>,int>& hyperGraphDuplicates)

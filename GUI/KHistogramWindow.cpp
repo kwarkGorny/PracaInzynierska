@@ -3,9 +3,9 @@
 #include<iostream>
 #include<chrono>
 KHistogramWindow::KHistogramWindow(QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow) ,m_KHistogram{},m_KTheoretical{}
-
 {
     ui->setupUi(this);
+    this->setWindowTitle("K Histogram Graph");
     PrepareHistogram();
 }
 
@@ -14,7 +14,6 @@ KHistogramWindow::~KHistogramWindow()
     delete ui;
 }
 
-
 void KHistogramWindow::AnalizeVertices()
 {
    Reset();
@@ -22,7 +21,7 @@ void KHistogramWindow::AnalizeVertices()
    m_KHistogram = Statistics::CalculateHistogram(DATA.GetKTable());
    Statistics::NormalizeHistogram(m_KHistogram);
 
-   auto maxp= *std::max_element(DATA.GetKTable().begin(),DATA.GetKTable().end());
+   //auto maxp= *std::max_element(DATA.GetKTable().begin(),DATA.GetKTable().end());
 
    m_KTheoretical = DATA.GetKDistribution()->GetTheoretical(DATA.GetHyperGraph().size());
 
@@ -34,6 +33,7 @@ void KHistogramWindow::AnalizeVertices()
    ui->VStandDevKL->setText(QString::number(standDevK));
    ui->VChiSquareL->setText(QString::number(ChiSquare));
 }
+
 void KHistogramWindow::DrawKHistogram()
 {
     using namespace std::chrono;
@@ -45,6 +45,7 @@ void KHistogramWindow::DrawKHistogram()
 
     //ShowTime("Drawing K Histogram took",begin);
 }
+
 void KHistogramWindow::PrepareHistogram()
 {
   ui->kPlotWidget->addGraph();
@@ -61,7 +62,6 @@ void KHistogramWindow::PrepareHistogram()
   ui->kPlotWidget->yAxis->setLabel("P(k)");
   ui->kPlotWidget->yAxis->setRange(0,1);
 }
-
 
 void KHistogramWindow::ResetHistogram(QCustomPlot* grap)
 {
@@ -90,6 +90,7 @@ void KHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_ma
     grap->yAxis->setRange(0, 1.1 * max);
     grap->replot();
 }
+
 void KHistogramWindow::DrawTheoreticalHistogram(QCustomPlot* grap,const std::vector<double>& values)
 {
     QVector<double> x;
@@ -116,6 +117,7 @@ void KHistogramWindow::on_VAnalyzeBtn_clicked()
     AnalizeVertices();
     DrawKHistogram();
 }
+
 void KHistogramWindow::Reset()
 {
     m_KHistogram.clear();

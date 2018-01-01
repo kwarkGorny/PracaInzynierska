@@ -5,7 +5,6 @@
 
 #define RANDOMSYSTEM RandomSystem::GetInstance()
 
-
 class RandomSystem
 {
 public:
@@ -13,7 +12,6 @@ public:
 
     RandomSystem(RandomSystem const&) = delete;
     void operator=(RandomSystem const&) = delete;
-
 
     inline std::mt19937 const& GetRandomEngine()const{ return m_RandomEngine; }
     inline std::mt19937 & GetRandomEngine(){ return m_RandomEngine; }
@@ -24,8 +22,6 @@ protected:
 
 private:
     std::mt19937 m_RandomEngine;
-
-
 };
 
 #endif // RANDOMSYSTEM_H

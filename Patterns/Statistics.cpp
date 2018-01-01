@@ -1,9 +1,5 @@
 #include "Statistics.h"
 #include <algorithm>
-Statistics::Statistics()
-{
-}
-
 int Statistics::Factorial( int N)
 {
     int factorial = 1;
@@ -18,6 +14,7 @@ double Statistics::CalculateAverage(const std::vector<int>& numbers)
 {
   return  std::accumulate(numbers.begin(), numbers.end(), 0) / static_cast<double>(numbers.size());
 }
+
 double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers)
 {
     double sum = std::accumulate(std::begin(numbers), std::end(numbers), 0.0);
@@ -25,6 +22,7 @@ double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers)
 
     return Statistics::CalculateStandardDeviations(numbers , average);
 }
+
 double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers,double average)
 {
     double accum = 0.0;
@@ -42,6 +40,7 @@ double Statistics::ChiSquareTest(const std::vector<double>& exp,const std::vecto
     }
     return sum;
 }
+
 double Statistics::ChiSquareTest(const std::unordered_map<int,double>& exp,const std::vector<double>& teo)
 {
     double sum=0;
@@ -53,7 +52,6 @@ double Statistics::ChiSquareTest(const std::unordered_map<int,double>& exp,const
     return sum;
 }
 
-
 std::vector<int> Statistics::GenerateTable(const size_t size,Distribution& distribution)
 {
   std::vector<int> table ;
@@ -64,6 +62,7 @@ std::vector<int> Statistics::GenerateTable(const size_t size,Distribution& distr
   }
   return table;
 }
+
 void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
 {
     for(auto&& number : table)
@@ -71,6 +70,7 @@ void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
         number /= normalize;
     }
 }
+
 std::unordered_map<int,double> Statistics::CalculateHistogram(const std::vector<int>& table)
 {
     std::unordered_map<int,double>  histogram;
@@ -81,6 +81,7 @@ std::unordered_map<int,double> Statistics::CalculateHistogram(const std::vector<
     }
     return histogram;
 }
+
 void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)
 {
     double sum =0;
@@ -117,4 +118,19 @@ std::vector<int> Statistics::FisherYatesShuffle(std::size_t size, std::size_t ma
     }
     return b;
 }
+template<class BidiIter >
+BidiIter random_unique(BidiIter begin, BidiIter end, size_t num_random)
+{
+    size_t left = std::distance(begin, end);
+    while (--num_random)
+    {
+        BidiIter r = begin;
+        std::advance( r , Uniform::get( 0 , left ) );
+        std::swap(*begin, *r);
+        ++begin;
+        --left;
+    }
+    return begin;
+}
 */
+

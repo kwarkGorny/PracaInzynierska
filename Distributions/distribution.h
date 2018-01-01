@@ -9,7 +9,8 @@
 */
 
 
-enum  DISTRIBUTION{
+enum  DISTRIBUTION
+{
     CONST,
     UNIFORM,
     POISSON,
@@ -21,12 +22,14 @@ enum  DISTRIBUTION{
 class Distribution
 {
 public:
-    Distribution();
+    Distribution(){}
     virtual ~Distribution(){}
 
     virtual int operator ()() =0;
 
     virtual std::vector<double> GetTheoretical(int N) =0;
+
+    virtual bool IsValid()const{return false;};
 
     virtual double GetAverage()=0;
 

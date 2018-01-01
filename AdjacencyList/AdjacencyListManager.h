@@ -20,8 +20,6 @@
 class AdjacencyListManager
 {
 public:
-  AdjacencyListManager();
-
   static std::vector<int> CalculatePTable(const std::vector<std::set<int>>& hyperGraph);
   static std::vector<int> CalculateKTable(const AdjacencyList& hyperGraph);
 
@@ -37,6 +35,7 @@ public:
 
 protected:
 private:
+    AdjacencyListManager(){}
 };
 
 #endif // HYPERGRAPHMANAGER_H

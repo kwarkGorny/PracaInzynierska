@@ -36,3 +36,7 @@ void GUIHyperEdge::moveLinesToCenter(const QPointF newPos)
     line->setLine(QLineF(line->line().p1(), newCenterPos));
   }
 }
+const QPointF GUIHyperEdge::centerPos(const QPointF newPos)const
+{
+    return QPointF(newPos.x() + rect().x() + rect().width()/2, newPos.y() + rect().y() + rect().height()/2);
+}

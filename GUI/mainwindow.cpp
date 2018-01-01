@@ -21,9 +21,8 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow) , m_ActualState(APPLICATION_STATE_NONE)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Hypergraph Drawer");
+    this->setWindowTitle("Random Hypergraph Builder");
     menuBar()->setNativeMenuBar(false);
-
 
     ui->ChooseAlgorithmFrame->setEnabled(false);
     ui->VertexFrame->setEnabled(false);
@@ -38,7 +37,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::ShowTime(const std::string& nameOfFun,time_point<steady_clock> begin,time_point<steady_clock> end)
 {
     std::cout << nameOfFun<<" = "<< duration_cast<milliseconds>(end - begin).count()<< "ms";
@@ -46,34 +44,36 @@ void MainWindow::ShowTime(const std::string& nameOfFun,time_point<steady_clock> 
     std::cout<<std::endl;
 }
 
-
 void MainWindow::RandomHypergraphAlgorithm()
 {
-    const int numberOfVertices = ui->VAmountS->value();
-
-    SelectKDstribution();
-    SelectPDstribution();
-
-    auto begin=steady_clock::now();
-
-    if(ui->VUseLoadedChB->isEnabled() && ui->VUseLoadedChB->isCheckable() && ui->VUseLoadedChB->isChecked())
+    if(DATA.GetPDistribution()->IsValid() && DATA.GetKDistribution()->IsValid())
     {
-        DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(m_LoadedKTable,*DATA.GetPDistribution()));
+        const int numberOfVertices = ui->VAmountS->value();
+        auto begin=steady_clock::now();
+
+        if(ui->VUseLoadedChB->isEnabled() && ui->VUseLoadedChB->isCheckable() && ui->VUseLoadedChB->isChecked())
+        {
+            DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(m_LoadedKTable,*DATA.GetPDistribution()));
+        }
+        else
+        {
+            DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
+        }
+        ShowTime("Algorithm took ",begin);
     }
     else
     {
-        DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
+        std::cerr<<"P Distribution is " << (DATA.GetPDistribution()->IsValid()? "valid" : "not valid") << std::endl;
+        std::cerr<<"K Distribution is " << (DATA.GetKDistribution()->IsValid()? "valid" : "not valid") << std::endl;
     }
-    ShowTime("Algorithm took ",begin);
 }
-
-
 
 void MainWindow::AnalizeHyperGraph()
 {
    auto begin=steady_clock::now();
    ShowTime("Analyze took ",begin);
 }
+
 void MainWindow::ChangeApplicationState(APPLICATION_STATE newState)
 {
     OnStateLeave(m_ActualState);
@@ -147,10 +147,6 @@ void MainWindow::OnStateLeave(APPLICATION_STATE preState)
     }
 }
 
-
-
-
-
 void MainWindow::on_pushButton_5_clicked()
 {
     HyperGraphDrawDialog* drawer = new HyperGraphDrawDialog (this);
@@ -191,12 +187,28 @@ void MainWindow::on_PlotPHistogramBtn_clicked()
 
 void MainWindow::on_VCheckBtn_clicked()
 {
-    ChangeApplicationState(APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION);
+    SelectKDstribution();
+    if(DATA.GetKDistribution()->IsValid())
+    {
+        ChangeApplicationState(APPLICATION_STATE_CHOOSE_HYPEREDGE_DISTRIBUTION);
+    }
+    else
+    {
+        std::cerr<<"K Distribution in not valid"<<std::endl;
+    }
 }
 
 void MainWindow::on_HCheckBtn_clicked()
 {
-    ChangeApplicationState(APPLICATION_STATE_CREATE_HYPERGRAPH);
+    SelectPDstribution();
+    if(DATA.GetPDistribution()->IsValid())
+    {
+        ChangeApplicationState(APPLICATION_STATE_CREATE_HYPERGRAPH);
+    }
+    else
+    {
+        std::cerr<<"P Distribution in not valid"<<std::endl;
+    }
 }
 
 void MainWindow::on_StartBtn_clicked()
@@ -255,6 +267,7 @@ void MainWindow::SelectKDstribution()
         break;
     }
 }
+
 void MainWindow::SelectPDstribution()
 {
     switch(ui->HDistributionCB->currentIndex())
@@ -289,6 +302,7 @@ void MainWindow::SelectPDstribution()
         break;
     }
 }
+
 void MainWindow::ChooseAndRunAlgorithm()
 {
     switch(ui->AlgorithmsCB->currentIndex())
@@ -309,6 +323,7 @@ void MainWindow::ChooseAndRunAlgorithm()
         break;
     }
 }
+
 void MainWindow::on_AlgorithmsCB_currentIndexChanged(int index)
 {
     std::cout<< "Algorithm ComboBox :";
@@ -466,8 +481,6 @@ void MainWindow::on_HDistributionCB_currentIndexChanged(int index)
         break;
     }
 }
-
-
 
 void MainWindow::on_actionSave_as_triggered()
 {

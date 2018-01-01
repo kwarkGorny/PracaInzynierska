@@ -20,6 +20,8 @@ public:
     virtual std::vector<double> GetTheoretical(int N);
     virtual double GetAverage();
 
+    virtual bool IsValid()const;
+
 
 
 protected:

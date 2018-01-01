@@ -4,6 +4,7 @@
 PowerLaw::PowerLaw(int rangeStart, double distributionPower) : Distribution() , m_RangeStart(rangeStart), m_DistributionPower(distributionPower)
 {
 }
+
 int PowerLaw::operator() ()
 {
     return PowerLaw::Variate( m_RangeStart,m_DistributionPower);
@@ -29,8 +30,13 @@ double PowerLaw::GetAverage()
 {
     return 0;
 }
+
 double PowerLaw::Variate(int rangeStart, double distributionPower)
 {
     return rangeStart * pow((1 - Uniform::getReal(0,1)),-1/(distributionPower-1));
 }
 
+bool PowerLaw::IsValid()const
+{
+    return true;
+}

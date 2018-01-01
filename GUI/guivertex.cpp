@@ -32,3 +32,7 @@ void GUIVertex::moveLinesToCenter(const QPointF newPos)
     line->setLine(QLineF(newCenterPos, line->line().p2()));
   }
 }
+const QPointF GUIVertex::centerPos(const QPointF newPos)const
+{
+    return QPointF(newPos.x() + rect().x() + rect().width()/2, newPos.y() + rect().y() + rect().height()/2);
+}

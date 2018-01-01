@@ -2,7 +2,6 @@
 #define STATISTICS_H
 
 #include "Distributions/distribution.h"
-#include"Distributions/uniform.h"
 #include <vector>
 #include<unordered_map>
 
@@ -42,25 +41,11 @@ public:
 
 protected:
 private:
-    Statistics();
+    Statistics(){}
 };
 
 #endif // STATISTICS_H
 
 
 
-/*
-template<class BidiIter >
-BidiIter random_unique(BidiIter begin, BidiIter end, size_t num_random)
-{
-    size_t left = std::distance(begin, end);
-    while (--num_random)
-    {
-        BidiIter r = begin;
-        std::advance( r , Uniform::get( 0 , left ) );
-        std::swap(*begin, *r);
-        ++begin;
-        --left;
-    }
-    return begin;
-}*/
+

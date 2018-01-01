@@ -12,10 +12,11 @@ public:
     int operator() ();
 
     virtual std::vector<double> GetTheoretical(int N);
+    virtual bool IsValid()const;
     virtual double GetAverage();
 
-    static std::vector<double> GetTheoretical(int N,int rangeStart, double distributionPower);
 
+    static std::vector<double> GetTheoretical(int N,int rangeStart, double distributionPower);
     static double Variate(int rangeStart, double distributionPower);
 
 protected:

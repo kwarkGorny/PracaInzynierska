@@ -17,12 +17,14 @@ public:
 
     int operator() ();
 
-    static std::vector<double> GetTheoretical(int N,double parameter);
 
     virtual std::vector<double> GetTheoretical(int N);
+
+    virtual bool IsValid()const;
     virtual double GetAverage();
 
 
+    static std::vector<double> GetTheoretical(int N,double parameter);
 
 protected:
     std::geometric_distribution<int> m_Geometric;

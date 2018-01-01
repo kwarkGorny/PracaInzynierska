@@ -8,10 +8,9 @@
 #include<chrono>
 
 PHistogramWindow::PHistogramWindow(QWidget *parent) :   QMainWindow(parent), ui(new Ui::PHistogramWindow),m_PHistogram{},m_PTheoretical{}
-
-
 {
     ui->setupUi(this);
+    this->setWindowTitle("P Histogram Graph");
     PrepareHistogram();
 }
 
@@ -19,6 +18,7 @@ PHistogramWindow::~PHistogramWindow()
 {
     delete ui;
 }
+
 void PHistogramWindow::PrepareHistogram()
 {
   ui->pPlotWidget->addGraph();
@@ -77,12 +77,14 @@ void PHistogramWindow::DrawPHistogram()
 
     //ShowTime("Drawing P Histogram took",begin);
 }
+
 void PHistogramWindow::ResetHistogram(QCustomPlot* grap)
 {
     grap->graph(0)->setData({},{});
     grap->graph(1)->setData({},{});
     grap->replot();
 }
+
 void PHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_map<int,double>& histogram)
 {
     QVector<double> x;
@@ -103,6 +105,7 @@ void PHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_ma
     grap->yAxis->setRange(0, 1.1 * max);
     grap->replot();
 }
+
 void PHistogramWindow::DrawTheoreticalHistogram(QCustomPlot* grap,const std::vector<double>& values)
 {
     QVector<double> x;

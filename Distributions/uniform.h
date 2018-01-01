@@ -18,15 +18,14 @@ public:
 
     int operator ()() ;
 
-    static int get(const int min ,const int max);
-    static double getReal(const double min ,const double max);
-
-    static std::vector<double> GetTheoretical(int N,double min,double max);
 
     virtual std::vector<double> GetTheoretical(int N);
+    virtual bool IsValid()const;
     virtual double GetAverage();
 
-
+    static std::vector<double> GetTheoretical(int N,double min,double max);
+    static double getReal(const double min ,const double max);
+    static int get(const int min ,const int max);
 
 protected:
 private:

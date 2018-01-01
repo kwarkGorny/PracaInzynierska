@@ -18,12 +18,12 @@ public:
 
     int operator() () ;
 
-    static std::vector<double> GetTheoretical(int N,double lambda);
+
     virtual std::vector<double> GetTheoretical(int N);
+    virtual bool IsValid()const;
     virtual double GetAverage();
 
-
-
+    static std::vector<double> GetTheoretical(int N,double lambda);
 protected:
     std::poisson_distribution<int> m_Poisson;
 private:

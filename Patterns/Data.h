@@ -6,8 +6,6 @@
 #include <memory>
 #include <vector>
 
-
-
 /**
  * @author   Adam Szczepanski
  * @date 27.12.2017
@@ -23,10 +21,8 @@ public:
 
     static Data& GetInstance();
 
-
     Data(Data const&) = delete;
     void operator=(Data const&) = delete;
-
 
     void Reset();
 
@@ -42,8 +38,6 @@ public:
     inline std::vector<int>& GetPTable(){ return m_PTable; }
     inline void SetPTable(std::vector<int>const& pTable){ m_PTable = pTable; }
 
-
-
     inline Distribution const* GetPDistribution()const{ return m_PDistribution.get(); }
     inline Distribution * GetPDistribution(){ return m_PDistribution.get(); }
     inline void SetPDistribution(Distribution *distr){ m_PDistribution.reset(distr); }
@@ -56,17 +50,12 @@ protected:
     Data();
 
 private:
-
     AdjacencyList m_HyperGraph;
 
     std::vector<int> m_PTable;
     std::vector<int> m_KTable;
 
-
-
     std::unique_ptr<Distribution> m_PDistribution;
     std::unique_ptr<Distribution> m_KDistribution;
-
 };
-
 #endif // DATA_H

@@ -1,12 +1,10 @@
 #include "hypergraphdrawdialog.h"
 #include "ui_hypergraphdrawdialog.h"
 
-HyperGraphDrawDialog::HyperGraphDrawDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::HyperGraphDrawDialog)
+HyperGraphDrawDialog::HyperGraphDrawDialog(QWidget *parent) : QDialog(parent), ui(new Ui::HyperGraphDrawDialog)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Rysownik HiperGrafu");
+    this->setWindowTitle("Hypergraph Drawer");
     scene = std::make_unique<QGraphicsScene>(this);
 
     ui->HypergraphView->setScene(scene.get());
@@ -22,8 +20,6 @@ void HyperGraphDrawDialog::on_HypergraphDrawButton_clicked()
 {
     drawHyperGraph();
 }
-
-
 
 void HyperGraphDrawDialog::saveGuiTofile(const std::string &nameOfFile) const
 {
