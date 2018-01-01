@@ -31,7 +31,6 @@ SOURCES += main.cpp\
     Distributions/uniform.cpp \
     Distributions/poisson.cpp \
     Distributions/geometric.cpp \
-    Distributions/binomal.cpp \
     Distributions/constant.cpp \
     GUI/hypergraphdrawdialog.cpp \
     AdjacencyList/AdjacencyList.cpp \
@@ -40,9 +39,9 @@ SOURCES += main.cpp\
     Patterns/Statistics.cpp \
     GUI/KHistogramWindow.cpp \
     GUI/PHistogramWindow.cpp \
-    Distributions/pareto.cpp \
     Patterns/Data.cpp \
-    Patterns/RandomSystem.cpp
+    Patterns/RandomSystem.cpp \
+    Distributions/powerlaw.cpp
 
 HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
@@ -54,7 +53,6 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     Distributions/uniform.h \
     Distributions/poisson.h \
     Distributions/geometric.h \
-    Distributions/binomal.h \
     Distributions/constant.h \
     GUI/hypergraphdrawdialog.h \
     AdjacencyList/AdjacencyList.h \
@@ -63,9 +61,9 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     Patterns/Statistics.h \
     GUI/KHistogramWindow.h \
     GUI/PHistogramWindow.h \
-    Distributions/pareto.h \
     Patterns/Data.h \
-    Patterns/RandomSystem.h
+    Patterns/RandomSystem.h \
+    Distributions/powerlaw.h
 
 FORMS    += mainwindow.ui \
     GUI/hypergraphdrawdialog.ui \

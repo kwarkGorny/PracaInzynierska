@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>331</width>
-    <height>761</height>
+    <height>781</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -345,12 +345,12 @@
          </item>
          <item>
           <property name="text">
-           <string>Pareto</string>
+           <string>Geometric</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Geometric</string>
+           <string>Power Law</string>
           </property>
          </item>
         </widget>
@@ -407,13 +407,6 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="1">
-        <widget class="QPushButton" name="VCheckBtn">
-         <property name="text">
-          <string>Check</string>
-         </property>
-        </widget>
-       </item>
        <item row="11" column="2">
         <widget class="QCheckBox" name="VUseLoadedChB">
          <property name="enabled">
@@ -424,6 +417,13 @@
          </property>
          <property name="checkable">
           <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QPushButton" name="VCheckBtn">
+         <property name="text">
+          <string>Check</string>
          </property>
         </widget>
        </item>
@@ -502,19 +502,6 @@
          </property>
          <property name="maximum">
           <number>999999</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="HAverageDegreeL">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Degree :</string>
          </property>
         </widget>
        </item>
@@ -627,12 +614,12 @@
          </item>
          <item>
           <property name="text">
-           <string>Pareto</string>
+           <string>Geometric</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Geometric</string>
+           <string>Power Law</string>
           </property>
          </item>
         </widget>
@@ -641,6 +628,19 @@
         <widget class="QPushButton" name="HCheckBtn">
          <property name="text">
           <string>Check</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QLabel" name="HAverageDegreeL">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Degree :</string>
          </property>
         </widget>
        </item>

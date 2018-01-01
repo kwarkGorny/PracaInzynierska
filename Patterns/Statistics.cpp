@@ -64,11 +64,6 @@ std::vector<int> Statistics::GenerateTable(const size_t size,Distribution& distr
   }
   return table;
 }
-std::vector<int> Statistics::GenerateTableParallel(const size_t size , Distribution& distribution)
-{
-    std::vector<int> table(size) ;
-    return table;
-}
 void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
 {
     for(auto&& number : table)
@@ -98,10 +93,16 @@ void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)
         it.second /=sum;
     }
 }
+/*
+std::vector<int> Statistics::GenerateTableParallel(const size_t size , Distribution& distribution)
+{
+    std::vector<int> table(size) ;
+    return table;
+}
 std::vector<int> Statistics::FisherYatesShuffle(std::size_t size, std::size_t max_size)
 {
     std::vector<int> b(size);
-/*
+
     for(std::size_t i = 0; i != max_size; ++i) {
 
         std::uniform_int_distribution<> dis(0, i);
@@ -113,6 +114,7 @@ std::vector<int> Statistics::FisherYatesShuffle(std::size_t size, std::size_t ma
             }
             b[j] = i;
         }
-    }*/
+    }
     return b;
 }
+*/

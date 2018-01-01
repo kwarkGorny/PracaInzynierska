@@ -28,7 +28,6 @@ public:
     static double ChiSquareTest(const std::unordered_map<int,double>& exp, const std::vector<double> &teo);
 
     static std::vector<int> GenerateTable(const size_t size , Distribution& distribution);
-    static std::vector<int> GenerateTableParallel(const size_t size , Distribution& distribution);
 
     static std::unordered_map<int,double> CalculateHistogram(const std::vector<int> &table);
     static void NormalizeHistogram(std::unordered_map<int,double>& histogram);
@@ -36,8 +35,10 @@ public:
 
     static void NormalizeTable(std::vector<int>& table,double normalize);
 
+    /*
+    static std::vector<int> GenerateTableParallel(const size_t size , Distribution& distribution);
     static std::vector<int> FisherYatesShuffle(std::size_t size, std::size_t max_size);
-
+    */
 
 protected:
 private:

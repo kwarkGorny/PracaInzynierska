@@ -10,7 +10,7 @@
 #include"Distributions/uniform.h"
 #include"Distributions/poisson.h"
 #include"Distributions/constant.h"
-#include"Distributions/pareto.h"
+#include"Distributions/powerlaw.h"
 
 #include<iostream>
 
@@ -53,8 +53,6 @@ void MainWindow::RandomHypergraphAlgorithm()
 
     SelectKDstribution();
     SelectPDstribution();
-
-
 
     auto begin=steady_clock::now();
 
@@ -247,10 +245,13 @@ void MainWindow::SelectKDstribution()
              DATA.SetKDistribution(new Geometric(ui->VDistributionParamDSP->value()));
         }
         break;
-        case DISTRIBUTION::PARETO:
+        case DISTRIBUTION::POWERLAW:
         {
-            DATA.SetKDistribution(new Pareto(ui->VAverageDegreeS->value(),ui->VDistributionParamDSP->value()));
+            DATA.SetKDistribution(new PowerLaw(ui->VAverageDegreeS->value(),ui->VDistributionParamDSP->value()));
         }
+        break;
+        default:
+            std::cout<<"Error non such Distribution"<<std::endl;
         break;
     }
 }
@@ -278,13 +279,13 @@ void MainWindow::SelectPDstribution()
              DATA.SetPDistribution(new Geometric(ui->HDistributionParamDSB->value()));
         }
         break;
-        case DISTRIBUTION::PARETO:
+        case DISTRIBUTION::POWERLAW:
         {
-            DATA.SetPDistribution(new Pareto(ui->HAverageDegreeS->value(),ui->HDistributionParamDSB->value()));
+            DATA.SetPDistribution(new PowerLaw(ui->HAverageDegreeS->value(),ui->HDistributionParamDSB->value()));
         }
         break;
         default:
-            std::cout<<"Error non such algorithm"<<std::endl;
+            std::cout<<"Error non such Distribution"<<std::endl;
         break;
     }
 }
@@ -389,15 +390,20 @@ void MainWindow::on_VDistributionCB_currentIndexChanged(int index)
             ui->VMinDegreeS->setEnabled(false);
             ui->VAverageDegreeS->setEnabled(false);
             ui->VDistributionParamDSP->setEnabled(true);
+            ui->VDistributionParamDSP->setRange(0,1);
+            ui->VDistributionParamL->setText("Parameter :");
+
             ui->VAvarageDegreeL->setText("Lambda :");
         break;
-        case DISTRIBUTION::PARETO:
-            std::cout<<"PARETO"<<std::endl;
+        case DISTRIBUTION::POWERLAW:
+            std::cout<<"Power law"<<std::endl;
             ui->VMaxDegreeS->setEnabled(false);
             ui->VMinDegreeS->setEnabled(false);
             ui->VAverageDegreeS->setEnabled(true);
             ui->VDistributionParamDSP->setEnabled(true);
-            ui->VAvarageDegreeL->setText("Lambda :");
+            ui->VDistributionParamDSP->setRange(2,9999999);
+            ui->VDistributionParamL->setText("Power :");
+            ui->VAvarageDegreeL->setText("Min :");
         break;
         default:
             std::cerr<<"Error out of bound"<<std::endl;
@@ -441,17 +447,19 @@ void MainWindow::on_HDistributionCB_currentIndexChanged(int index)
             ui->HMinDegreeS->setEnabled(false);
             ui->HAverageDegreeS->setEnabled(false);
             ui->HDistributionParamDSB->setEnabled(true);
+            ui->HDistributionParamDSB->setRange(0,1);
+            ui->HDistributionParamL->setText("Parameter :");
             ui->HAverageDegreeL->setText("Lambda :");
         break;
-        case DISTRIBUTION::PARETO:
-            std::cout<<"PARETO"<<std::endl;
+        case DISTRIBUTION::POWERLAW:
+            std::cout<<"Power law"<<std::endl;
             ui->HMaxDegreeS->setEnabled(false);
             ui->HMinDegreeS->setEnabled(false);
             ui->HAverageDegreeS->setEnabled(true);
             ui->HDistributionParamDSB->setEnabled(true);
-            ui->HAverageDegreeL->setText("Lambda :");
-            ui->HDistributionParamL->setText("Scale :");
-
+            ui->HDistributionParamDSB->setRange(2,9999999);
+            ui->HDistributionParamL->setText("Power :");
+            ui->HAverageDegreeL->setText("Min :");
         break;
         default:
             std::cerr<<"Error out of bound"<<std::endl;
@@ -465,7 +473,9 @@ void MainWindow::on_actionSave_as_triggered()
 {
     std::cout<<"Save as action ..."<<std::endl;
     const QString fileName = QFileDialog::getSaveFileName(this,"Save Hypergraph",QDir::homePath());
+    std::cout<<"Saving to "<< fileName.toStdString() << std::endl;
     AdjacencyListManager::AdjacenyListToFile(DATA.GetHyperGraph(),fileName.toStdString());
+
     std::cout<<"Save as action Done."<<std::endl;
 
 }
@@ -474,6 +484,8 @@ void MainWindow::on_actionLoad_triggered()
 {
     std::cout<<"Load action ..."<<std::endl;
     const QString fileName = QFileDialog::getOpenFileName(this,"Load Hypergraph",QDir::homePath());
+    std::cout<<"Loading from "<< fileName.toStdString() << std::endl;
+
     DATA.SetHyperGraph(AdjacencyListManager::AdjacenyListFromFile(fileName.toStdString()));
     std::cout<<"Load action Done."<<std::endl;
 }
@@ -482,6 +494,7 @@ void MainWindow::on_actionLoad_kTable_triggered()
 {
     std::cout<<"Load kTable action"<<std::endl;
     const QString fileName = QFileDialog::getOpenFileName(this,"Load vertex degree distribution",QDir::homePath());
+    std::cout<<"Loading from "<< fileName.toStdString() << std::endl;
     m_LoadedKTable = AdjacencyListManager::KTableFromFile(fileName.toStdString());
     std::cout<<"Load action Done."<<std::endl;
 
@@ -489,5 +502,3 @@ void MainWindow::on_actionLoad_kTable_triggered()
     ui->VUseLoadedChB->setCheckable(true);
     ui->VUseLoadedChB->setChecked(true);
 }
-
-

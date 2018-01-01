@@ -13,10 +13,8 @@ enum  DISTRIBUTION{
     CONST,
     UNIFORM,
     POISSON,
-    PARETO,
     GEOMETRIC,
-    LOGARITMIC,
-
+    POWERLAW,
 };
 
 

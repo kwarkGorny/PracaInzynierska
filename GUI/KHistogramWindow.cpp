@@ -2,7 +2,6 @@
 
 #include<iostream>
 #include<chrono>
-#include"Distributions/pareto.h"
 KHistogramWindow::KHistogramWindow(QWidget *parent) :   QMainWindow(parent),  ui(new Ui::KHistogramWindow) ,m_KHistogram{},m_KTheoretical{}
 
 {

@@ -89,7 +89,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(331, 761);
+        MainWindow->resize(331, 781);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -487,8 +487,8 @@ public:
          << QApplication::translate("MainWindow", "Constant", 0)
          << QApplication::translate("MainWindow", "Uniform", 0)
          << QApplication::translate("MainWindow", "Poisson", 0)
-         << QApplication::translate("MainWindow", "Pareto", 0)
          << QApplication::translate("MainWindow", "Geometric", 0)
+         << QApplication::translate("MainWindow", "Power Law", 0)
         );
         VDistributionL->setText(QApplication::translate("MainWindow", "Distribution :", 0));
         VDegreeRangeL->setText(QApplication::translate("MainWindow", "Degree Range :", 0));
@@ -506,8 +506,8 @@ public:
          << QApplication::translate("MainWindow", "Constant", 0)
          << QApplication::translate("MainWindow", "Uniform", 0)
          << QApplication::translate("MainWindow", "Poisson", 0)
-         << QApplication::translate("MainWindow", "Pareto", 0)
          << QApplication::translate("MainWindow", "Geometric", 0)
+         << QApplication::translate("MainWindow", "Power Law", 0)
         );
         HCheckBtn->setText(QApplication::translate("MainWindow", "Check", 0));
         menuFiles->setTitle(QApplication::translate("MainWindow", "Files", 0));

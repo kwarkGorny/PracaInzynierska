@@ -8,8 +8,6 @@ Geometric::Geometric(double parameter) : Distribution (), m_Geometric(parameter)
 {
 
 }
-
-
 int Geometric::operator()()
 {
     return m_Geometric(RANDOMSYSTEM.GetRandomEngine());
