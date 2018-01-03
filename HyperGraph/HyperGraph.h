@@ -22,42 +22,39 @@ public:
    void RemoveVertex(const int id);
 
    void AddHyperEdge();
-   inline void AddHyperEdge(HyperEdge&& hyperEdge) {m_Hyperedgelist.emplace_back(std::move(hyperEdge));}
-   inline void AddHyperEdge(HyperEdge const& hyperEdge) {m_Hyperedgelist.emplace_back(hyperEdge);}
+   inline void AddHyperEdge(HyperEdge&& hyperEdge) {m_HyperedgeList.emplace_back(std::move(hyperEdge));}
+   inline void AddHyperEdge(HyperEdge const& hyperEdge) {m_HyperedgeList.emplace_back(hyperEdge);}
 
-   inline void Reserve(const int N){m_Hyperedgelist.reserve(N);}
+   inline void Reserve(const int N){m_HyperedgeList.reserve(N);}
    void RemoveHyperegde(const int pos);
 
    bool AddVertexToHyperedge(const int hyperedge, const int vertex);
    void RemoveVertexFromHyperedge(const int hyperedge, const int vertex);
 
-   inline int GetConnection(const int hyperedge, const int vertex) const
-   {
-       return m_Hyperedgelist[hyperedge].find(vertex)!=std::end(m_Hyperedgelist[hyperedge]);
-   }
+   int GetConnection(const int hyperedge, const int vertex) const;
 
-   inline HyperEdge const& GetHyperEdge(const int index)const{return m_Hyperedgelist[index];}
-   inline HyperEdge& GetHyperEdge(const int index){return m_Hyperedgelist[index];}
+   inline HyperEdge const& GetHyperEdge ( const int index )const{return m_HyperedgeList[index];}
+   inline HyperEdge& GetHyperEdge(const int index){return m_HyperedgeList[index];}
 
-   inline HyperEdge const& begin()const {return m_Hyperedgelist[0];}
-   inline HyperEdge& begin() {return m_Hyperedgelist[0];}
+   inline HyperEdge const& begin()const {return m_HyperedgeList[0];}
+   inline HyperEdge& begin() {return m_HyperedgeList[0];}
 
-   inline HyperEdge const& end()const {return m_Hyperedgelist.back();}
-   inline HyperEdge& end() {return m_Hyperedgelist.back();}
+   inline HyperEdge const& end()const {return m_HyperedgeList.back();}
+   inline HyperEdge& end() {return m_HyperedgeList.back();}
 
 
-   inline auto size()const {return m_Hyperedgelist.size();}
+   inline auto size()const {return m_HyperedgeList.size();}
    inline int GetNumberOfVertices() const {return m_NumberOfVertecies; }
 
-   inline HyperEdgeList const& GetHyperGraph() const {return m_Hyperedgelist; }
-   inline HyperEdgeList & GetHyperGraph() {return m_Hyperedgelist; }
+   inline HyperEdgeList const& GetHyperGraph() const {return m_HyperedgeList; }
+   inline HyperEdgeList & GetHyperGraph() {return m_HyperedgeList; }
 
    void Reset();
 
 protected:
 private:
   int m_NumberOfVertecies{0};
-  HyperEdgeList m_Hyperedgelist{};
+  HyperEdgeList m_HyperedgeList{};
 };
 
 #endif // ADJACENCYLIST_H

@@ -8,7 +8,7 @@ GUIVertex::GUIVertex(const QRectF &rect, const QPen &pen, const QBrush &brush): 
   setPen(pen);
   setBrush(brush);
 }
-void GUIVertex::addLine(QGraphicsLineItem *line)
+void GUIVertex::AddLine(QGraphicsLineItem *line)
 {
   line->setLine(QLineF(centerPos(this->pos()), line->line().p2()));
   lines.push_back(line);

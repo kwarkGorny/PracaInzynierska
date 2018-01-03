@@ -14,13 +14,13 @@ int Uniform::operator()()
     return  m_Uniform(RANDOMSYSTEM.GetRandomEngine());
 }
 
-int Uniform::get(const int min ,const int max)
+int Uniform::Get(const int min ,const int max)
 {
     std::uniform_int_distribution<int> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());
 }
 
-double Uniform::getReal(const double min ,const double max)
+double Uniform::GetReal(const double min ,const double max)
 {
     std::uniform_real_distribution<double> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());

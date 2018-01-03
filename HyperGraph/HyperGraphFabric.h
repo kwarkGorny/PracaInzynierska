@@ -15,12 +15,8 @@
 class HyperGraphFabric
 {
 public:
-    //  static HyperGraph*
-    //  createRandomHyperGraph(const int numberOfVertexes,
-    //                              const int degreeOFHyperEdge,
-    //                              const std::vector<int> &kTable);
 
-      static HyperGraph CreateRandomHyperGraph(int numberOfVertices,Distribution &VertexDistribution,Distribution &HyperEdgeDistribution);
+      static HyperGraph CreateRandomHyperGraph(int numberOfVertices,Distribution & VertexDistribution,Distribution & HyperEdgeDistribution);
 
       static HyperGraph CreateRandomHyperGraph(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution);
 

@@ -14,7 +14,7 @@ class GUIHyperEdge : public QGraphicsRectItem
 public:
     GUIHyperEdge(const QRectF& rect,const QPen& pen,const QBrush& brush);
 
-    void addLine( QGraphicsLineItem *line);
+    void AddLine( QGraphicsLineItem *line);
 
     QVariant itemChange(const GraphicsItemChange change, const QVariant &value);
 

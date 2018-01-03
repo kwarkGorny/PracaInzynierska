@@ -20,18 +20,18 @@
 class HyperGraphManager
 {
 public:
-  static std::vector<int> CalculatePTable(const HyperEdgeList& hyperGraph);
-  static std::vector<int> CalculateKTable(const HyperGraph& hyperGraph);
+  static std::vector<int> CalculatePTable ( HyperEdgeList const& hyperGraph) ;
+  static std::vector<int> CalculateKTable ( HyperGraph const& hyperGraph );
 
-  static void MakeLoops(HyperGraph &hyperGraph,int vertexId,int amount);
+  static void MakeLoops ( HyperGraph &hyperGraph, int vertexId, int amount );
 
-  static std::map<HyperEdge,int> CalculateHyperedgeDuplicates(const HyperEdgeList& hyperGraph);
-  static void ShowHyperedgeDuplicates(const std::map<HyperEdge,int>& hyperGraphDuplicates);
+  static std::map<HyperEdge,int> CalculateHyperedgeDuplicates ( HyperEdgeList const& hyperGraph );
+  static void ShowHyperedgeDuplicates ( std::map<HyperEdge,int> const& hyperGraphDuplicates );
 
-  static std::vector<int> KTableFromFile(const std::string& nameOfFile);
+  static std::vector<int> KTableFromFile ( std::string const& nameOfFile);
 
-  static void AdjacenyListToFile(const HyperGraph &hyperGraph , const std::string& nameOfFile);
-  static HyperGraph AdjacenyListFromFile(const std::string& nameOfFile);
+  static void AdjacenyListToFile ( HyperGraph const& hyperGraph, std::string const& nameOfFile );
+  static HyperGraph AdjacenyListFromFile ( std::string const& nameOfFile);
 
 protected:
 private:

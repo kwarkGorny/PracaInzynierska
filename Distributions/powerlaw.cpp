@@ -33,7 +33,7 @@ double PowerLaw::GetAverage()
 
 double PowerLaw::Variate(int rangeStart, double distributionPower)
 {
-    return rangeStart * pow((1 - Uniform::getReal(0,1)),-1/(distributionPower-1));
+    return rangeStart * pow((1 - Uniform::GetReal(0,1)),-1/(distributionPower-1));
 }
 
 bool PowerLaw::IsValid()const

@@ -37,11 +37,11 @@ public:
     explicit HyperGraphDrawDialog(QWidget *parent = 0);
     ~HyperGraphDrawDialog();
 
-    void drawHyperGraph();
+    void DrawHyperGraph();
 
-    void saveGuiTofile(const std::string &nameOfFile) const ;
+    void SaveGuiTofile(const std::string &nameOfFile) const ;
 
-    void clearScene();
+    void ClearScene();
 
 private slots:
     void on_HypergraphDrawButton_clicked();
@@ -49,14 +49,14 @@ private slots:
 private:
     Ui::HyperGraphDrawDialog *ui;
 
-    std::unique_ptr<QGraphicsScene> scene;
+    std::unique_ptr<QGraphicsScene> m_Scene;
 
-    std::vector<std::unique_ptr<GUIVertex>> vertexes;
-    std::vector<std::unique_ptr<GUIHyperEdge>> hyperEdges;
-    std::vector<std::unique_ptr<QGraphicsLineItem>> lines;
+    std::vector<std::unique_ptr<GUIVertex>> m_Vertexes;
+    std::vector<std::unique_ptr<GUIHyperEdge>> m_HyperEdges;
+    std::vector<std::unique_ptr<QGraphicsLineItem>> m_Lines;
 
-    const QBrush verticesBrush{QColor(255, 50, 50)};
-    const QBrush hyperedgeBrush{QColor(100, 149, 237)};
+    const QBrush m_VerticesBrush{QColor(255, 50, 50)};
+    const QBrush m_HyperedgeBrush{QColor(100, 149, 237)};
 
 };
 

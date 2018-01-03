@@ -20,18 +20,17 @@ public:
 
     static double CalculateAverage(const std::vector<int>& numbers);
 
-    static double CalculateStandardDeviations(const std::vector<int>& numbers);
-    static double CalculateStandardDeviations(const std::vector<int>& numbers, double average);
+    static double CalculateStandardDeviations(std::vector<int> const& numbers);
+    static double CalculateStandardDeviations(std::vector<int> const& numbers, double average);
 
-    static double ChiSquareTest(const std::vector<double>& exp, const std::vector<double>& teo);
-    static double ChiSquareTest(const std::unordered_map<int,double>& exp, const std::vector<double> &teo);
+    static double ChiSquareTest(std::vector<double> const& exp, const std::vector<double>& teo);
+    static double ChiSquareTest(std::unordered_map<int,double> const& exp, const std::vector<double> &teo);
 
     static std::vector<int> GenerateTable(const size_t size , Distribution& distribution);
 
-    static std::unordered_map<int,double> CalculateHistogram(const std::vector<int> &table);
+    static std::unordered_map<int,double> CalculateHistogram(std::vector<int> const&table);
+
     static void NormalizeHistogram(std::unordered_map<int,double>& histogram);
-
-
     static void NormalizeTable(std::vector<int>& table,double normalize);
 
     /*

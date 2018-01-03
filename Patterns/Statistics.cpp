@@ -10,12 +10,12 @@ int Statistics::Factorial( int N)
     return factorial;
 }
 
-double Statistics::CalculateAverage(const std::vector<int>& numbers)
+double Statistics::CalculateAverage(std::vector<int> const& numbers)
 {
   return  std::accumulate(numbers.begin(), numbers.end(), 0) / static_cast<double>(numbers.size());
 }
 
-double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers)
+double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers)
 {
     double sum = std::accumulate(std::begin(numbers), std::end(numbers), 0.0);
     double average =  sum / numbers.size();
@@ -23,7 +23,7 @@ double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers)
     return Statistics::CalculateStandardDeviations(numbers , average);
 }
 
-double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers,double average)
+double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,double average)
 {
     double accum = 0.0;
     std::for_each (std::begin(numbers), std::end(numbers),
@@ -31,7 +31,7 @@ double Statistics::CalculateStandardDeviations(const std::vector<int>& numbers,d
     return sqrt(accum / (numbers.size()-1));
 }
 
-double Statistics::ChiSquareTest(const std::vector<double>& exp,const std::vector<double>& teo)
+double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo)
 {
     double sum=0;
     for(size_t i = 0 ; i < teo.size() ; ++i)
@@ -41,7 +41,7 @@ double Statistics::ChiSquareTest(const std::vector<double>& exp,const std::vecto
     return sum;
 }
 
-double Statistics::ChiSquareTest(const std::unordered_map<int,double>& exp,const std::vector<double>& teo)
+double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo)
 {
     double sum=0;
     for(auto const& it : exp)
@@ -71,7 +71,7 @@ void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
     }
 }
 
-std::unordered_map<int,double> Statistics::CalculateHistogram(const std::vector<int>& table)
+std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> const& table)
 {
     std::unordered_map<int,double>  histogram;
     histogram.reserve(table.size());
@@ -125,7 +125,7 @@ BidiIter random_unique(BidiIter begin, BidiIter end, size_t num_random)
     while (--num_random)
     {
         BidiIter r = begin;
-        std::advance( r , Uniform::get( 0 , left ) );
+        std::advance( r , Uniform::Get( 0 , left ) );
         std::swap(*begin, *r);
         ++begin;
         --left;

@@ -8,7 +8,7 @@ GUIHyperEdge::GUIHyperEdge(const QRectF &rect, const QPen &pen,const QBrush &bru
   setBrush(brush);
 }
 
-void GUIHyperEdge::addLine(QGraphicsLineItem *line)
+void GUIHyperEdge::AddLine(QGraphicsLineItem *line)
 {
   line->setLine(QLineF(line->line().p1(), centerPos(this->pos())));
   lines.push_back(line);
