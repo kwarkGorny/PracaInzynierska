@@ -1,33 +1,33 @@
-#include "AdjacencyListManager.h"
+#include "HyperGraphManager.h"
 
 #include<fstream>
 #include<iostream>
 
 
-std::vector<int> AdjacencyListManager::CalculateKTable(const AdjacencyList& hyperGraph)
+std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph)
 {
-  std::vector<int> kTable(hyperGraph.GetNumberOfVertices());
-  for(auto&& hyperedge : hyperGraph.GetAdjacencyList())
-  {
-    for(auto&& vertex :  hyperedge)
+    std::vector<int> kTable(hyperGraph.GetNumberOfVertices());
+    for(auto&& hyperedge : hyperGraph.GetHyperGraph())
     {
-        kTable[vertex] += 1;
+        for(auto&& vertex :  hyperedge)
+        {
+            kTable[vertex] += 1;
+        }
     }
-  }
-  return kTable;
+    return kTable;
 }
 
-std::vector<int> AdjacencyListManager::CalculatePTable(const std::vector<std::set<int>>& hyperGraph)
+std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGraph)
 {
-   std::vector<int> pTable(hyperGraph.size());
-   for(size_t i = 0; i < hyperGraph.size(); ++i)
-   {
+    std::vector<int> pTable(hyperGraph.size());
+    for(size_t i = 0; i < hyperGraph.size(); ++i)
+    {
         pTable[i] += hyperGraph[i].size();
-   }
-   return pTable;
+    }
+    return pTable;
 }
 
-void AdjacencyListManager::MakeLoops(AdjacencyList &hyperGraph,int vertexId,int amount)
+void HyperGraphManager::MakeLoops(HyperGraph &hyperGraph,int vertexId,int amount)
 {
     for(int i=0 ;i<amount;++i)
     {
@@ -35,7 +35,7 @@ void AdjacencyListManager::MakeLoops(AdjacencyList &hyperGraph,int vertexId,int 
     }
 }
 
-std::vector<int> AdjacencyListManager::KTableFromFile(const std::string& nameOfFile)
+std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile)
 {
     std::ifstream file (nameOfFile);
     std::vector<int> kTable;
@@ -55,27 +55,27 @@ std::vector<int> AdjacencyListManager::KTableFromFile(const std::string& nameOfF
             }
             else
             {
-                std::cout<<"Error : end of file reach but not all vertexes was set up";
+                std::cerr<<"Error : end of file reach but not all vertexes was set up";
             }
         }
         file.close();
     }
     else
     {
-        std::cout<<"Error : file dont exist";
+        std::cerr<<"Error : file dont exist :" << nameOfFile << std::endl;
     }
     return kTable;
 
 }
 
-void AdjacencyListManager::AdjacenyListToFile(const AdjacencyList &hyperGraph , const std::string& nameOfFile)
+void HyperGraphManager::AdjacenyListToFile(const HyperGraph &hyperGraph , const std::string& nameOfFile)
 {
     std::ofstream file (nameOfFile);
     if(file.is_open())
     {
         file<<hyperGraph.GetNumberOfVertices()<<'\n';
         file<<hyperGraph.size()<<'\n';
-        for(auto const& hyperedge : hyperGraph.GetAdjacencyList())
+        for(auto const& hyperedge : hyperGraph.GetHyperGraph())
         {
             file<<hyperedge.size()<<'\n';
             for(auto const& vertex:hyperedge)
@@ -89,10 +89,10 @@ void AdjacencyListManager::AdjacenyListToFile(const AdjacencyList &hyperGraph , 
     }
 }
 
-AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& nameOfFile)
+HyperGraph HyperGraphManager::AdjacenyListFromFile(const std::string& nameOfFile)
 {
     std::ifstream file (nameOfFile);
-    AdjacencyList hyperGraph;
+    HyperGraph hyperGraph;
     if(file.is_open())
     {
         int numberOfVertices =0;
@@ -104,7 +104,7 @@ AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& name
         int sizeOfHyperedge =0;
         while(file >> sizeOfHyperedge)
         {
-            std::set<int> hyperedge;
+            HyperEdge hyperedge;
             for(int i=0 ; i < sizeOfHyperedge ; ++i)
             {
                 int vertex = 0;
@@ -114,7 +114,7 @@ AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& name
                 }
                 else
                 {
-                    std::cout<<"Error";
+                    std::cerr<<"Error";
                 }
             }
             hyperGraph.AddHyperEdge(std::move(hyperedge));
@@ -123,22 +123,22 @@ AdjacencyList AdjacencyListManager::AdjacenyListFromFile(const std::string& name
     }
     else
     {
-        std::cout<<"Error : file dont exist";
+        std::cerr<<"Error : file dont exist :" << nameOfFile << std::endl;
     }
     return hyperGraph;
 }
 
-std::map<std::set<int>,int> AdjacencyListManager::CalculateHyperedgeDuplicates(const std::vector<std::set<int>>& hyperGraph)
+std::map<HyperEdge,int> HyperGraphManager::CalculateHyperedgeDuplicates(const HyperEdgeList& hyperGraph)
 {
-   std::map<std::set<int>,int> hyperEdgeHistogram;
-   for(auto const& hyperEdge : hyperGraph)
-   {
-        ++hyperEdgeHistogram[hyperEdge];
-   }
-   return hyperEdgeHistogram;
+    std::map<HyperEdge,int> hyperEdgeHistogram;
+    for(auto const& hyperEdge : hyperGraph)
+    {
+         ++hyperEdgeHistogram[hyperEdge];
+    }
+    return hyperEdgeHistogram;
 }
 
-void AdjacencyListManager::ShowHyperedgeDuplicates(const std::map<std::set<int>,int>& hyperGraphDuplicates)
+void HyperGraphManager::ShowHyperedgeDuplicates(const std::map<HyperEdge,int>& hyperGraphDuplicates)
 {
     bool noDuplicates = true;
     for(auto && hyperEdge : hyperGraphDuplicates)

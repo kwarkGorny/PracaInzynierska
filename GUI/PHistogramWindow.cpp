@@ -1,6 +1,6 @@
 #include "PHistogramWindow.h"
 
-#include"AdjacencyList/AdjacencyListManager.h"
+#include"HyperGraph/HyperGraphManager.h"
 #include"Patterns/Statistics.h"
 #include "Patterns/Data.h"
 
@@ -44,15 +44,15 @@ void PHistogramWindow::Reset()
 void PHistogramWindow::AnalizeHyperEdges()
 {
     Reset();
-    DATA.SetPTable(AdjacencyListManager::CalculatePTable(DATA.GetHyperGraph().GetAdjacencyList()));
+    DATA.SetPTable(HyperGraphManager::CalculatePTable(DATA.GetHyperGraph().GetHyperGraph()));
     m_PHistogram = Statistics::CalculateHistogram(DATA.GetPTable());
     Statistics::NormalizeHistogram(m_PHistogram);
 
     m_PTheoretical = DATA.GetPDistribution()->GetTheoretical(DATA.GetHyperGraph().size());
 
 
-    auto hyperEdgesDuplicates = AdjacencyListManager::CalculateHyperedgeDuplicates(DATA.GetHyperGraph().GetAdjacencyList());
-    AdjacencyListManager::ShowHyperedgeDuplicates(hyperEdgesDuplicates);
+    auto hyperEdgesDuplicates = HyperGraphManager::CalculateHyperedgeDuplicates(DATA.GetHyperGraph().GetHyperGraph());
+    HyperGraphManager::ShowHyperedgeDuplicates(hyperEdgesDuplicates);
 
     double averageP = Statistics::CalculateAverage(DATA.GetPTable());
     double standDevP = Statistics::CalculateStandardDeviations(DATA.GetPTable(),averageP);

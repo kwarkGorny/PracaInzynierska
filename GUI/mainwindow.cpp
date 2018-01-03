@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 
 
-#include"AdjacencyList/AdjacencyListManager.h"
-#include"AdjacencyList/AdjacencyListFabric.h"
+#include"HyperGraph/HyperGraphManager.h"
+#include"HyperGraph/HyperGraphFabric.h"
 #include"Patterns/Statistics.h"
 #include"Patterns/Data.h"
 
@@ -53,11 +53,11 @@ void MainWindow::RandomHypergraphAlgorithm()
 
         if(ui->VUseLoadedChB->isEnabled() && ui->VUseLoadedChB->isCheckable() && ui->VUseLoadedChB->isChecked())
         {
-            DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(m_LoadedKTable,*DATA.GetPDistribution()));
+            DATA.SetHyperGraph(HyperGraphFabric::CreateRandomHyperGraph(m_LoadedKTable,*DATA.GetPDistribution()));
         }
         else
         {
-            DATA.SetHyperGraph(AdjacencyListFabric::CreateRandomAdjacencyList(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
+            DATA.SetHyperGraph(HyperGraphFabric::CreateRandomHyperGraph(numberOfVertices,*DATA.GetKDistribution(),*DATA.GetPDistribution()));
         }
         ShowTime("Algorithm took ",begin);
     }
@@ -487,7 +487,7 @@ void MainWindow::on_actionSave_as_triggered()
     std::cout<<"Save as action ..."<<std::endl;
     const QString fileName = QFileDialog::getSaveFileName(this,"Save Hypergraph",QDir::homePath());
     std::cout<<"Saving to "<< fileName.toStdString() << std::endl;
-    AdjacencyListManager::AdjacenyListToFile(DATA.GetHyperGraph(),fileName.toStdString());
+    HyperGraphManager::AdjacenyListToFile(DATA.GetHyperGraph(),fileName.toStdString());
 
     std::cout<<"Save as action Done."<<std::endl;
 
@@ -499,7 +499,7 @@ void MainWindow::on_actionLoad_triggered()
     const QString fileName = QFileDialog::getOpenFileName(this,"Load Hypergraph",QDir::homePath());
     std::cout<<"Loading from "<< fileName.toStdString() << std::endl;
 
-    DATA.SetHyperGraph(AdjacencyListManager::AdjacenyListFromFile(fileName.toStdString()));
+    DATA.SetHyperGraph(HyperGraphManager::AdjacenyListFromFile(fileName.toStdString()));
     std::cout<<"Load action Done."<<std::endl;
 }
 
@@ -508,7 +508,7 @@ void MainWindow::on_actionLoad_kTable_triggered()
     std::cout<<"Load kTable action"<<std::endl;
     const QString fileName = QFileDialog::getOpenFileName(this,"Load vertex degree distribution",QDir::homePath());
     std::cout<<"Loading from "<< fileName.toStdString() << std::endl;
-    m_LoadedKTable = AdjacencyListManager::KTableFromFile(fileName.toStdString());
+    m_LoadedKTable = HyperGraphManager::KTableFromFile(fileName.toStdString());
     std::cout<<"Load action Done."<<std::endl;
 
     ui->VUseLoadedChB->setEnabled(true);

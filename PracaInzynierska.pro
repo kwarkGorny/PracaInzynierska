@@ -33,15 +33,15 @@ SOURCES += main.cpp\
     Distributions/geometric.cpp \
     Distributions/constant.cpp \
     GUI/hypergraphdrawdialog.cpp \
-    AdjacencyList/AdjacencyList.cpp \
-    AdjacencyList/AdjacencyListFabric.cpp \
-    AdjacencyList/AdjacencyListManager.cpp \
     Patterns/Statistics.cpp \
     GUI/KHistogramWindow.cpp \
     GUI/PHistogramWindow.cpp \
     Patterns/Data.cpp \
     Patterns/RandomSystem.cpp \
-    Distributions/powerlaw.cpp
+    Distributions/powerlaw.cpp \
+    HyperGraph/HyperGraph.cpp \
+    HyperGraph/HyperGraphFabric.cpp \
+    HyperGraph/HyperGraphManager.cpp
 
 HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
@@ -55,15 +55,18 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     Distributions/geometric.h \
     Distributions/constant.h \
     GUI/hypergraphdrawdialog.h \
-    AdjacencyList/AdjacencyList.h \
-    AdjacencyList/AdjacencyListFabric.h \
-    AdjacencyList/AdjacencyListManager.h \
     Patterns/Statistics.h \
     GUI/KHistogramWindow.h \
     GUI/PHistogramWindow.h \
     Patterns/Data.h \
     Patterns/RandomSystem.h \
-    Distributions/powerlaw.h
+    Distributions/powerlaw.h \
+    GUI/ui_hypergraphdrawdialog.h \
+    GUI/ui_KHistogramWindow.h \
+    GUI/ui_PHistogramWindow.h \
+    HyperGraph/HyperGraph.h \
+    HyperGraph/HyperGraphManager.h \
+    HyperGraph/HyperGraphFabric.h
 
 FORMS    += mainwindow.ui \
     GUI/hypergraphdrawdialog.ui \

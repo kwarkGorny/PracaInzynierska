@@ -8,7 +8,7 @@
 
 #include<memory>
 
-#include"AdjacencyList/AdjacencyListManager.h"
+#include"HyperGraph/HyperGraphManager.h"
 #include"Patterns/Statistics.h"
 #include "Patterns/Data.h"
 

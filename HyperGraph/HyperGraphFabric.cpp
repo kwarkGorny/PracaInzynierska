@@ -1,15 +1,15 @@
-#include "AdjacencyListFabric.h"
+#include "HyperGraphFabric.h"
 
 #include"Distributions/uniform.h"
 #include "Patterns/Statistics.h"
 #include<algorithm>
 #include<iostream>
-AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution)
+HyperGraph HyperGraphFabric::CreateRandomHyperGraph(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution)
 {
     const int numberOfVertices =theoreticalKTable.size();
     const int lastVertexId = numberOfVertices-1;
 
-    AdjacencyList hypergraph(numberOfVertices);
+    HyperGraph hypergraph(numberOfVertices);
     std::vector<int> kTable = theoreticalKTable;
 
     for (int i = 0; i < lastVertexId ; ++i)
@@ -61,11 +61,11 @@ AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(std::vector<int> co
           }
       }
     }
-    AdjacencyListManager::MakeLoops(hypergraph,lastVertexId,kTable[lastVertexId]);//making loops for last vertex
+    HyperGraphManager::MakeLoops(hypergraph,lastVertexId,kTable[lastVertexId]);//making loops for last vertex
     return hypergraph;
 }
 
-AdjacencyList AdjacencyListFabric::CreateRandomAdjacencyList(int numberOfVertices,Distribution &VertexDistribution,Distribution &HyperEdgeDistribution)
+HyperGraph HyperGraphFabric::CreateRandomHyperGraph(int numberOfVertices,Distribution &VertexDistribution,Distribution &HyperEdgeDistribution)
 {    
-    return CreateRandomAdjacencyList(Statistics::GenerateTable(numberOfVertices,VertexDistribution),HyperEdgeDistribution);
+    return CreateRandomHyperGraph(Statistics::GenerateTable(numberOfVertices,VertexDistribution),HyperEdgeDistribution);
 }

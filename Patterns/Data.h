@@ -2,7 +2,7 @@
 #define DATA_H
 
 #include"Distributions/distribution.h"
-#include"AdjacencyList/AdjacencyList.h"
+#include"HyperGraph/HyperGraph.h"
 #include <memory>
 #include <vector>
 
@@ -26,9 +26,9 @@ public:
 
     void Reset();
 
-    inline AdjacencyList const& GetHyperGraph()const{ return m_HyperGraph; }
-    inline AdjacencyList& GetHyperGraph(){ return m_HyperGraph; }
-    inline void SetHyperGraph(AdjacencyList const& hyperGraph){ m_HyperGraph = hyperGraph; }
+    inline HyperGraph const& GetHyperGraph()const{ return m_HyperGraph; }
+    inline HyperGraph& GetHyperGraph(){ return m_HyperGraph; }
+    inline void SetHyperGraph(HyperGraph const& hyperGraph){ m_HyperGraph = hyperGraph; }
 
     inline std::vector<int> const& GetKTable()const{ return m_KTable; }
     inline std::vector<int>& GetKTable(){ return m_KTable; }
@@ -50,7 +50,7 @@ protected:
     Data();
 
 private:
-    AdjacencyList m_HyperGraph;
+    HyperGraph m_HyperGraph;
 
     std::vector<int> m_PTable;
     std::vector<int> m_KTable;

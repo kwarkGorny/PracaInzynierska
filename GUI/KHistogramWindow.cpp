@@ -17,7 +17,7 @@ KHistogramWindow::~KHistogramWindow()
 void KHistogramWindow::AnalizeVertices()
 {
    Reset();
-   DATA.SetKTable(AdjacencyListManager::CalculateKTable(DATA.GetHyperGraph()));
+   DATA.SetKTable(HyperGraphManager::CalculateKTable(DATA.GetHyperGraph()));
    m_KHistogram = Statistics::CalculateHistogram(DATA.GetKTable());
    Statistics::NormalizeHistogram(m_KHistogram);
 
