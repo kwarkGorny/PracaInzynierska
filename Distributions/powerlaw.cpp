@@ -1,6 +1,6 @@
 #include "powerlaw.h"
 #include "Distributions/uniform.h"
-#include "math.h"
+#include <cmath>
 PowerLaw::PowerLaw(int rangeStart, double distributionPower) : Distribution() , m_RangeStart(rangeStart), m_DistributionPower(distributionPower)
 {
 }
@@ -33,7 +33,7 @@ double PowerLaw::GetAverage()
 
 double PowerLaw::Variate(int rangeStart, double distributionPower)
 {
-    return rangeStart * pow((1 - Uniform::GetReal(0,1)),-1/(distributionPower-1));
+    return rangeStart * std::pow((1 - Uniform::GetReal(0,1)),-1/(distributionPower-1));
 }
 
 bool PowerLaw::IsValid()const

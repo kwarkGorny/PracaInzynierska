@@ -3,6 +3,7 @@
 #include"HyperGraph/HyperGraphManager.h"
 #include"Patterns/Statistics.h"
 #include "Patterns/Data.h"
+#include "Patterns/Utils.h"
 
 #include<iostream>
 #include<chrono>
@@ -89,14 +90,8 @@ void PHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_ma
 {
     QVector<double> x;
     QVector<double> y;
-    x.reserve(histogram.size());
-    y.reserve(histogram.size());
+    std::tie(x,y) =Utils::ToQVector(histogram);
 
-    for (const auto& value : histogram)
-    {
-      x.push_back(value.first);
-      y.push_back(value.second);
-    }
     auto maxp= *std::max_element(x.begin(),x.end());
     auto max= *std::max_element(y.begin(),y.end());
 
@@ -110,17 +105,7 @@ void PHistogramWindow::DrawTheoreticalHistogram(QCustomPlot* grap,const std::vec
 {
     QVector<double> x;
     QVector<double> y;
-    x.reserve(values.size());
-    y.reserve(values.size());
-
-    for (size_t i=0;i<values.size();++i)
-    {
-      if(values[i] != 0)
-      {
-        x.push_back(i);
-        y.push_back(values[i]);
-      }
-    }
+    std::tie(x,y) =Utils::ToQVector(values);
 
     grap->graph(1)->setData(x, y);
     grap->replot();

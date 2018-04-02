@@ -16,8 +16,8 @@ class HyperGraphFabric
 {
 public:
 
-      static HyperGraph CreateRandomHyperGraph(int numberOfVertices,Distribution & VertexDistribution,Distribution & HyperEdgeDistribution);
 
+      static HyperGraph CreateRandomHyperGraph(int numberOfVertices,Distribution & VertexDistribution,Distribution & HyperEdgeDistribution);
       static HyperGraph CreateRandomHyperGraph(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution);
 
 protected:

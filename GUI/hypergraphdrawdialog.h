@@ -6,7 +6,6 @@
 #include <QGraphicsScene>
 #include <QtWidgets>
 #include <QtCore>
-#include <QGraphicsScene>
 
 
 #include "Patterns/Data.h"

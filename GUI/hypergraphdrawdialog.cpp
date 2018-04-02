@@ -66,7 +66,6 @@ void HyperGraphDrawDialog::DrawHyperGraph()
 
   for (int i = 0; i < numberOfHyperEdges; ++i)
   {
-
     randomPen.setColor(QColor(Uniform::Get(0,255), Uniform::Get(0,255), Uniform::Get(0,255)));
     for(auto&& vertex : DATA.GetHyperGraph().GetHyperEdge(i))
     {
@@ -75,7 +74,6 @@ void HyperGraphDrawDialog::DrawHyperGraph()
         m_HyperEdges[i]->AddLine(m_Lines.back().get());
     }
   }
-
   for (const auto &vertex : m_Vertexes)
   {
     m_Scene->addItem(vertex.get());

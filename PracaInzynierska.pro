@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     Distributions/powerlaw.cpp \
     HyperGraph/HyperGraph.cpp \
     HyperGraph/HyperGraphFabric.cpp \
-    HyperGraph/HyperGraphManager.cpp
+    HyperGraph/HyperGraphManager.cpp \
+    Patterns/Utils.cpp
 
 HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
@@ -66,7 +67,8 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/ui_PHistogramWindow.h \
     HyperGraph/HyperGraph.h \
     HyperGraph/HyperGraphManager.h \
-    HyperGraph/HyperGraphFabric.h
+    HyperGraph/HyperGraphFabric.h \
+    Patterns/Utils.h
 
 FORMS    += mainwindow.ui \
     GUI/hypergraphdrawdialog.ui \

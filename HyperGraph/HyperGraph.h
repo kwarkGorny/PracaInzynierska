@@ -17,6 +17,10 @@ class HyperGraph
 {
 public:
   explicit HyperGraph(int quantityOfVertecies=0);
+   HyperGraph(HyperGraph&&) = default; // forces a move constructor anyway
+   HyperGraph(HyperGraph const&) = default; // forces a move constructor anyway
+   HyperGraph& operator=(HyperGraph&& ) = default;
+   HyperGraph& operator=(HyperGraph const& ) = default;
 
    void AddVerticies(const int quantity = 1);
    void RemoveVertex(const int id);
@@ -53,8 +57,8 @@ public:
 
 protected:
 private:
-  int m_NumberOfVertecies{0};
-  HyperEdgeList m_HyperedgeList{};
+  int m_NumberOfVertecies = 0;
+  HyperEdgeList m_HyperedgeList = {};
 };
 
 #endif // ADJACENCYLIST_H

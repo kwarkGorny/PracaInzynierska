@@ -20,7 +20,7 @@ std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph
 std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGraph)
 {
     std::vector<int> pTable(hyperGraph.size());
-    for(size_t i = 0; i < hyperGraph.size(); ++i)
+    for(int i = 0; i < static_cast<int>(hyperGraph.size()); ++i)
     {
         pTable[i] += hyperGraph[i].size();
     }
@@ -45,7 +45,6 @@ std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile
         int numberOfVertices =0;
         file>>numberOfVertices;
         kTable.reserve(numberOfVertices);
-
         for(int i =0;i<numberOfVertices;++i)
         {
             int k=0;
@@ -56,6 +55,7 @@ std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile
             else
             {
                 std::cerr<<"Error : end of file reach but not all vertexes was set up";
+                break;
             }
         }
         file.close();
@@ -115,6 +115,7 @@ HyperGraph HyperGraphManager::AdjacenyListFromFile(const std::string& nameOfFile
                 else
                 {
                     std::cerr<<"Error";
+                    break;
                 }
             }
             hyperGraph.AddHyperEdge(std::move(hyperedge));

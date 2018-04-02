@@ -28,12 +28,12 @@ HyperGraph HyperGraphFabric::CreateRandomHyperGraph(std::vector<int> const& theo
 
                 int theoreticalDegreeOfHyperedge = HyperEdgeDistribution();
 
-                if(theoreticalDegreeOfHyperedge > numberOfVertices)//for more clarity move to distribution
+                if(theoreticalDegreeOfHyperedge > numberOfVertices)
                 {
                     theoreticalDegreeOfHyperedge = numberOfVertices;
                 }
 
-                while(static_cast<unsigned int>(theoreticalDegreeOfHyperedge) > hyperEdge.size())
+                while(theoreticalDegreeOfHyperedge > static_cast<int>(hyperEdge.size()))
                 {
                     vertexId = Uniform::Get(i,lastVertexId);
                     if(kTable[vertexId] > 0)
