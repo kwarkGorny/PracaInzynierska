@@ -9,15 +9,19 @@ public:
     PowerLaw(int rangeStart, double distributionPower);
     virtual~PowerLaw(){}
 
-    int operator() ();
+    int operator() () noexcept;
 
-    virtual std::vector<double> GetTheoretical(int N);
-    virtual bool IsValid()const;
-    virtual double GetAverage();
+    virtual std::vector<double> GetTheoretical(int N)const noexcept;
+
+    virtual double GetAverage()const noexcept;
+    virtual double GetMedian()const noexcept;
+    virtual double GetStandDev()const noexcept;
+
+    virtual bool IsValid()const noexcept;
 
 
-    static std::vector<double> GetTheoretical(int N,int rangeStart, double distributionPower);
-    static double Variate(int rangeStart, double distributionPower);
+    static std::vector<double> GetTheoretical(int N,int rangeStart, double distributionPower)noexcept;
+    static double Variate(int rangeStart, double distributionPower)noexcept;
 
 protected:
     int m_RangeStart;

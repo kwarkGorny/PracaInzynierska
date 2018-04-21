@@ -46,6 +46,12 @@ public:
 private slots:
     void on_VAnalyzeBtn_clicked();
 
+    void on_XAxisLogScalChb_clicked();
+
+    void on_YAxisLogScalChb_clicked();
+protected:
+    void SetupAxis(QCPAxis * axis,bool isLog)const;
+
 private:
     Ui::KHistogramWindow *ui;
 

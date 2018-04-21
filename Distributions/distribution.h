@@ -25,13 +25,15 @@ public:
     Distribution(){}
     virtual ~Distribution(){}
 
-    virtual int operator ()() =0;
+    virtual int operator ()() noexcept=0;
 
-    virtual std::vector<double> GetTheoretical(int N) =0;
+    virtual std::vector<double> GetTheoretical(int N)const noexcept=0;
 
-    virtual bool IsValid()const{return false;};
+    virtual double GetAverage()const noexcept=0;
+    virtual double GetMedian()const noexcept=0;
+    virtual double GetStandDev()const noexcept=0;
 
-    virtual double GetAverage()=0;
+    virtual bool IsValid()const noexcept{return false;}
 
 protected:
 private:

@@ -242,14 +242,14 @@ void MainWindow::SelectKDstribution()
         break;
         case DISTRIBUTION::UNIFORM:
         {
-            int min = ui->VMaxDegreeS->value()>ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
-            int max = ui->VMaxDegreeS->value()<=ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
-             DATA.SetKDistribution(new Uniform (min,max));
+            const int min = ui->VMaxDegreeS->value()>ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
+            const int max = ui->VMaxDegreeS->value()<=ui->VMinDegreeS->value()?ui->VMinDegreeS->value():ui->VMaxDegreeS->value();
+            DATA.SetKDistribution(new Uniform (min,max));
         }
         break;
         case DISTRIBUTION::POISSON:
         {
-             DATA.SetKDistribution(new Poisson(ui->VAverageDegreeS->value()));
+            DATA.SetKDistribution(new Poisson(ui->VAverageDegreeS->value()));
         }
         break;
         case DISTRIBUTION::GEOMETRIC:
@@ -277,9 +277,9 @@ void MainWindow::SelectPDstribution()
         break;
         case DISTRIBUTION::UNIFORM:
         {
-            int min = ui->HMaxDegreeS->value()>ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
-            int max = ui->HMaxDegreeS->value()<=ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
-             DATA.SetPDistribution(new Uniform(min,max));
+            const int min = ui->HMaxDegreeS->value()>ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
+            const int max = ui->HMaxDegreeS->value()<=ui->HMinDegreeS->value()?ui->HMinDegreeS->value():ui->HMaxDegreeS->value();
+            DATA.SetPDistribution(new Uniform(min,max));
         }
         break;
         case DISTRIBUTION::POISSON:

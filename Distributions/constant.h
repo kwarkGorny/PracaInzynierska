@@ -15,12 +15,14 @@ public:
     Constant(int value);
     virtual ~Constant(){}
 
-    int operator() ();
+    int operator() () noexcept;
 
-    virtual std::vector<double> GetTheoretical(int N);
-    virtual double GetAverage();
+    virtual std::vector<double> GetTheoretical(int N)const noexcept;
+    virtual double GetAverage()const noexcept;
+    virtual double GetMedian()const noexcept;
+    virtual double GetStandDev()const noexcept;
 
-    virtual bool IsValid()const;
+    virtual bool IsValid()const noexcept;
 
 
 

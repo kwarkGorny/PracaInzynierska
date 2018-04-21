@@ -1,11 +1,11 @@
 #include "HyperGraph.h"
 #include<algorithm>
-HyperGraph::HyperGraph(int quantityOfVertecies) : m_NumberOfVertecies{quantityOfVertecies},m_HyperedgeList{}
+HyperGraph::HyperGraph(int quantityOfVertecies)noexcept : m_NumberOfVertecies{quantityOfVertecies},m_HyperedgeList{}
 {
 
 }
 
-void HyperGraph::AddVerticies(const int quantity)
+void HyperGraph::AddVerticies(const int quantity)noexcept
 {
     if(quantity>0)
     {
@@ -13,23 +13,20 @@ void HyperGraph::AddVerticies(const int quantity)
     }
 }
 
-void HyperGraph::RemoveVertex(const int id)
+void HyperGraph::RemoveVertex(const int id)noexcept
 {
     --m_NumberOfVertecies;
     std::for_each(m_HyperedgeList.begin(),m_HyperedgeList.end(),[&](auto&& hyperedge){hyperedge.erase(id);});
 }
 
-void HyperGraph::AddHyperEdge()
-{
-    m_HyperedgeList.emplace_back();
-}
 
-int HyperGraph::GetConnection(const int hyperedge, const int vertex) const
+
+int HyperGraph::GetConnection(const int hyperedge, const int vertex) const noexcept
 {
     return m_HyperedgeList[hyperedge].find(vertex)!=std::end(m_HyperedgeList[hyperedge]);
 }
 
-void HyperGraph::RemoveHyperegde(const int pos)
+void HyperGraph::RemoveHyperegde(const int pos)noexcept
 {
     if(pos>0)
     {
@@ -37,17 +34,17 @@ void HyperGraph::RemoveHyperegde(const int pos)
     }
 }
 
-bool HyperGraph::AddVertexToHyperedge(const int hyperedge, const int vertex)
+bool HyperGraph::AddVertexToHyperedge(const int hyperedge, const int vertex)noexcept
 {
    return m_HyperedgeList[hyperedge].insert(vertex).second;
 }
 
-void HyperGraph::RemoveVertexFromHyperedge(const int hyperedge, const int vertex)
+void HyperGraph::RemoveVertexFromHyperedge(const int hyperedge, const int vertex)noexcept
 {
     m_HyperedgeList[hyperedge].erase(vertex);
 }
 
-void HyperGraph::Reset()
+void HyperGraph::Reset() noexcept
 {
     m_NumberOfVertecies =0;
     m_HyperedgeList.clear();

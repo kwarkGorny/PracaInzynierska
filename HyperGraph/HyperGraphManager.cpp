@@ -7,7 +7,7 @@
 std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph)
 {
     std::vector<int> kTable(hyperGraph.GetNumberOfVertices());
-    for(auto&& hyperedge : hyperGraph.GetHyperGraph())
+    for(auto&& hyperedge : hyperGraph.GetHyperEdgeList())
     {
         for(auto&& vertex :  hyperedge)
         {
@@ -19,10 +19,11 @@ std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph
 
 std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGraph)
 {
-    std::vector<int> pTable(hyperGraph.size());
-    for(int i = 0; i < static_cast<int>(hyperGraph.size()); ++i)
+    std::vector<int> pTable;
+    pTable.reserve(hyperGraph.size());
+    for(auto&& hyperEdge : hyperGraph)
     {
-        pTable[i] += hyperGraph[i].size();
+        pTable.emplace_back(hyperEdge.size());
     }
     return pTable;
 }
@@ -75,7 +76,7 @@ void HyperGraphManager::AdjacenyListToFile(const HyperGraph &hyperGraph , const 
     {
         file<<hyperGraph.GetNumberOfVertices()<<'\n';
         file<<hyperGraph.size()<<'\n';
-        for(auto const& hyperedge : hyperGraph.GetHyperGraph())
+        for(auto const& hyperedge : hyperGraph.GetHyperEdgeList())
         {
             file<<hyperedge.size()<<'\n';
             for(auto const& vertex:hyperedge)

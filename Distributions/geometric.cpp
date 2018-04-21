@@ -9,12 +9,12 @@ Geometric::Geometric(double parameter) : Distribution (), m_Geometric(parameter)
 
 }
 
-int Geometric::operator()()
+int Geometric::operator()()noexcept
 {
     return m_Geometric(RANDOMSYSTEM.GetRandomEngine());
 }
 
-std::vector<double> Geometric::GetTheoretical(int N,double parameter)
+std::vector<double> Geometric::GetTheoretical(int N,double parameter)noexcept
 {
     boost::math::geometric_distribution<> posTheoretical(parameter);
     std::vector<double> prob ;
@@ -26,18 +26,28 @@ std::vector<double> Geometric::GetTheoretical(int N,double parameter)
     return prob;
 }
 
-std::vector<double> Geometric::GetTheoretical(int N)
+std::vector<double> Geometric::GetTheoretical(int N)const noexcept
 {
     return Geometric::GetTheoretical(N,m_Geometric.p());
 }
 
-double Geometric::GetAverage()
+double Geometric::GetAverage()const noexcept
 {
     boost::math::geometric_distribution<> posTheoretical(m_Geometric.p());
     return boost::math::mean(posTheoretical);
 }
+double Geometric::GetMedian()const noexcept
+{
+    boost::math::geometric_distribution<> posTheoretical(m_Geometric.p());
+    return boost::math::median(posTheoretical);
+}
+double Geometric::GetStandDev()const noexcept
+{
+    boost::math::geometric_distribution<> posTheoretical(m_Geometric.p());
+    return boost::math::standard_deviation(posTheoretical);
+}
 
-bool Geometric::IsValid()const
+bool Geometric::IsValid()const noexcept
 {
     return true;
 }

@@ -16,14 +16,16 @@ public:
     Poisson(double average);
     virtual~Poisson(){}
 
-    int operator() () ;
+    int operator() () noexcept;
 
 
-    virtual std::vector<double> GetTheoretical(int N);
-    virtual bool IsValid()const;
-    virtual double GetAverage();
+    virtual std::vector<double> GetTheoretical(int N)const noexcept;
+    virtual bool IsValid()const noexcept;
+    virtual double GetAverage()const noexcept;
+    virtual double GetMedian()const noexcept;
+    virtual double GetStandDev()const noexcept;
 
-    static std::vector<double> GetTheoretical(int N,double lambda);
+    static std::vector<double> GetTheoretical(int N,double lambda) noexcept;
 protected:
     std::poisson_distribution<int> m_Poisson;
 private:

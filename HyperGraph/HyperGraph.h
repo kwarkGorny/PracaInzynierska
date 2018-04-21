@@ -16,49 +16,103 @@ typedef std::vector<HyperEdge> HyperEdgeList;
 class HyperGraph
 {
 public:
-  explicit HyperGraph(int quantityOfVertecies=0);
-   HyperGraph(HyperGraph&&) = default; // forces a move constructor anyway
-   HyperGraph(HyperGraph const&) = default; // forces a move constructor anyway
-   HyperGraph& operator=(HyperGraph&& ) = default;
+   explicit HyperGraph(int quantityOfVertecies=0)noexcept;
+   HyperGraph(HyperGraph&&)noexcept = default;
+   HyperGraph(HyperGraph const&) = default;
+   HyperGraph& operator=(HyperGraph&& )noexcept = default;
    HyperGraph& operator=(HyperGraph const& ) = default;
 
-   void AddVerticies(const int quantity = 1);
-   void RemoveVertex(const int id);
+   void AddVerticies(const int quantity = 1)noexcept;
+   void RemoveVertex(const int id)noexcept;
 
-   void AddHyperEdge();
-   inline void AddHyperEdge(HyperEdge&& hyperEdge) {m_HyperedgeList.emplace_back(std::move(hyperEdge));}
-   inline void AddHyperEdge(HyperEdge const& hyperEdge) {m_HyperedgeList.emplace_back(hyperEdge);}
+   inline void AddHyperEdge()noexcept;
+   inline void AddHyperEdge(HyperEdge&& hyperEdge)noexcept;
+   inline void AddHyperEdge(HyperEdge const& hyperEdge)noexcept;
+   void RemoveHyperegde(const int pos)noexcept;
 
-   inline void Reserve(const int N){m_HyperedgeList.reserve(N);}
-   void RemoveHyperegde(const int pos);
+   inline void Reserve(const int N)noexcept;
 
-   bool AddVertexToHyperedge(const int hyperedge, const int vertex);
-   void RemoveVertexFromHyperedge(const int hyperedge, const int vertex);
+   bool AddVertexToHyperedge(const int hyperedge, const int vertex)noexcept;
+   void RemoveVertexFromHyperedge(const int hyperedge, const int vertex)noexcept;
 
-   int GetConnection(const int hyperedge, const int vertex) const;
+   int GetConnection(const int hyperedge, const int vertex) const noexcept;
 
-   inline HyperEdge const& GetHyperEdge ( const int index )const{return m_HyperedgeList[index];}
-   inline HyperEdge& GetHyperEdge(const int index){return m_HyperedgeList[index];}
+   inline HyperEdge const& GetHyperEdge ( const int index )const noexcept;
+   inline HyperEdge& GetHyperEdge(const int index)noexcept;
 
-   inline HyperEdge const& begin()const {return m_HyperedgeList[0];}
-   inline HyperEdge& begin() {return m_HyperedgeList[0];}
+   inline HyperEdge const& begin()const noexcept;
+   inline HyperEdge& begin() noexcept;
 
-   inline HyperEdge const& end()const {return m_HyperedgeList.back();}
-   inline HyperEdge& end() {return m_HyperedgeList.back();}
+   inline HyperEdge const& end()const noexcept;
+   inline HyperEdge& end() noexcept;
 
 
-   inline auto size()const {return m_HyperedgeList.size();}
-   inline int GetNumberOfVertices() const {return m_NumberOfVertecies; }
+   inline auto size()const noexcept;
+   inline int GetNumberOfVertices() const noexcept;
 
-   inline HyperEdgeList const& GetHyperGraph() const {return m_HyperedgeList; }
-   inline HyperEdgeList & GetHyperGraph() {return m_HyperedgeList; }
+   inline HyperEdgeList const& GetHyperEdgeList() const noexcept;
+   inline HyperEdgeList & GetHyperEdgeList() noexcept;
 
-   void Reset();
+   void Reset() noexcept;
 
 protected:
 private:
   int m_NumberOfVertecies = 0;
   HyperEdgeList m_HyperedgeList = {};
 };
+
+
+void HyperGraph::AddHyperEdge(HyperEdge&& hyperEdge)noexcept
+{
+    m_HyperedgeList.emplace_back(std::move(hyperEdge));
+}
+void HyperGraph::AddHyperEdge(HyperEdge const& hyperEdge)noexcept
+{
+    m_HyperedgeList.emplace_back(hyperEdge);
+}
+HyperEdge const& HyperGraph::GetHyperEdge ( const int index )const noexcept
+{
+    return m_HyperedgeList[index];
+}
+HyperEdge& HyperGraph::GetHyperEdge(const int index)noexcept
+{
+    return m_HyperedgeList[index];
+}
+HyperEdge const& HyperGraph::begin()const noexcept
+{
+    return m_HyperedgeList[0];
+}
+HyperEdge& HyperGraph::begin() noexcept
+{
+    return m_HyperedgeList[0];
+}
+HyperEdge const& HyperGraph::end()const noexcept
+{
+    return m_HyperedgeList.back();
+}
+HyperEdge& HyperGraph::end() noexcept
+{
+    return m_HyperedgeList.back();
+}
+auto HyperGraph::size()const noexcept
+{
+    return m_HyperedgeList.size();
+}
+int HyperGraph::GetNumberOfVertices() const noexcept
+{
+    return m_NumberOfVertecies;
+}
+HyperEdgeList const& HyperGraph::GetHyperEdgeList() const noexcept
+{
+    return m_HyperedgeList;
+}
+HyperEdgeList & HyperGraph::GetHyperEdgeList() noexcept
+{
+    return m_HyperedgeList;
+}
+void HyperGraph::Reserve(const int N)noexcept
+{
+    m_HyperedgeList.reserve(N);
+}
 
 #endif // ADJACENCYLIST_H

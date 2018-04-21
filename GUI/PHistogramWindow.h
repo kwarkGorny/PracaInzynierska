@@ -38,12 +38,14 @@ public:
 
     void Reset();
 
-
-
-
 private slots:
     void on_HAnalyzeBtn_clicked();
 
+    void on_XAxisLogScalChb_clicked();
+
+    void on_YAxisLogScalChb_clicked();
+protected:
+    void SetupAxis(QCPAxis * axis,bool isLog)const;
 private:
     Ui::PHistogramWindow *ui;
 

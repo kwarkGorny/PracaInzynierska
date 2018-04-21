@@ -19,18 +19,31 @@ void KHistogramWindow::AnalizeVertices()
 {
    Reset();
    DATA.SetKTable(HyperGraphManager::CalculateKTable(DATA.GetHyperGraph()));
+
    m_KHistogram = Statistics::CalculateHistogram(DATA.GetKTable());
+
    Statistics::NormalizeHistogram(m_KHistogram);
 
    m_KTheoretical = DATA.GetKDistribution()->GetTheoretical(DATA.GetHyperGraph().size());
 
-   double averageK = Statistics::CalculateAverage(DATA.GetKTable());
-   double standDevK = Statistics::CalculateStandardDeviations(DATA.GetKTable(),averageK);
-   double ChiSquare = Statistics::ChiSquareTest( m_KHistogram , m_KTheoretical);
+   const double averageTeo = DATA.GetKDistribution()->GetAverage();
+   const double medianTeo = DATA.GetKDistribution()->GetMedian();
+   //const double standDevTeo = DATA.GetKDistribution()->GetStdev();
+   ui->VMeanTheoL->setText(QString::number(averageTeo));
+   ui->VMedianTheoL->setText(QString::number(medianTeo));
+   //ui->VStandDevKL->setText(QString::number(standDevTeo));
 
+   const double averageK = Statistics::CalculateAverage(DATA.GetKTable());
+   const double medianK = Statistics::CalculateMedian(DATA.GetKTable());
+   const double standDevK = Statistics::CalculateStandardDeviations(DATA.GetKTable(),averageK);
    ui->VAverageKL->setText(QString::number(averageK));
+   ui->VMedianKL->setText(QString::number(medianK));
    ui->VStandDevKL->setText(QString::number(standDevK));
-   ui->VChiSquareL->setText(QString::number(ChiSquare));
+
+   const double chiSquare = Statistics::ChiSquareTest( m_KHistogram , m_KTheoretical);
+   const double studentTest = Statistics::TStudentTest(averageTeo,averageK,standDevK, m_KTheoretical.size());
+   ui->VChiSquareL->setText(QString::number(chiSquare));
+   ui->VStudentTestL->setText(QString::number(studentTest));
 }
 
 void KHistogramWindow::DrawKHistogram()
@@ -75,12 +88,14 @@ void KHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_ma
     QVector<double> y;
     std::tie(x,y) =Utils::ToQVector(histogram);
 
-    auto maxp= *std::max_element(x.begin(),x.end());
-    auto max= *std::max_element(y.begin(),y.end());
+   // auto maxp= *std::max_element(x.begin(),x.end());
+    //auto max= *std::max_element(y.begin(),y.end());
 
     grap->graph(0)->setData(x, y);
-    grap->xAxis->setRange(0, 1.1 * maxp);
-    grap->yAxis->setRange(0, 1.1 * max);
+    //grap->xAxis->setRange(0, 1.1 * maxp);
+   // grap->yAxis->setRange(0, 1.1 * max);
+    grap->xAxis->rescale();
+
     grap->replot();
 }
 
@@ -91,6 +106,7 @@ void KHistogramWindow::DrawTheoreticalHistogram(QCustomPlot* grap,const std::vec
     std::tie(x,y) =Utils::ToQVector(values);
 
     grap->graph(1)->setData(x, y);
+    grap->yAxis->rescale();
     grap->replot();
 }
 
@@ -105,4 +121,19 @@ void KHistogramWindow::Reset()
 {
     m_KHistogram.clear();
     m_KTheoretical.clear();
+}
+void KHistogramWindow::SetupAxis(QCPAxis * axis,bool isLog)const
+{
+    axis->setScaleType(isLog?QCPAxis::stLogarithmic:QCPAxis::stLinear);
+}
+void KHistogramWindow::on_XAxisLogScalChb_clicked()
+{
+    SetupAxis(ui->kPlotWidget->xAxis,ui->XAxisLogScalChb->isChecked());
+    ui->kPlotWidget->xAxis->rescale();
+}
+
+void KHistogramWindow::on_YAxisLogScalChb_clicked()
+{
+    SetupAxis(ui->kPlotWidget->yAxis,ui->YAxisLogScalChb->isChecked());
+    ui->kPlotWidget->yAxis->rescale();
 }

@@ -16,21 +16,29 @@ public:
     Uniform(int start,int end);
     virtual ~Uniform(){}
 
-    int operator ()() ;
+    int operator ()() noexcept;
 
 
-    virtual std::vector<double> GetTheoretical(int N);
-    virtual bool IsValid()const;
-    virtual double GetAverage();
+    virtual std::vector<double> GetTheoretical(int N)const noexcept;
 
-    static std::vector<double> GetTheoretical(int N,double min,double max);
-    static double GetReal(const double min ,const double max);
-    static int Get(const int min ,const int max);
+    virtual double GetAverage()const noexcept;
+    virtual double GetMedian()const noexcept;
+    virtual double GetStandDev()const noexcept;
+
+    virtual bool IsValid()const noexcept;
+
+    int getN()const noexcept;
+    static double GetProbability(double min,double max) noexcept;
+    static std::vector<double> GetTheoretical(int N,double min,double max) noexcept;
+    static double GetReal(const double min ,const double max) noexcept;
+    static int Get(const int min ,const int max) noexcept;
 
 protected:
 private:
-    std::uniform_int_distribution<int> m_Uniform;
 
+    std::uniform_int_distribution<int> m_Uniform;
+    int m_Start;
+    int m_End;
 
 };
 

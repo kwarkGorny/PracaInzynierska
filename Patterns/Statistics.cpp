@@ -1,6 +1,6 @@
 #include "Statistics.h"
 #include <algorithm>
-int Statistics::Factorial( int N)
+int Statistics::Factorial( int N)noexcept
 {
     int factorial = 1;
     for(int i = 2 ;i<=N ; ++i)
@@ -10,19 +10,9 @@ int Statistics::Factorial( int N)
     return factorial;
 }
 
-double Statistics::CalculateAverage(std::vector<int> const& numbers)
-{
-  return  std::accumulate(numbers.begin(), numbers.end(), 0) / static_cast<double>(numbers.size());
-}
 
-double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers)
-{
-    const double sum = std::accumulate(std::begin(numbers), std::end(numbers), 0.0);
-    double average =  sum / numbers.size();
-    return Statistics::CalculateStandardDeviations(numbers , average);
-}
 
-double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,double average)
+double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,double average)noexcept
 {
     double accum = 0.0;
     std::for_each (std::begin(numbers), std::end(numbers),
@@ -30,7 +20,7 @@ double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,d
     return sqrt(accum / (numbers.size()-1));
 }
 
-double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo)
+double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo)noexcept
 {
     double sum=0;
     for(int i = 0 ; i < static_cast<int>(teo.size()) ; ++i)
@@ -40,7 +30,7 @@ double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<doub
     return sum;
 }
 
-double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo)
+double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo)noexcept
 {
     double sum=0;
     for(auto && it : exp)
@@ -50,8 +40,11 @@ double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::v
     }
     return sum;
 }
-
-std::vector<int> Statistics::GenerateTable(const int size,Distribution& distribution)
+double Statistics::TStudentTest(double teo,double average,double stdev , int sampleSize )noexcept
+{
+    return (average - teo)/(stdev/sqrt(sampleSize)) ;
+}
+std::vector<int> Statistics::GenerateTable(const int size,Distribution& distribution)noexcept
 {
   std::vector<int> table ;
   table.reserve(size);
@@ -62,7 +55,7 @@ std::vector<int> Statistics::GenerateTable(const int size,Distribution& distribu
   return table;
 }
 
-void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
+void Statistics::NormalizeTable(std::vector<int>& table,double normalize)noexcept
 {
     for(auto&& number : table)
     {
@@ -70,10 +63,10 @@ void Statistics::NormalizeTable(std::vector<int>& table,double normalize)
     }
 }
 
-std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> const& table)
+std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> const& table)noexcept
 {
     std::unordered_map<int,double>  histogram;
-    histogram.reserve(table.size());
+   //histogram.reserve(table.size());
     for(auto&& value : table)
     {
         histogram[value]+=1;
@@ -81,7 +74,7 @@ std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> c
     return histogram;
 }
 
-void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)
+void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)noexcept
 {
     double sum =0;
     for(auto&& it  : histogram)

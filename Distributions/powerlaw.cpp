@@ -5,12 +5,12 @@ PowerLaw::PowerLaw(int rangeStart, double distributionPower) : Distribution() , 
 {
 }
 
-int PowerLaw::operator() ()
+int PowerLaw::operator() () noexcept
 {
     return PowerLaw::Variate( m_RangeStart,m_DistributionPower);
 }
 
-std::vector<double> PowerLaw::GetTheoretical(int N,int rangeStart, double distributionPower)
+std::vector<double> PowerLaw::GetTheoretical(int N,int rangeStart, double distributionPower)noexcept
 {
     std::vector<double> prob ;
     prob.reserve(N);
@@ -21,22 +21,29 @@ std::vector<double> PowerLaw::GetTheoretical(int N,int rangeStart, double distri
     return prob;
 }
 
-std::vector<double> PowerLaw::GetTheoretical(int N)
+std::vector<double> PowerLaw::GetTheoretical(int N)const noexcept
 {
     return PowerLaw::GetTheoretical(N,m_RangeStart,m_DistributionPower);
 }
 
-double PowerLaw::GetAverage()
+double PowerLaw::GetAverage()const noexcept
 {
     return 0;
 }
-
-double PowerLaw::Variate(int rangeStart, double distributionPower)
+double PowerLaw::GetMedian()const noexcept
+{
+    return 0;
+}
+double PowerLaw::GetStandDev()const noexcept
+{
+    return 0;
+}
+double PowerLaw::Variate(int rangeStart, double distributionPower)noexcept
 {
     return rangeStart * std::pow((1 - Uniform::GetReal(0,1)),-1/(distributionPower-1));
 }
 
-bool PowerLaw::IsValid()const
+bool PowerLaw::IsValid()const noexcept
 {
     return true;
 }

@@ -3,53 +3,75 @@
 #include"Patterns/RandomSystem.h"
 
 #include<boost/math/distributions/uniform.hpp>
+#include<boost/random/uniform_int.hpp>
 
-
-Uniform::Uniform(int start,int end): Distribution(),m_Uniform(start,end)
+Uniform::Uniform(int start,int end): Distribution(),m_Uniform(start,end),m_Start(start),m_End(end)
 {
 }
 
-int Uniform::operator()()
+int Uniform::operator()()noexcept
 {
     return  m_Uniform(RANDOMSYSTEM.GetRandomEngine());
 }
 
-int Uniform::Get(const int min ,const int max)
+int Uniform::Get(const int min ,const int max)noexcept
 {
     std::uniform_int_distribution<int> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());
 }
 
-double Uniform::GetReal(const double min ,const double max)
+double Uniform::GetReal(const double min ,const double max)noexcept
 {
     std::uniform_real_distribution<double> uniform(min,max);
     return uniform(RANDOMSYSTEM.GetRandomEngine());
 }
 
-std::vector<double> Uniform::GetTheoretical(int N,double min,double max)
+std::vector<double> Uniform::GetTheoretical(int N,double min,double max)noexcept
 {
-    boost::math::uniform_distribution<> posTheoretical(min-1,max);//we want to min inclusive
-    std::vector<double> prob ;
-    prob.reserve(N+1);
-    for(int k=0; k<=N ;++k)
+    std::vector<double> distr ;
+    distr.reserve(N);
+    const double prob= GetProbability(min,max);
+    for(int k=0; k<=max ;++k)
     {
-        prob.emplace_back(boost::math::pdf(posTheoretical,k));
+        if(k>=min && k<=max)
+        {
+            distr.emplace_back(prob);
+        }
+        else
+        {
+            distr.emplace_back(0);
+        }
     }
-    return prob;
+    return distr;
 }
 
-std::vector<double> Uniform::GetTheoretical(int N)
+std::vector<double> Uniform::GetTheoretical(int N)const noexcept
 {
-    return Uniform::GetTheoretical(N,m_Uniform.min(),m_Uniform.max());
+    return Uniform::GetTheoretical(N,m_Start,m_End);
 }
 
-double Uniform::GetAverage()
+double Uniform::GetAverage()const noexcept
 {
-    boost::math::uniform_distribution<> posTheoretical(m_Uniform.min(),m_Uniform.max());
-    return boost::math::mean(posTheoretical);
+    return (m_Start+m_End)/2.0;
 }
-
-bool Uniform::IsValid()const
+double Uniform::GetMedian()const noexcept
+{
+    return (m_Start+m_End)/2.0;
+}
+double Uniform::GetStandDev()const noexcept
+{
+    const int N = getN();
+    return sqrt((N*N-1)/12);
+}
+bool Uniform::IsValid()const noexcept
 {
     return true;
+}
+double Uniform::GetProbability(double min,double max) noexcept
+{
+    return 1/(max - min+1);
+}
+int Uniform::getN()const noexcept
+{
+    return (m_End - m_Start+1);
 }

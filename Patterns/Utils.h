@@ -4,7 +4,7 @@
 #include <QVector>
 #include<unordered_map>
 #include<vector>
-
+#include<map>
 namespace  Utils
 {
     template<class T,class Q>
@@ -12,6 +12,11 @@ namespace  Utils
 
     template<class T>
     std::tuple<QVector<T>,QVector<T>> ToQVector(const std::vector<T>& data);
+
+
+    template<typename KeyType, typename ValueType>
+    std::pair<KeyType,ValueType> GetMax( const std::unordered_map<KeyType,ValueType>& x ) ;
+
 };
 
 template<class T,class Q>
@@ -46,5 +51,11 @@ std::tuple<QVector<T>,QVector<T>> Utils::ToQVector(const std::vector<T>& data)
     }
     return std::tie(x,y);
 }
-
+template<typename KeyType, typename ValueType>
+std::pair<KeyType,ValueType> GetMax( const std::unordered_map<KeyType,ValueType>& x )
+{
+      return *std::max_element(x.begin(), x.end(), [] (auto&& p1, auto&& p2) {
+            return p1.second < p2.second;
+      });
+    }
 #endif // UTILS_H
