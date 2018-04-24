@@ -20,18 +20,18 @@
 class HyperGraphManager
 {
 public:
-  static std::vector<int> CalculatePTable ( HyperEdgeList const& hyperGraph) ;
-  static std::vector<int> CalculateKTable ( HyperGraph const& hyperGraph );
+  static std::vector<int> CalculatePTable ( HyperEdgeList const& hyperGraph) noexcept;
+  static std::vector<int> CalculateKTable ( HyperGraph const& hyperGraph )noexcept;
 
-  static void MakeLoops ( HyperGraph &hyperGraph, int vertexId, int amount );
+  static void MakeLoops ( HyperGraph &hyperGraph, int vertexId, int amount )noexcept;
 
-  static std::map<HyperEdge,int> CalculateHyperedgeDuplicates ( HyperEdgeList const& hyperGraph );
-  static void ShowHyperedgeDuplicates ( std::map<HyperEdge,int> const& hyperGraphDuplicates );
+  static std::map<HyperEdge,int> CalculateHyperedgeDuplicates ( HyperEdgeList const& hyperGraph )noexcept;
+  static void ShowHyperedgeDuplicates ( std::map<HyperEdge,int> const& hyperGraphDuplicates )noexcept;
 
-  static std::vector<int> KTableFromFile ( std::string const& nameOfFile);
+  static std::vector<int> KTableFromFile ( std::string const& nameOfFile)noexcept;
 
-  static void AdjacenyListToFile ( HyperGraph const& hyperGraph, std::string const& nameOfFile );
-  static HyperGraph AdjacenyListFromFile ( std::string const& nameOfFile);
+  static void HyperGraphToFile ( HyperGraph const& hyperGraph, std::string const& nameOfFile )noexcept;
+  static HyperGraph HyperGraphFromFile ( std::string const& nameOfFile)noexcept;
 
 protected:
 private:

@@ -8,14 +8,14 @@
 class RandomSystem
 {
 public:
-    static RandomSystem& GetInstance();
+    static RandomSystem& GetInstance()noexcept;
 
     RandomSystem(RandomSystem const&) = delete;
     void operator=(RandomSystem const&) = delete;
 
-    inline std::mt19937 const& GetRandomEngine()const{ return m_RandomEngine; }
-    inline std::mt19937 & GetRandomEngine(){ return m_RandomEngine; }
-    inline void SetRandomEngine(std::mt19937 const& randomEngine){ m_RandomEngine = randomEngine; }
+    inline std::mt19937 const& GetRandomEngine()const noexcept{ return m_RandomEngine; }
+    inline std::mt19937 & GetRandomEngine() noexcept{ return m_RandomEngine; }
+    inline void SetRandomEngine(std::mt19937 const& randomEngine) noexcept{ m_RandomEngine = randomEngine; }
 
 protected:
     RandomSystem();

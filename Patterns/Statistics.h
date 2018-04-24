@@ -23,8 +23,8 @@ namespace Statistics
     double CalculateStandardDeviations(std::vector<int> const& numbers)noexcept;
     double CalculateStandardDeviations(std::vector<int> const& numbers, double average)noexcept;
 
-    double ChiSquareTest(std::vector<double> const& exp, const std::vector<double>& teo)noexcept;
-    double ChiSquareTest(std::unordered_map<int,double> const& exp, const std::vector<double> &teo)noexcept;
+    double ChiSquareTest(std::vector<double> const& exp, const std::vector<double>& teo,const double standDev)noexcept;
+    double ChiSquareTest(std::unordered_map<int,double> const& exp, const std::vector<double> &teo,const double standDev)noexcept;
 
     double TStudentTest(double teo,double average,double stdev, int sampleSize)noexcept;
 

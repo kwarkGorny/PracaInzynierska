@@ -2,9 +2,9 @@
 
 #include<fstream>
 #include<iostream>
+#include<Distributions/uniform.h>
 
-
-std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph)
+std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph)noexcept
 {
     std::vector<int> kTable(hyperGraph.GetNumberOfVertices());
     for(auto&& hyperedge : hyperGraph.GetHyperEdgeList())
@@ -17,7 +17,7 @@ std::vector<int> HyperGraphManager::CalculateKTable(const HyperGraph& hyperGraph
     return kTable;
 }
 
-std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGraph)
+std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGraph)noexcept
 {
     std::vector<int> pTable;
     pTable.reserve(hyperGraph.size());
@@ -28,7 +28,7 @@ std::vector<int> HyperGraphManager::CalculatePTable(const HyperEdgeList& hyperGr
     return pTable;
 }
 
-void HyperGraphManager::MakeLoops(HyperGraph &hyperGraph,int vertexId,int amount)
+void HyperGraphManager::MakeLoops(HyperGraph &hyperGraph,int vertexId,int amount)noexcept
 {
     for(int i=0 ;i<amount;++i)
     {
@@ -36,7 +36,7 @@ void HyperGraphManager::MakeLoops(HyperGraph &hyperGraph,int vertexId,int amount
     }
 }
 
-std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile)
+std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile)noexcept
 {
     std::ifstream file (nameOfFile);
     std::vector<int> kTable;
@@ -69,7 +69,7 @@ std::vector<int> HyperGraphManager::KTableFromFile(const std::string& nameOfFile
 
 }
 
-void HyperGraphManager::AdjacenyListToFile(const HyperGraph &hyperGraph , const std::string& nameOfFile)
+void HyperGraphManager::HyperGraphToFile(const HyperGraph &hyperGraph , const std::string& nameOfFile)noexcept
 {
     std::ofstream file (nameOfFile);
     if(file.is_open())
@@ -90,7 +90,7 @@ void HyperGraphManager::AdjacenyListToFile(const HyperGraph &hyperGraph , const 
     }
 }
 
-HyperGraph HyperGraphManager::AdjacenyListFromFile(const std::string& nameOfFile)
+HyperGraph HyperGraphManager::HyperGraphFromFile(const std::string& nameOfFile)noexcept
 {
     std::ifstream file (nameOfFile);
     HyperGraph hyperGraph;
@@ -130,7 +130,7 @@ HyperGraph HyperGraphManager::AdjacenyListFromFile(const std::string& nameOfFile
     return hyperGraph;
 }
 
-std::map<HyperEdge,int> HyperGraphManager::CalculateHyperedgeDuplicates(const HyperEdgeList& hyperGraph)
+std::map<HyperEdge,int> HyperGraphManager::CalculateHyperedgeDuplicates(const HyperEdgeList& hyperGraph)noexcept
 {
     std::map<HyperEdge,int> hyperEdgeHistogram;
     for(auto const& hyperEdge : hyperGraph)
@@ -140,7 +140,7 @@ std::map<HyperEdge,int> HyperGraphManager::CalculateHyperedgeDuplicates(const Hy
     return hyperEdgeHistogram;
 }
 
-void HyperGraphManager::ShowHyperedgeDuplicates(const std::map<HyperEdge,int>& hyperGraphDuplicates)
+void HyperGraphManager::ShowHyperedgeDuplicates(const std::map<HyperEdge,int>& hyperGraphDuplicates)noexcept
 {
     bool noDuplicates = true;
     for(auto && hyperEdge : hyperGraphDuplicates)

@@ -2,8 +2,8 @@
 
 #include"Distributions/uniform.h"
 #include "Patterns/Statistics.h"
+
 #include<algorithm>
-#include<iostream>
 HyperGraph HyperGraphFabric::CreateRandomHyperGraph(std::vector<int> const& theoreticalKTable,Distribution &HyperEdgeDistribution)
 {
     const int numberOfVertices =theoreticalKTable.size();
@@ -14,53 +14,41 @@ HyperGraph HyperGraphFabric::CreateRandomHyperGraph(std::vector<int> const& theo
 
     for (int i = 0; i < lastVertexId ; ++i)
     {
-        if(kTable[i]>0)
+        const int maxNumberOfTries = numberOfVertices - i;
+        while (kTable[i] > 0)
         {
-            const int maxNumberOfTries = numberOfVertices - i;
-            while (kTable[i] > 0)
+            --kTable[i];
+
+            HyperEdge hyperEdge = {i};
+            int theoreticalDegreeOfHyperedge = HyperEdgeDistribution();
+            if(theoreticalDegreeOfHyperedge > numberOfVertices)
             {
-                int hyperedgeTries = 0;
-                int vertexId;
-
-                --kTable[i];
-
-                HyperEdge hyperEdge = {i};
-
-                int theoreticalDegreeOfHyperedge = HyperEdgeDistribution();
-
-                if(theoreticalDegreeOfHyperedge > numberOfVertices)
-                {
-                    theoreticalDegreeOfHyperedge = numberOfVertices;
-                }
-
-                while(theoreticalDegreeOfHyperedge > static_cast<int>(hyperEdge.size()))
-                {
-                    vertexId = Uniform::Get(i,lastVertexId);
-                    if(kTable[vertexId] > 0)
-                    {
-                        if(hyperEdge.insert(vertexId).second)
-                        {
-                            --kTable[vertexId];
-                        }
-                    }
-                    else if(hyperedgeTries>maxNumberOfTries)
-                    {
-                        if(hyperEdge.insert(vertexId).second)
-                        {
-                            --kTable[vertexId];
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        ++hyperedgeTries;
-                    }
-                }
-                hypergraph.AddHyperEdge(std::move(hyperEdge));
+                theoreticalDegreeOfHyperedge = numberOfVertices;
             }
+            int hyperedgeTries = 0;
+            while(theoreticalDegreeOfHyperedge > static_cast<int>(hyperEdge.size()))
+            {
+                const int randomVertex = Uniform::Get(i,lastVertexId);
+                if(kTable[randomVertex])
+                {
+                    if(hyperEdge.insert(randomVertex).second)
+                    {
+                        --kTable[randomVertex];
+                    }
+                }
+                else if(hyperedgeTries>maxNumberOfTries)
+                {
+                    if(hyperEdge.insert(randomVertex).second)
+                    {
+                        --kTable[randomVertex];
+                    }
+                }
+                else
+                {
+                   ++hyperedgeTries;
+                }
+            }
+            hypergraph.AddHyperEdge(std::move(hyperEdge));
         }
     }
     HyperGraphManager::MakeLoops(hypergraph,lastVertexId,kTable[lastVertexId]);//making loops for last vertex

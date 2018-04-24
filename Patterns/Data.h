@@ -19,35 +19,35 @@ class Data
 public:
     ~Data(){}
 
-    static Data& GetInstance();
+    static Data& GetInstance()noexcept;
 
     Data(Data const&) = delete;
     void operator=(Data const&) = delete;
 
-    void Reset();
+    void Reset()noexcept;
 
-    inline HyperGraph const& GetHyperGraph()const{ return m_HyperGraph; }
-    inline HyperGraph& GetHyperGraph(){ return m_HyperGraph; }
-    inline void SetHyperGraph(HyperGraph const& hyperGraph){ m_HyperGraph = hyperGraph; }
-    inline void SetHyperGraph(HyperGraph && hyperGraph){ m_HyperGraph = std::move(hyperGraph); }
+    inline HyperGraph const& GetHyperGraph()const noexcept{ return m_HyperGraph; }
+    inline HyperGraph& GetHyperGraph()noexcept{ return m_HyperGraph; }
+    inline void SetHyperGraph(HyperGraph const& hyperGraph)noexcept{ m_HyperGraph = hyperGraph; }
+    inline void SetHyperGraph(HyperGraph && hyperGraph)noexcept{ m_HyperGraph = std::move(hyperGraph); }
 
-    inline std::vector<int> const& GetKTable()const{ return m_KTable; }
-    inline std::vector<int>& GetKTable(){ return m_KTable; }
-    inline void SetKTable(std::vector<int>const& kTable){ m_KTable = kTable; }
-    inline void SetKTable(std::vector<int>&& kTable){ m_KTable =std::move(kTable); }
+    inline std::vector<int> const& GetKTable()const noexcept{ return m_KTable; }
+    inline std::vector<int>& GetKTable()noexcept{ return m_KTable; }
+    inline void SetKTable(std::vector<int>const& kTable)noexcept{ m_KTable = kTable; }
+    inline void SetKTable(std::vector<int>&& kTable)noexcept{ m_KTable =std::move(kTable); }
 
-    inline std::vector<int> const& GetPTable()const{ return m_PTable; }
-    inline std::vector<int>& GetPTable(){ return m_PTable; }
-    inline void SetPTable(std::vector<int>const& pTable){ m_PTable = pTable; }
-    inline void SetPTable(std::vector<int>&& pTable){ m_PTable =std::move(pTable); }
+    inline std::vector<int> const& GetPTable()const noexcept{ return m_PTable; }
+    inline std::vector<int>& GetPTable()noexcept{ return m_PTable; }
+    inline void SetPTable(std::vector<int>const& pTable)noexcept{ m_PTable = pTable; }
+    inline void SetPTable(std::vector<int>&& pTable)noexcept{ m_PTable =std::move(pTable); }
 
-    inline Distribution const* GetPDistribution()const{ return m_PDistribution.get(); }
-    inline Distribution * GetPDistribution(){ return m_PDistribution.get(); }
-    inline void SetPDistribution(Distribution *distr){ m_PDistribution.reset(distr); }
+    inline Distribution const* GetPDistribution()const noexcept{ return m_PDistribution.get(); }
+    inline Distribution * GetPDistribution()noexcept{ return m_PDistribution.get(); }
+    inline void SetPDistribution(Distribution *distr)noexcept{ m_PDistribution.reset(distr); }
 
-    inline Distribution const* GetKDistribution()const{ return m_KDistribution.get(); }
-    inline Distribution * GetKDistribution(){ return m_KDistribution.get(); }
-    inline void SetKDistribution(Distribution *distr){ m_KDistribution.reset(distr); }
+    inline Distribution const* GetKDistribution()const noexcept{ return m_KDistribution.get(); }
+    inline Distribution * GetKDistribution()noexcept{ return m_KDistribution.get(); }
+    inline void SetKDistribution(Distribution *distr)noexcept{ m_KDistribution.reset(distr); }
 
 protected:
     Data();

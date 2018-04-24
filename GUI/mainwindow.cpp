@@ -487,7 +487,7 @@ void MainWindow::on_actionSave_as_triggered()
     std::cout<<"Save as action ..."<<std::endl;
     const QString fileName = QFileDialog::getSaveFileName(this,"Save Hypergraph",QDir::homePath());
     std::cout<<"Saving to "<< fileName.toStdString() << std::endl;
-    HyperGraphManager::AdjacenyListToFile(DATA.GetHyperGraph(),fileName.toStdString());
+    HyperGraphManager::HyperGraphToFile(DATA.GetHyperGraph(),fileName.toStdString());
 
     std::cout<<"Save as action Done."<<std::endl;
 
@@ -499,7 +499,7 @@ void MainWindow::on_actionLoad_triggered()
     const QString fileName = QFileDialog::getOpenFileName(this,"Load Hypergraph",QDir::homePath());
     std::cout<<"Loading from "<< fileName.toStdString() << std::endl;
 
-    DATA.SetHyperGraph(HyperGraphManager::AdjacenyListFromFile(fileName.toStdString()));
+    DATA.SetHyperGraph(HyperGraphManager::HyperGraphFromFile(fileName.toStdString()));
     std::cout<<"Load action Done."<<std::endl;
 }
 

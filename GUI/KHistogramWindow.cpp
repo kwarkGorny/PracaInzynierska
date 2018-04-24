@@ -28,10 +28,11 @@ void KHistogramWindow::AnalizeVertices()
 
    const double averageTeo = DATA.GetKDistribution()->GetAverage();
    const double medianTeo = DATA.GetKDistribution()->GetMedian();
-   //const double standDevTeo = DATA.GetKDistribution()->GetStdev();
+   const double standDevTeo = DATA.GetKDistribution()->GetStandDev();
+
    ui->VMeanTheoL->setText(QString::number(averageTeo));
    ui->VMedianTheoL->setText(QString::number(medianTeo));
-   //ui->VStandDevKL->setText(QString::number(standDevTeo));
+   ui->VStandDevTheoL->setText(QString::number(standDevTeo));
 
    const double averageK = Statistics::CalculateAverage(DATA.GetKTable());
    const double medianK = Statistics::CalculateMedian(DATA.GetKTable());
@@ -40,7 +41,7 @@ void KHistogramWindow::AnalizeVertices()
    ui->VMedianKL->setText(QString::number(medianK));
    ui->VStandDevKL->setText(QString::number(standDevK));
 
-   const double chiSquare = Statistics::ChiSquareTest( m_KHistogram , m_KTheoretical);
+   const double chiSquare = Statistics::ChiSquareTest( m_KHistogram , m_KTheoretical,standDevK);
    const double studentTest = Statistics::TStudentTest(averageTeo,averageK,standDevK, m_KTheoretical.size());
    ui->VChiSquareL->setText(QString::number(chiSquare));
    ui->VStudentTestL->setText(QString::number(studentTest));

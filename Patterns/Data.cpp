@@ -4,13 +4,13 @@ Data::Data() : m_HyperGraph{},m_PTable{}, m_KTable{},m_PDistribution{},m_KDistri
 {
 }
 
-Data& Data::GetInstance()
+Data& Data::GetInstance()noexcept
 {
     static Data data;
     return data;
 }
 
-void Data::Reset()
+void Data::Reset()noexcept
 {
     m_HyperGraph.Reset();
     m_PTable.clear();

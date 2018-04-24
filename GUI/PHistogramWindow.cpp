@@ -56,10 +56,10 @@ void PHistogramWindow::AnalizeHyperEdges()
 
     const double averageTeo = DATA.GetPDistribution()->GetAverage();
     const double medianTeo = DATA.GetPDistribution()->GetMedian();
-    //const double standDevTeo = DATA.GetPDistribution()->GetStdev();
+    const double standDevTeo = DATA.GetPDistribution()->GetStandDev();
     ui->PMeanTheoL->setText(QString::number(averageTeo));
     ui->PMedianTheoL->setText(QString::number(medianTeo));
-    //ui->PStandDevTheoL->setText(QString::number(standDevTeo));
+    ui->PStandDevTheoL->setText(QString::number(standDevTeo));
 
     const double averageP = Statistics::CalculateAverage(DATA.GetPTable());
     const double medianP = Statistics::CalculateMedian(DATA.GetPTable());
@@ -68,7 +68,7 @@ void PHistogramWindow::AnalizeHyperEdges()
     ui->PMedianPL->setText(QString::number(medianP));
     ui->PStandDevPL->setText(QString::number(standDevP));
 
-    const double chiSquare = Statistics::ChiSquareTest(m_PHistogram,m_PTheoretical );
+    const double chiSquare = Statistics::ChiSquareTest(m_PHistogram,m_PTheoretical,standDevP );
     const double studentTest = Statistics::TStudentTest(averageTeo,averageP,standDevP, m_PHistogram.size());
     ui->PChiSquareL->setText(QString::number(chiSquare));
     ui->PStudentTestL->setText(QString::number(studentTest));
@@ -102,14 +102,8 @@ void PHistogramWindow::DrawToHistogram(QCustomPlot* grap,const std::unordered_ma
     QVector<double> y;
     std::tie(x,y) =Utils::ToQVector(histogram);
 
-    //auto maxp= *std::max_element(x.begin(),x.end());
-   // auto maxY= *std::max_element(y.begin(),y.end());
-
     grap->graph(0)->setData(x, y);
-    //grap->xAxis->setRange(0, 1.1 * maxp);
-    //grap->yAxis->setRange(0, 1.1 * maxY);
     grap->xAxis->rescale();
-
     grap->replot();
 }
 

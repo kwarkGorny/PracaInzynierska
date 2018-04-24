@@ -20,23 +20,24 @@ double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,d
     return sqrt(accum / (numbers.size()-1));
 }
 
-double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo)noexcept
+double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo,const double standDev)noexcept
 {
     double sum=0;
     for(int i = 0 ; i < static_cast<int>(teo.size()) ; ++i)
     {
-        sum += ((exp[i]-teo[i])*(exp[i]-teo[i])) / exp[i];
+        const double ExpSubTeo = exp[i]-teo[i];
+        sum += (ExpSubTeo*ExpSubTeo) / standDev;
     }
     return sum;
 }
 
-double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo)noexcept
+double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo,const double standDev)noexcept
 {
     double sum=0;
     for(auto && it : exp)
     {
-        double const1 = (it.second-teo[it.first]);
-        sum += const1 * const1 / it.second;
+        const double ExpSubTeo = (it.second-teo[it.first]);
+        sum += ExpSubTeo * ExpSubTeo / standDev;
     }
     return sum;
 }
@@ -66,7 +67,6 @@ void Statistics::NormalizeTable(std::vector<int>& table,double normalize)noexcep
 std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> const& table)noexcept
 {
     std::unordered_map<int,double>  histogram;
-   //histogram.reserve(table.size());
     for(auto&& value : table)
     {
         histogram[value]+=1;
