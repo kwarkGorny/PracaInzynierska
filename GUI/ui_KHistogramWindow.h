@@ -60,6 +60,8 @@ public:
     QLabel *label_22;
     QLabel *label_23;
     QLabel *label_21;
+    QLabel *label_2;
+    QLabel *KFredomDegreeL;
     QPushButton *VAnalyzeBtn;
     QCheckBox *XAxisLogScalChb;
     QCheckBox *YAxisLogScalChb;
@@ -71,7 +73,7 @@ public:
     {
         if (KHistogramWindow->objectName().isEmpty())
             KHistogramWindow->setObjectName(QStringLiteral("KHistogramWindow"));
-        KHistogramWindow->resize(800, 600);
+        KHistogramWindow->resize(800, 602);
         actionSave_as = new QAction(KHistogramWindow);
         actionSave_as->setObjectName(QStringLiteral("actionSave_as"));
         centralwidget = new QWidget(KHistogramWindow);
@@ -257,6 +259,17 @@ public:
 
         gridLayout_7->addWidget(label_21, 1, 1, 1, 1);
 
+        label_2 = new QLabel(frame_4);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout_7->addWidget(label_2, 3, 1, 1, 1);
+
+        KFredomDegreeL = new QLabel(frame_4);
+        KFredomDegreeL->setObjectName(QStringLiteral("KFredomDegreeL"));
+        KFredomDegreeL->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_7->addWidget(KFredomDegreeL, 3, 2, 1, 1);
+
 
         gridLayout->addWidget(frame_4, 3, 0, 1, 1);
 
@@ -317,6 +330,8 @@ public:
         label_22->setText(QApplication::translate("KHistogramWindow", "<html><head/><body><p>\316\247<span style=\" vertical-align:super;\">2 </span>= </p></body></html>", 0));
         label_23->setText(QApplication::translate("KHistogramWindow", "Statistic Tests Result:", 0));
         label_21->setText(QApplication::translate("KHistogramWindow", "t-Student", 0));
+        label_2->setText(QApplication::translate("KHistogramWindow", "d=", 0));
+        KFredomDegreeL->setText(QApplication::translate("KHistogramWindow", "0", 0));
         VAnalyzeBtn->setText(QApplication::translate("KHistogramWindow", "Analyze ", 0));
         XAxisLogScalChb->setText(QApplication::translate("KHistogramWindow", "x axis log scal", 0));
         YAxisLogScalChb->setText(QApplication::translate("KHistogramWindow", "y Axis log scal", 0));

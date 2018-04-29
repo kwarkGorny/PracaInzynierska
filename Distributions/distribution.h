@@ -18,7 +18,6 @@ enum  DISTRIBUTION
     POWERLAW,
 };
 
-
 class Distribution
 {
 public:
@@ -34,6 +33,7 @@ public:
     virtual double GetStandDev()const noexcept=0;
 
     virtual bool IsValid()const noexcept{return false;}
+
 
 protected:
 private:

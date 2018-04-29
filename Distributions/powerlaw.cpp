@@ -14,9 +14,11 @@ std::vector<double> PowerLaw::GetTheoretical(int N,int rangeStart, double distri
 {
     std::vector<double> prob ;
     prob.reserve(N);
+    const double powerMinusOne = distributionPower -1;
+    const double distrConst = powerMinusOne * std::pow(rangeStart,powerMinusOne);
     for(int k=0; k<=N ;++k)
     {
-        //prob.emplace_back(PowerLaw::Variate( rangeStart,distributionPower));
+        prob.emplace_back(distrConst * std::pow(k,-distributionPower));
     }
     return prob;
 }

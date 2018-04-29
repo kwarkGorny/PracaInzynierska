@@ -44,8 +44,12 @@ private slots:
     void on_XAxisLogScalChb_clicked();
 
     void on_YAxisLogScalChb_clicked();
+    void on_actionSave_as_triggered();
+
 protected:
     void SetupAxis(QCPAxis * axis,bool isLog)const;
+    void CreateLegend(QCustomPlot* grap)const;
+    void SaveHistogram(QString const& filename)const;
 private:
     Ui::PHistogramWindow *ui;
 

@@ -20,24 +20,24 @@ double Statistics::CalculateStandardDeviations(std::vector<int> const& numbers,d
     return sqrt(accum / (numbers.size()-1));
 }
 
-double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo,const double standDev)noexcept
+double Statistics::ChiSquareTest(std::vector<double> const& exp,std::vector<double> const& teo)noexcept
 {
     double sum=0;
     for(int i = 0 ; i < static_cast<int>(teo.size()) ; ++i)
     {
         const double ExpSubTeo = exp[i]-teo[i];
-        sum += (ExpSubTeo*ExpSubTeo) / standDev;
+        sum += (ExpSubTeo*ExpSubTeo)/teo[i] ;
     }
     return sum;
 }
 
-double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo,const double standDev)noexcept
+double Statistics::ChiSquareTest(std::unordered_map<int,double>const& exp,std::vector<double>const& teo)noexcept
 {
     double sum=0;
     for(auto && it : exp)
     {
         const double ExpSubTeo = (it.second-teo[it.first]);
-        sum += ExpSubTeo * ExpSubTeo / standDev;
+        sum += ExpSubTeo * ExpSubTeo /it.second;
     }
     return sum;
 }
@@ -76,15 +76,19 @@ std::unordered_map<int,double> Statistics::CalculateHistogram(std::vector<int> c
 
 void Statistics::NormalizeHistogram(std::unordered_map<int,double>& histogram)noexcept
 {
-    double sum =0;
-    for(auto&& it  : histogram)
-    {
-        sum += it.second;
-    }
+    double sum =AccumulateHistogram(histogram);
     for(auto&& it  : histogram)
     {
         it.second /=sum;
     }
 }
 
-
+double Statistics::AccumulateHistogram(std::unordered_map<int,double> const& histogram)noexcept
+{
+    double sum =0;
+    for(auto&& it  : histogram)
+    {
+        sum += it.second;
+    }
+    return sum;
+}

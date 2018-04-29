@@ -20,6 +20,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -30,6 +31,7 @@ QT_BEGIN_NAMESPACE
 class Ui_PHistogramWindow
 {
 public:
+    QAction *actionSave_as;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QCheckBox *YAxisLogScalChb;
@@ -58,10 +60,13 @@ public:
     QLabel *label_19;
     QLabel *PChiSquareL;
     QLabel *label_7;
+    QLabel *label_5;
+    QLabel *PFredomDegreeL;
     QCheckBox *XAxisLogScalChb;
     QPushButton *HAnalyzeBtn;
     QCustomPlot *pPlotWidget;
     QMenuBar *menubar;
+    QMenu *menuFile;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *PHistogramWindow)
@@ -69,6 +74,8 @@ public:
         if (PHistogramWindow->objectName().isEmpty())
             PHistogramWindow->setObjectName(QStringLiteral("PHistogramWindow"));
         PHistogramWindow->resize(800, 600);
+        actionSave_as = new QAction(PHistogramWindow);
+        actionSave_as->setObjectName(QStringLiteral("actionSave_as"));
         centralwidget = new QWidget(PHistogramWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -250,6 +257,17 @@ public:
 
         gridLayout_5->addWidget(label_7, 0, 1, 1, 2);
 
+        label_5 = new QLabel(frame_2);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        gridLayout_5->addWidget(label_5, 3, 1, 1, 1);
+
+        PFredomDegreeL = new QLabel(frame_2);
+        PFredomDegreeL->setObjectName(QStringLiteral("PFredomDegreeL"));
+        PFredomDegreeL->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_5->addWidget(PFredomDegreeL, 3, 2, 1, 1);
+
 
         gridLayout->addWidget(frame_2, 2, 0, 2, 1);
 
@@ -277,10 +295,15 @@ public:
         menubar = new QMenuBar(PHistogramWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
         menubar->setGeometry(QRect(0, 0, 800, 22));
+        menuFile = new QMenu(menubar);
+        menuFile->setObjectName(QStringLiteral("menuFile"));
         PHistogramWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(PHistogramWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         PHistogramWindow->setStatusBar(statusbar);
+
+        menubar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionSave_as);
 
         retranslateUi(PHistogramWindow);
 
@@ -290,6 +313,7 @@ public:
     void retranslateUi(QMainWindow *PHistogramWindow)
     {
         PHistogramWindow->setWindowTitle(QApplication::translate("PHistogramWindow", "MainWindow", 0));
+        actionSave_as->setText(QApplication::translate("PHistogramWindow", "Save as...", 0));
         YAxisLogScalChb->setText(QApplication::translate("PHistogramWindow", "y-axis log scale", 0));
         PStandDevPL->setText(QApplication::translate("PHistogramWindow", "0", 0));
         label->setText(QApplication::translate("PHistogramWindow", "HyperEdge Results :", 0));
@@ -310,8 +334,11 @@ public:
         label_19->setText(QApplication::translate("PHistogramWindow", "<html><head/><body><p>\316\247<span style=\" vertical-align:super;\">2 </span>= </p></body></html>", 0));
         PChiSquareL->setText(QApplication::translate("PHistogramWindow", "0", 0));
         label_7->setText(QApplication::translate("PHistogramWindow", "Statistic Tests Result:", 0));
+        label_5->setText(QApplication::translate("PHistogramWindow", "d=", 0));
+        PFredomDegreeL->setText(QApplication::translate("PHistogramWindow", "0", 0));
         XAxisLogScalChb->setText(QApplication::translate("PHistogramWindow", "x-axis log scale", 0));
         HAnalyzeBtn->setText(QApplication::translate("PHistogramWindow", "Analyze ", 0));
+        menuFile->setTitle(QApplication::translate("PHistogramWindow", "File", 0));
     } // retranslateUi
 
 };

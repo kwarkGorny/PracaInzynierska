@@ -15,7 +15,7 @@ INCLUDEPATH += /usr/include/boost
 LIBS += -L/usr/include/boost -lboost_system -lboost_chrono -lboost_thread -lboost_timer
 
 
-TARGET = FullGUI
+TARGET = AdamSzczepanskiPracaInzynierska
 TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     HyperGraph/HyperGraph.cpp \
     HyperGraph/HyperGraphFabric.cpp \
     HyperGraph/HyperGraphManager.cpp \
-    Patterns/Utils.cpp
+    Patterns/Utils.cpp \
+    Patterns/fileoperation.cpp
 
 HEADERS  +=  QCustomPlot/qcustomplot.h \
     GUI/guihyperedge.h \
@@ -68,7 +69,8 @@ HEADERS  +=  QCustomPlot/qcustomplot.h \
     HyperGraph/HyperGraph.h \
     HyperGraph/HyperGraphManager.h \
     HyperGraph/HyperGraphFabric.h \
-    Patterns/Utils.h
+    Patterns/Utils.h \
+    Patterns/fileoperation.h
 
 FORMS    += mainwindow.ui \
     GUI/hypergraphdrawdialog.ui \
